@@ -1,0 +1,371 @@
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { UserCheck, Check, X, Phone, Mail, Clock } from 'lucide-react';
+import { studentsApi, plansApi, membershipsApi } from '../../lib/api';
+import { formatDate, formatINR } from '../../lib/utils';
+import { IMembershipPlan } from '../../types/public';
+import toast from 'react-hot-toast';
+
+export const ApprovalsPage: React.FC = () => {
+  const [students, setStudents] = useState<any[]>([]);
+  const [plans, setPlans] = useState<IMembershipPlan[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Approval modal state
+  const [selectedStudent, setSelectedStudent] = useState<any | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [joiningDate, setJoiningDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedPlanId, setSelectedPlanId] = useState('');
+  const [selectedSeatNumber, setSelectedSeatNumber] = useState('');
+  const [availableSeatNumbers, setAvailableSeatNumbers] = useState<number[]>([]);
+  const [seatAvailabilityLoading, setSeatAvailabilityLoading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const fetchPendingStudents = async () => {
+    setLoading(true);
+    try {
+      const res = await studentsApi.list({ registrationStatus: 'pending' });
+      setStudents(res.data?.data || []);
+    } catch {
+      toast.error('Failed to load pending registrations.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPendingStudents();
+    plansApi.list()
+      .then((res) => {
+        const activePlans = (res.data?.data || []).filter((p: any) => p.isActive);
+        setPlans(activePlans);
+        if (activePlans.length > 0) setSelectedPlanId(activePlans[0]._id);
+      })
+      .catch(console.error);
+  }, []);
+
+  const openApproveModal = async (student: any) => {
+    setSelectedStudent(student);
+    setJoiningDate(new Date().toISOString().split('T')[0]);
+    setSelectedSeatNumber('');
+    setModalOpen(true);
+    setSeatAvailabilityLoading(true);
+    try {
+      const schedule = {
+        days: student.seatDays?.length
+          ? student.seatDays.join(',')
+          : 'Monday,Tuesday,Wednesday,Thursday,Friday',
+        startTime: student.seatStartTime || '06:00',
+        endTime: student.seatEndTime || '14:00',
+      };
+      const res = await studentsApi.getSeatMap(schedule);
+      const available = (res.data?.data?.seats || [])
+        .filter((seat: { isOccupied: boolean }) => !seat.isOccupied)
+        .map((seat: { seatNumber: number }) => seat.seatNumber);
+      setAvailableSeatNumbers(available);
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Unable to check seat availability.');
+      setAvailableSeatNumbers([]);
+    } finally {
+      setSeatAvailabilityLoading(false);
+    }
+    setModalOpen(true);
+  };
+
+  const handleApproveConfirm = async () => {
+    if (!selectedStudent) return;
+    setIsProcessing(true);
+    try {
+      // 1. Approve student
+      await studentsApi.approve(selectedStudent._id, {
+        action: 'approve',
+        joiningDate,
+        planId: selectedPlanId,
+        ...(selectedSeatNumber ? {
+          seatNumber: String(selectedSeatNumber),
+          seatDays: selectedStudent.seatDays?.length
+            ? selectedStudent.seatDays
+            : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          seatStartTime: selectedStudent.seatStartTime || '06:00',
+          seatEndTime: selectedStudent.seatEndTime || '14:00',
+        } : {}),
+      });
+
+      // 2. If a plan was selected, create initial membership
+      if (selectedPlanId) {
+        await membershipsApi.create({
+          studentId: selectedStudent._id,
+          planId: selectedPlanId,
+          startDate: joiningDate,
+        });
+      }
+
+      toast.success(`${selectedStudent.name} approved successfully!`);
+      setModalOpen(false);
+      setSelectedStudent(null);
+      fetchPendingStudents();
+    } catch (err: any) {
+      const msg = err.response?.data?.message || 'Approval failed';
+      toast.error(msg);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleReject = async (student: any) => {
+    if (!window.confirm(`Are you sure you want to reject registration for ${student.name}?`)) {
+      return;
+    }
+
+    try {
+      await studentsApi.approve(student._id, { action: 'reject' });
+      toast.success(`Registration for ${student.name} rejected.`);
+      fetchPendingStudents();
+    } catch {
+      toast.error('Failed to reject registration.');
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="page-header">
+        <div>
+          <h1 className="page-title text-2xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+            Pending Student Registrations
+          </h1>
+          <p className="text-xs text-[#64748B] mt-1">
+            Review public online registration submissions and formally enroll verified students.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="badge badge-pending">
+            {students.length} Pending Application{students.length === 1 ? '' : 's'}
+          </span>
+        </div>
+      </div>
+
+      {/* Main Table */}
+      <div className="bg-white rounded-2xl border border-[#dce8f0] shadow-sm overflow-hidden">
+        {loading ? (
+          <div className="p-8 text-center text-sm text-[#64748B]">Loading pending registrations...</div>
+        ) : students.length === 0 ? (
+          <div className="p-12 text-center">
+            <div className="w-14 h-14 rounded-full bg-[#D1FAE5] text-[#065F46] flex items-center justify-center mx-auto mb-4">
+              <UserCheck className="w-7 h-7" />
+            </div>
+            <h3 className="text-lg font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mb-1">Queue is Clear</h3>
+            <p className="text-xs text-[#64748B] max-w-sm mx-auto">
+              There are no pending student applications awaiting review right now.
+            </p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-[#0b1d2e] text-white text-[11px] font-semibold uppercase tracking-wider">
+                  <th className="py-3.5 px-4">Provisional ID</th>
+                  <th className="py-3.5 px-4">Applicant</th>
+                  <th className="py-3.5 px-4">Contact</th>
+                  <th className="py-3.5 px-4">Applied Date</th>
+                  <th className="py-3.5 px-4">Aspirant Note</th>
+                  <th className="py-3.5 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#e7faff] text-sm">
+                {students.map((student) => (
+                  <tr key={student._id} className="hover:bg-[#f4f9fc]/50 transition-colors">
+                    <td className="py-4 px-4 font-mono font-bold text-[#0b1d2e]">
+                      {student.studentCode}
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="font-semibold text-[#0b1d2e]">{student.name}</div>
+                      {student.address && (
+                        <div className="text-[11px] text-[#64748B] truncate max-w-xs">{student.address}</div>
+                      )}
+                    </td>
+                    <td className="py-4 px-4 text-xs text-[#475569]">
+                      <div className="flex items-center gap-1.5 font-medium">
+                        <Phone className="w-3.5 h-3.5 text-[#13b8c8]" />
+                        <a href={`tel:${student.phone}`} className="hover:underline">{student.phone}</a>
+                      </div>
+                      {student.email && (
+                        <div className="flex items-center gap-1.5 mt-0.5 text-[#64748B]">
+                          <Mail className="w-3.5 h-3.5 text-[#94A3B8]" />
+                          <span>{student.email}</span>
+                        </div>
+                      )}
+                    </td>
+                    <td className="py-4 px-4 text-xs text-[#64748B]">
+                      {formatDate(student.createdAt || student.joiningDate)}
+                    </td>
+                    <td className="py-4 px-4 text-xs text-[#334155] max-w-xs">
+                      <span className="italic">{student.notes || '—'}</span>
+                    </td>
+                    <td className="py-4 px-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => openApproveModal(student)}
+                          className="btn btn-primary btn-sm text-xs py-1.5 px-3"
+                        >
+                          <Check className="w-3.5 h-3.5 mr-1" />
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => handleReject(student)}
+                          className="btn btn-secondary btn-sm text-xs py-1.5 px-3 border-[#DC2626] text-[#DC2626] hover:bg-[#DC2626] hover:text-white"
+                        >
+                          <X className="w-3.5 h-3.5 mr-1" />
+                          Reject
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Approval Modal */}
+      {modalOpen && selectedStudent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-3xl p-6 md:p-8 max-w-lg w-full border border-[#dce8f0] shadow-2xl relative"
+          >
+            <div className="flex justify-between items-start mb-6 pb-4 border-b border-[#e7faff]">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-[#13b8c8]">Registration Review</span>
+                <h3 className="text-xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mt-0.5">
+                  Enroll {selectedStudent.name}
+                </h3>
+              </div>
+              <button
+                onClick={() => setModalOpen(false)}
+                className="text-[#64748B] hover:text-[#0b1d2e]"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div className="p-3.5 bg-[#f4f9fc] rounded-xl text-xs space-y-1">
+                <div className="flex justify-between">
+                  <span className="text-[#64748B]">Applicant:</span>
+                  <strong className="text-[#0b1d2e]">{selectedStudent.name}</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#64748B]">Phone:</span>
+                  <strong className="text-[#0b1d2e]">{selectedStudent.phone}</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#64748B]">Student Code:</span>
+                  <strong className="font-mono text-[#0b1d2e]">{selectedStudent.studentCode}</strong>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-[#dce8f0] bg-[#f8fbfd] p-3.5">
+                <div className="mb-2 flex items-center gap-2 text-xs font-bold text-[#0b1d2e]">
+                  <Clock className="h-3.5 w-3.5 text-[#13b8c8]" />
+                  Requested study schedule
+                </div>
+                <p className="text-xs text-[#475569]">
+                  {(selectedStudent.seatDays?.length
+                    ? selectedStudent.seatDays
+                    : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+                  ).map((day: string) => day.slice(0, 3)).join(', ')}
+                  {' · '}{selectedStudent.seatStartTime || '06:00'}–{selectedStudent.seatEndTime || '14:00'}
+                </p>
+                <label className="mt-3 block text-[11px] font-bold uppercase tracking-wider text-[#0b1d2e]">
+                  Assign a seat (optional)
+                  <select
+                    value={selectedSeatNumber}
+                    onChange={(event) => setSelectedSeatNumber(event.target.value)}
+                    disabled={seatAvailabilityLoading}
+                    className="mt-1.5 w-full rounded-xl border border-[#dce8f0] bg-white px-3.5 py-2.5 text-sm font-normal focus:border-[#13b8c8] focus:outline-none"
+                  >
+                    <option value="">
+                      {seatAvailabilityLoading
+                        ? 'Checking availability…'
+                        : availableSeatNumbers.length > 0
+                          ? 'Approve without assigning a seat'
+                          : 'No seats available for this schedule'}
+                    </option>
+                    {availableSeatNumbers.map((seatNumber) => (
+                      <option key={seatNumber} value={seatNumber}>Seat {seatNumber}</option>
+                    ))}
+                  </select>
+                </label>
+                <p className="mt-1.5 text-[11px] text-[#64748B]">
+                  Seat availability is checked for the requested days and hours. The server rechecks conflicts during enrollment.
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                  Actual Library Joining Date *
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={joiningDate}
+                  onChange={(e) => setJoiningDate(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#dce8f0] text-sm focus:outline-none focus:border-[#13b8c8]"
+                />
+                <span className="text-[11px] text-[#64748B] mt-1 block">
+                  Stored distinctly from application date for strict audit tracking.
+                </span>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                  Initial Membership Plan
+                </label>
+                <select
+                  value={selectedPlanId}
+                  onChange={(e) => setSelectedPlanId(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#dce8f0] text-sm focus:outline-none focus:border-[#13b8c8]"
+                >
+                  <option value="">-- Assign Later --</option>
+                  {plans.map((p) => (
+                    <option key={p._id} value={p._id}>
+                      {p.name} — {formatINR(p.baseFee)} ({p.durationValue} {p.durationUnit})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="p-3 rounded-xl bg-[#FEF3C7]/40 border border-[#13b8c8]/30 text-[11px] text-[#92400E] leading-relaxed">
+                Approving this application activates the student's credentials. They will now be able to log in to the student portal.
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4 border-t border-[#e7faff]">
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(false)}
+                  className="btn btn-secondary btn-sm"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleApproveConfirm}
+                  disabled={isProcessing}
+                  className="btn btn-primary btn-sm"
+                >
+                  {isProcessing ? 'Enrolling...' : 'Confirm Enrollment'}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ApprovalsPage;
