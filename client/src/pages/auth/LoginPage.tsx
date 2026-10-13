@@ -238,12 +238,6 @@ export const LoginPage: React.FC = () => {
               Register here
             </Link>
           </div>
-
-          <div className="mt-6 rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-3.5 text-xs leading-relaxed text-[#65788c]">
-            <span className="mb-1 block font-bold text-[#294055]">Standard Admin Credentials:</span>
-            Email: <code className="rounded border border-[#dce8f0] bg-white px-1.5 py-0.5 text-[#0b1d2e]">admin@luckylibrary.in</code><br />
-            Password: <code className="mt-1 inline-block rounded border border-[#dce8f0] bg-white px-1.5 py-0.5 text-[#0b1d2e]">Admin@1234</code>
-          </div>
         </motion.div>
       </div>
     </div>

@@ -38,7 +38,7 @@ const DEFAULT_GOOGLE_REVIEWS: ITestimonial[] = [
   },
   {
     name: 'Rohan K. Tiwari',
-    text: 'Excellent digital library! 64 well-spaced private cabins, high-speed fiber internet for watching lectures, and polite staff. Best place in Naini for competitive exam prep.',
+    text: 'Excellent digital library! 58 well-spaced private cabins, high-speed fiber internet for watching lectures, and polite staff. Best place in Naini for competitive exam prep.',
     rating: 5,
     role: 'Chartered Accountancy Final',
     relativeTime: 'Google Maps Review',
