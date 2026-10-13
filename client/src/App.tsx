@@ -29,6 +29,7 @@ import AddStudentPage from './pages/admin/AddStudentPage';
 import PaymentsPage from './pages/admin/PaymentsPage';
 import RecordPaymentPage from './pages/admin/RecordPaymentPage';
 import PlansPage from './pages/admin/PlansPage';
+import MessagesPage from './pages/admin/MessagesPage';
 import SettingsPage from './pages/admin/SettingsPage';
 import ApprovalsPage from './pages/admin/ApprovalsPage';
 
@@ -106,7 +107,8 @@ function AppRoutes() {
         <Route path="payments/record" element={<RecordPaymentPage />} />
         <Route path="payments/reports" element={<PaymentsPage />} />
         <Route path="memberships" element={<PlansPage />} />
-        <Route path="plans" element={<PlansPage />} />
+        <Route path="messages" element={<MessagesPage />} />
+        <Route path="plans" element={<Navigate to="/admin/messages" replace />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>
 

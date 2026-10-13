@@ -52,6 +52,7 @@ const students_1 = __importDefault(require("./routes/students"));
 const memberships_1 = __importDefault(require("./routes/memberships"));
 const payments_1 = __importDefault(require("./routes/payments"));
 const settings_1 = __importDefault(require("./routes/settings"));
+const messages_1 = __importDefault(require("./routes/messages"));
 const app = (0, express_1.default)();
 // Security
 app.use((0, helmet_1.default)({ contentSecurityPolicy: false }));
@@ -105,12 +106,14 @@ app.use('/api/students', students_1.default);
 app.use('/api/memberships', memberships_1.default);
 app.use('/api/payments', payments_1.default);
 app.use('/api/settings', settings_1.default);
+app.use('/api/messages', messages_1.default);
 // Fallback Routes (handles clients calling without /api prefix)
 app.use('/auth', auth_1.default);
 app.use('/students', students_1.default);
 app.use('/memberships', memberships_1.default);
 app.use('/payments', payments_1.default);
 app.use('/settings', settings_1.default);
+app.use('/messages', messages_1.default);
 // Health check endpoints
 app.get(['/api/health', '/health', '/'], (_req, res) => {
     res.json({ success: true, message: 'Lucky Digital Library API is running', timestamp: new Date() });

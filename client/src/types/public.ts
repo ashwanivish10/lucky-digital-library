@@ -97,3 +97,20 @@ export interface IMembershipPlan {
   isActive: boolean;
   displayOrder: number;
 }
+
+export type MessageStatus = 'unread' | 'read' | 'replied' | 'archived';
+
+export interface IContactMessage {
+  _id: string;
+  name: string;
+  phone?: string;
+  email?: string;
+  subject?: string;
+  message: string;
+  status: MessageStatus;
+  adminNotes?: string;
+  repliedAt?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+

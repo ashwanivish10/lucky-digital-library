@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { SiteSettings } from '../models/SiteSettings';
 import { MembershipPlan } from '../models/MembershipPlan';
+import { ContactMessage } from '../models/ContactMessage';
 import { AuthRequest } from '../middleware/auth';
 
 const DEFAULT_HOURS = [
@@ -93,21 +94,34 @@ export const deletePlan = async (_req: AuthRequest, res: Response): Promise<void
 
 // Contact form submission (public)
 export const submitContactForm = async (req: Request, res: Response): Promise<void> => {
-  const { name, phone, email, subject, message } = req.body;
+  try {
+    const { name, phone, email, subject, message } = req.body;
 
-  if (!name || !message) {
-    res.status(400).json({ success: false, message: 'Name and message are required' });
-    return;
+    if (!name || !name.trim() || !message || !message.trim()) {
+      res.status(400).json({ success: false, message: 'Name and message are required' });
+      return;
+    }
+
+    const savedMessage = await ContactMessage.create({
+      name: name.trim(),
+      phone: phone ? phone.trim() : '',
+      email: email ? email.trim() : '',
+      subject: subject ? subject.trim() : '',
+      message: message.trim(),
+      status: 'unread',
+    });
+
+    console.log('[CONTACT FORM SAVED]', savedMessage._id);
+
+    res.json({
+      success: true,
+      message: 'Your message has been received. We will contact you soon!',
+      data: savedMessage,
+    });
+  } catch (error: any) {
+    console.error('Error submitting contact form:', error);
+    res.status(500).json({ success: false, message: error.message || 'Failed to submit message' });
   }
-
-  // In production: send email notification to admin
-  // For now, just log it
-  console.log('[CONTACT FORM]', { name, phone, email, subject, message });
-
-  res.json({
-    success: true,
-    message: 'Your message has been received. We will contact you soon!',
-  });
 };
 
 // Sync Google Reviews from Google Maps (Admin or background)

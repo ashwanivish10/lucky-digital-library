@@ -108,3 +108,13 @@ export const dashboardApi = {
   summary: () => api.get('/settings/dashboard/summary'),
   analytics: () => api.get('/settings/dashboard/analytics'),
 };
+
+export const messagesApi = {
+  list: (params?: Record<string, unknown>) => api.get('/messages', { params }),
+  getUnreadCount: () => api.get('/messages/unread-count'),
+  getById: (id: string) => api.get(`/messages/${id}`),
+  update: (id: string, data: Record<string, unknown>) =>
+    api.patch(`/messages/${id}`, data),
+  delete: (id: string) => api.delete(`/messages/${id}`),
+};
+

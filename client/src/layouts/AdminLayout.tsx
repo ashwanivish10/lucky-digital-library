@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -9,8 +9,8 @@ import {
   PlusCircle,
   BarChart3,
   Award,
-  Layers,
   Settings,
+  MessageSquare,
   Menu,
   X,
   LogOut,
@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { getInitials } from '../lib/utils';
+import { messagesApi } from '../lib/api';
 
 export const AdminLayout: React.FC = () => {
   const { user, isAdmin, logout } = useAuth();
@@ -30,6 +31,29 @@ export const AdminLayout: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  // Poll/fetch unread messages count
+  useEffect(() => {
+    let isMounted = true;
+    const fetchCount = () => {
+      messagesApi
+        .getUnreadCount()
+        .then((res) => {
+          if (isMounted && typeof res.data?.count === 'number') {
+            setUnreadCount(res.data.count);
+          }
+        })
+        .catch(() => {});
+    };
+
+    fetchCount();
+    const timer = setInterval(fetchCount, 25000);
+    return () => {
+      isMounted = false;
+      clearInterval(timer);
+    };
+  }, []);
 
   // Redirect if not admin
   React.useEffect(() => {
@@ -59,12 +83,25 @@ export const AdminLayout: React.FC = () => {
     if (path === '/admin/payments/record') return 'Record Payment';
     if (path === '/admin/payments/reports') return 'Financial Reports';
     if (path === '/admin/memberships') return 'Memberships';
-    if (path === '/admin/plans') return 'Membership Plans';
+    if (path === '/admin/messages') return 'Messages & Inquiries';
     if (path === '/admin/settings') return 'Library Settings';
     return 'Admin Portal';
   };
 
-  const navSections = [
+  interface NavItem {
+    label: string;
+    path: string;
+    icon: React.ElementType;
+    end?: boolean;
+    badge?: number;
+  }
+
+  interface NavSection {
+    title: string;
+    items: NavItem[];
+  }
+
+  const navSections: NavSection[] = [
     {
       title: 'Dashboard',
       items: [
@@ -91,7 +128,7 @@ export const AdminLayout: React.FC = () => {
       title: 'Library',
       items: [
         { label: 'Memberships', path: '/admin/memberships', icon: Award },
-        { label: 'Plans', path: '/admin/plans', icon: Layers },
+        { label: 'Messages', path: '/admin/messages', icon: MessageSquare, badge: unreadCount },
         { label: 'Settings', path: '/admin/settings', icon: Settings },
       ],
     },
@@ -166,7 +203,7 @@ export const AdminLayout: React.FC = () => {
                       end={item.end}
                       onClick={() => setMobileSidebarOpen(false)}
                       className={({ isActive }) =>
-                        `sidebar-link flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
+                        `sidebar-link relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
                           isActive
                             ? 'bg-[#7ef9ff]/10 text-[#7ef9ff] ring-1 ring-inset ring-[#7ef9ff]/15 font-semibold'
                             : 'text-white/65 hover:bg-white/5 hover:text-white'
@@ -174,8 +211,22 @@ export const AdminLayout: React.FC = () => {
                       }
                       title={sidebarCollapsed ? item.label : undefined}
                     >
-                      <Icon size={18} className="flex-shrink-0" />
-                      {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
+                      <div className="relative flex items-center justify-center">
+                        <Icon size={18} className="flex-shrink-0" />
+                        {sidebarCollapsed && item.badge && item.badge > 0 ? (
+                          <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#13b8c8] ring-2 ring-[#071521]" />
+                        ) : null}
+                      </div>
+                      {!sidebarCollapsed && (
+                        <>
+                          <span className="truncate flex-1">{item.label}</span>
+                          {item.badge && item.badge > 0 ? (
+                            <span className="ml-auto inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#13b8c8] text-[#071521]">
+                              {item.badge}
+                            </span>
+                          ) : null}
+                        </>
+                      )}
                     </NavLink>
                   );
                 })}
@@ -230,7 +281,22 @@ export const AdminLayout: React.FC = () => {
             </h1>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Messages Quick Access */}
+            <button
+              type="button"
+              onClick={() => navigate('/admin/messages')}
+              className="relative rounded-full p-2 text-[#65788c] transition-colors hover:bg-[#f1f7fa] hover:text-[#087d99]"
+              title="Messages & Inquiries"
+            >
+              <MessageSquare size={19} />
+              {unreadCount > 0 && (
+                <span className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#13b8c8] px-1 text-[9px] font-bold text-[#071521]">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
             {/* Notification / Approvals */}
             <button
               type="button"

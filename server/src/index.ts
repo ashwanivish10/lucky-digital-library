@@ -15,6 +15,7 @@ import studentRoutes from './routes/students';
 import membershipRoutes from './routes/memberships';
 import paymentRoutes from './routes/payments';
 import settingsRoutes from './routes/settings';
+import messageRoutes from './routes/messages';
 
 const app = express();
 
@@ -78,6 +79,7 @@ app.use('/api/students', studentRoutes);
 app.use('/api/memberships', membershipRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/messages', messageRoutes);
 
 // Fallback Routes (handles clients calling without /api prefix)
 app.use('/auth', authRoutes);
@@ -85,6 +87,7 @@ app.use('/students', studentRoutes);
 app.use('/memberships', membershipRoutes);
 app.use('/payments', paymentRoutes);
 app.use('/settings', settingsRoutes);
+app.use('/messages', messageRoutes);
 
 // Health check endpoints
 app.get(['/api/health', '/health', '/'], (_req, res) => {
