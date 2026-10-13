@@ -25,13 +25,13 @@ interface OpeningHours {
 }
 
 const DEFAULT_OPENING_HOURS: OpeningHours[] = [
-  { day: 'Monday', open: '06:00', close: '22:00', isClosed: false },
-  { day: 'Tuesday', open: '06:00', close: '22:00', isClosed: false },
-  { day: 'Wednesday', open: '06:00', close: '22:00', isClosed: false },
-  { day: 'Thursday', open: '06:00', close: '22:00', isClosed: false },
-  { day: 'Friday', open: '06:00', close: '22:00', isClosed: false },
-  { day: 'Saturday', open: '06:00', close: '20:00', isClosed: false },
-  { day: 'Sunday', open: '08:00', close: '18:00', isClosed: false },
+  { day: 'Monday', open: '00:00', close: '23:59', isClosed: false },
+  { day: 'Tuesday', open: '00:00', close: '23:59', isClosed: false },
+  { day: 'Wednesday', open: '00:00', close: '23:59', isClosed: false },
+  { day: 'Thursday', open: '00:00', close: '23:59', isClosed: false },
+  { day: 'Friday', open: '00:00', close: '23:59', isClosed: false },
+  { day: 'Saturday', open: '00:00', close: '23:59', isClosed: false },
+  { day: 'Sunday', open: '00:00', close: '23:59', isClosed: false },
 ];
 
 const timeToMinutes = (time: string): number => {
@@ -88,16 +88,8 @@ export const validateSeatSchedule = async (
   const openingHours = await getOpeningHours();
   for (const day of seatDays) {
     const hours = openingHours.find((entry) => entry.day === day);
-    if (!hours || hours.isClosed) {
-      return `${day} is not an open library day.`;
-    }
-    if (
-      !validTime.test(hours.open) ||
-      !validTime.test(hours.close) ||
-      start < timeToMinutes(hours.open) ||
-      end > timeToMinutes(hours.close)
-    ) {
-      return `The selected time must fit within ${day}'s opening hours (${hours.open}–${hours.close}).`;
+    if (hours && hours.isClosed) {
+      return `${day} is currently marked as closed.`;
     }
   }
   return null;

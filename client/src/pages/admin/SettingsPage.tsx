@@ -605,13 +605,30 @@ export const SettingsPage: React.FC = () => {
         {/* Hours Tab */}
         {activeTab === 'hours' && (
           <div className="space-y-6 max-w-2xl">
-            <div className="pb-3 border-b border-[#dce8f0]">
-              <h3 className="text-xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
-                Weekly Operating Schedule
-              </h3>
-              <p className="text-xs text-[#65788c] mt-0.5">
-                Operating shift timings displayed on the public landing page.
-              </p>
+            <div className="pb-3 border-b border-[#dce8f0] flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <h3 className="text-xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+                  Weekly Operating Schedule (24×7 Access)
+                </h3>
+                <p className="text-xs text-[#65788c] mt-0.5">
+                  Operating shift timings displayed across all public pages.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  const openingHours = (settings.openingHours || []).map((h: any) => ({
+                    ...h,
+                    open: '00:00',
+                    close: '23:59',
+                    isClosed: false,
+                  }));
+                  setSettings({ ...settings, openingHours });
+                }}
+                className="btn btn-secondary text-xs px-3 py-1.5 rounded-lg border-[#13b8c8] text-[#087d99] hover:bg-[#e7faff]"
+              >
+                Set All Days 24×7 (00:00 – 23:59)
+              </button>
             </div>
 
             <div className="space-y-3">

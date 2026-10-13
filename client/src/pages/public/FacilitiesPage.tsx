@@ -58,8 +58,8 @@ const MINIMAL_FACILITIES: MinimalFacility[] = [
   },
   {
     icon: Clock,
-    title: 'Extended Study Hours',
-    desc: 'Open 365 days a year from 6:00 AM to 10:00 PM for all study shifts.',
+    title: '24×7 Round-The-Clock Access',
+    desc: 'Open 24 hours a day, all 7 days a week (Monday to Sunday) all year round.',
   },
 ];
 

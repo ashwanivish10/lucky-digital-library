@@ -60,7 +60,7 @@ export const AddStudentPage: React.FC = () => {
       emergencyContact: '',
       joiningDate: new Date().toISOString().split('T')[0],
       seatNumber: '',
-      seatDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      seatDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       seatStartTime: '06:00',
       seatEndTime: '14:00',
       notes: '',

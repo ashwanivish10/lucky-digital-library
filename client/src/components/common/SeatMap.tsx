@@ -607,7 +607,9 @@ export const SeatMap: React.FC<SeatMapProps> = ({
   const [filterMode, setFilterMode] = useState<'all' | 'available' | 'occupied'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'twocol' | 'matrix'>('twocol');
-  const [seatDays, setSeatDays] = useState<string[]>(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
+  const [seatDays, setSeatDays] = useState<string[]>([
+    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+  ]);
   const [seatStartTime, setSeatStartTime] = useState('06:00');
   const [seatEndTime, setSeatEndTime] = useState('14:00');
   const [availabilityError, setAvailabilityError] = useState('');
@@ -769,9 +771,18 @@ export const SeatMap: React.FC<SeatMapProps> = ({
       {showControls && (
         <div className="my-2 space-y-2 rounded-2xl border border-white/10 bg-white/[0.02] p-2 text-xs">
           <div>
-            <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-white/65">
-              Availability for selected days and hours
-            </p>
+            <div className="flex items-center justify-between mb-1.5 flex-wrap gap-1">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-white/65">
+                Attendance Schedule (24×7 Open)
+              </p>
+              <button
+                type="button"
+                onClick={() => setSeatDays([...WEEK_DAYS])}
+                className="text-[10px] font-semibold text-[#7ef9ff] hover:underline"
+              >
+                Select All 7 Days
+              </button>
+            </div>
             <div className="flex flex-wrap gap-1">
               {WEEK_DAYS.map((day) => {
                 const selected = seatDays.includes(day);

@@ -105,7 +105,7 @@ export const StudentDetailPage: React.FC = () => {
     address: '',
     emergencyContact: '',
     seatNumber: '',
-    seatDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    seatDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     seatStartTime: '06:00',
     seatEndTime: '14:00',
     status: 'active',

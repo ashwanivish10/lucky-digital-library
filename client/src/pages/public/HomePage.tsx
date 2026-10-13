@@ -189,7 +189,7 @@ export const HomePage: React.FC = () => {
                 className="text-base sm:text-lg text-white/75 leading-relaxed max-w-2xl font-medium mb-8"
               >
                 {settings?.description ||
-                  'Engineered exclusively for competitive aspirants and serious scholars. 64 dedicated ergonomic cabins, pin-drop silent atmosphere, dual-band optical fiber, and 365-day access in Naini, Prayagraj.'}
+                  'Engineered exclusively for competitive aspirants and serious scholars. 64 dedicated ergonomic cabins, pin-drop silent atmosphere, dual-band optical fiber, and 24×7 round-the-clock access all 7 days in Prayagraj.'}
               </motion.p>
 
               {/* Action Buttons */}
@@ -254,9 +254,9 @@ export const HomePage: React.FC = () => {
               </p>
             </div>
             <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">365 Days</div>
+              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">24×7</div>
               <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a9d9ff]">
-                Open Year-Round
+                Open 24 Hours • All 7 Days
               </p>
             </div>
             <div className="pt-3 md:pt-0">

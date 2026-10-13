@@ -33,7 +33,7 @@ export const RegisterPage: React.FC = () => {
     confirmPassword: '',
     address: '',
     message: '',
-    seatDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    seatDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     seatStartTime: '06:00',
     seatEndTime: '14:00',
   });
@@ -492,9 +492,13 @@ export const RegisterPage: React.FC = () => {
                       <button
                         type="button"
                         onClick={handleSelectAllDays}
-                        className="px-2.5 py-1 rounded-md bg-[#edf4f8] text-[#0b1d2e] hover:bg-[#dce8f0] font-medium text-[11px] transition-colors"
+                        className={`px-2.5 py-1 rounded-md font-medium text-[11px] transition-colors ${
+                          form.seatDays.length === 7
+                            ? 'bg-[#0b1d2e] text-white shadow-sm'
+                            : 'bg-[#edf4f8] text-[#0b1d2e] hover:bg-[#dce8f0]'
+                        }`}
                       >
-                        All 7 Days
+                        All 7 Days (24×7)
                       </button>
                       <button
                         type="button"
