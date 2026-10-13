@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ settings }) => {
               <span>Student Login</span>
             </Link>
             <Link
-              to="/register"
+              to="/contact"
               className="btn btn-primary inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.1em] xl:px-5 xl:text-[11px]"
             >
               <span>Join Library</span>
@@ -146,7 +146,7 @@ export const Navbar: React.FC<NavbarProps> = ({ settings }) => {
               <span>Student Portal Login</span>
             </Link>
             <Link
-              to="/register"
+              to="/contact"
               className="btn btn-primary inline-flex items-center justify-center gap-2 rounded-full px-4 py-3 text-[11px] uppercase tracking-[0.14em]"
             >
               <span>Join the Library</span>

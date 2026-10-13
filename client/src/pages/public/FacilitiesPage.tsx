@@ -129,10 +129,10 @@ export const FacilitiesPage: React.FC = () => {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
-              to="/register"
+              to="/contact"
               className="btn btn-primary text-xs py-2.5 px-6 rounded-xl font-bold shadow-sm"
             >
-              <span>Join Now</span>
+              <span>Visit Reception / Contact</span>
               <ArrowRight className="w-3.5 h-3.5 ml-1" />
             </Link>
             <Link

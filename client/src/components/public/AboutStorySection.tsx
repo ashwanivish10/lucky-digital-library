@@ -138,10 +138,10 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
             {/* Quick Action Links */}
             <div className="flex items-center gap-3 pt-2">
               <Link
-                to="/register"
+                to="/contact"
                 className="btn btn-primary text-xs py-2.5 px-5 rounded-xl font-bold shadow-sm"
               >
-                <span>प्रवेश लें (Join Now)</span>
+                <span>प्रवेश जानकारी (Enquire Now)</span>
                 <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </Link>
               <Link

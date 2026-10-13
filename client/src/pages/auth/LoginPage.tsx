@@ -231,9 +231,9 @@ export const LoginPage: React.FC = () => {
           </form>
 
           <div className="mt-8 border-t border-[#e6eef3] pt-6 text-center text-xs text-[#65788c]">
-            New student?{' '}
-            <Link to="/register" className="font-bold text-[#087d99] underline underline-offset-2 transition-colors hover:text-[#075a70]">
-              Register here
+            New scholar?{' '}
+            <Link to="/contact" className="font-bold text-[#087d99] underline underline-offset-2 transition-colors hover:text-[#075a70]">
+              Visit reception to enroll
             </Link>
           </div>
         </motion.div>

@@ -137,15 +137,15 @@ export const StudentsPage: React.FC = () => {
             onClick={() => setIsCustomEnrollOpen(true)}
             className="btn btn-primary inline-flex items-center gap-2 text-sm shadow-sm"
           >
-            <Sparkles size={16} />
-            <span>Custom Walk-in Enroll</span>
+            <UserPlus size={16} />
+            <span>Add Student (Enroll)</span>
           </button>
           <Link
             to="/admin/students/add"
             className="btn btn-secondary inline-flex items-center gap-2 text-sm shadow-sm"
           >
-            <UserPlus size={16} />
-            <span>Standard Add</span>
+            <Sparkles size={16} />
+            <span>Full-Page Enroll</span>
           </Link>
         </div>
       </div>

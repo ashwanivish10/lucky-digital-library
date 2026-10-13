@@ -344,52 +344,11 @@ const approveRegistration = async (req, res) => {
     res.json({ success: true, data: student });
 };
 exports.approveRegistration = approveRegistration;
-// Public self-registration
+// Public self-registration (Closed — enrollment is handled in-person by administration)
 const publicRegister = async (req, res) => {
-    const parse = publicRegistrationSchema.safeParse(req.body);
-    if (!parse.success) {
-        res.status(400).json({ success: false, message: parse.error.errors[0].message });
-        return;
-    }
-    const { name, phone, email, address, password, message, seatDays, seatStartTime, seatEndTime } = parse.data;
-    const schedule = { seatDays, seatStartTime, seatEndTime };
-    const scheduleError = await (0, seatSchedule_1.validateSeatSchedule)(schedule);
-    if (scheduleError) {
-        res.status(400).json({ success: false, message: scheduleError });
-        return;
-    }
-    // Check if email already registered
-    const existing = await User_1.User.findOne({ email });
-    if (existing) {
-        res.status(409).json({ success: false, message: 'This email is already registered' });
-        return;
-    }
-    const studentCode = await (0, codeGenerator_1.generateStudentCode)();
-    const student = await Student_1.Student.create({
-        studentCode,
-        name,
-        phone,
-        email,
-        address,
-        joiningDate: new Date(),
-        ...schedule,
-        registrationStatus: 'pending',
-        status: 'inactive',
-        notes: message ? `Self-registration note: ${message}` : undefined,
-    });
-    const passwordHash = await argon2_1.default.hash(password);
-    await User_1.User.create({
-        name,
-        email,
-        passwordHash,
-        role: 'student',
-        studentId: student._id,
-        status: 'inactive', // activated on approval
-    });
-    res.status(201).json({
-        success: true,
-        message: 'Registration submitted. The library will contact you for approval.',
-        data: { studentCode },
+    res.status(403).json({
+        success: false,
+        message: 'Online self-registration is closed. Please visit the library reception desk to select your seat and enroll.',
     });
 };
 exports.publicRegister = publicRegister;
@@ -487,6 +446,8 @@ const customEnrollSchema = zod_1.z.object({
     name: zod_1.z.string().min(2, 'Name must be at least 2 characters').max(100),
     phone: zod_1.z.string().min(10, 'Phone must be at least 10 digits').max(15),
     shiftTimings: zod_1.z.string().optional(),
+    seatStartTime: zod_1.z.string().optional(),
+    seatEndTime: zod_1.z.string().optional(),
     seatNumber: zod_1.z.union([zod_1.z.string(), zod_1.z.number()]).optional().transform((val) => val !== undefined && val !== null ? String(val) : undefined),
     startDate: zod_1.z.string(),
     endDate: zod_1.z.string(),
@@ -538,6 +499,8 @@ const customEnroll = async (req, res) => {
             joiningDate: start,
             seatNumber: normalizedSeat,
             seatDays: [...seatSchedule_1.WEEK_DAYS],
+            seatStartTime: data.seatStartTime?.trim() || undefined,
+            seatEndTime: data.seatEndTime?.trim() || undefined,
             shiftTimings: data.shiftTimings?.trim() || undefined,
             registrationStatus: 'approved',
             status: 'active',
@@ -548,6 +511,10 @@ const customEnroll = async (req, res) => {
         student.name = data.name.trim();
         if (normalizedSeat)
             student.seatNumber = normalizedSeat;
+        if (data.seatStartTime)
+            student.seatStartTime = data.seatStartTime.trim();
+        if (data.seatEndTime)
+            student.seatEndTime = data.seatEndTime.trim();
         if (data.shiftTimings)
             student.shiftTimings = data.shiftTimings.trim();
         student.registrationStatus = 'approved';

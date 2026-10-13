@@ -124,12 +124,12 @@ export const MembershipPage: React.FC = () => {
                   )}
 
                   <Link
-                    to="/register"
+                    to="/contact"
                     className={`btn w-full justify-center text-center py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider ${
                       isPopular ? 'btn-primary shadow-md' : 'btn-secondary'
                     }`}
                   >
-                    <span>Apply for Plan</span>
+                    <span>Enquire & Visit Reception</span>
                     <ArrowRight className="w-4 h-4 ml-1.5" />
                   </Link>
                 </div>

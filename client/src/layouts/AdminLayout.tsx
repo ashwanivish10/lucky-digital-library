@@ -303,8 +303,8 @@ export const AdminLayout: React.FC = () => {
               title="Instant walk-in student enrollment with custom dates, fee & receipt"
             >
               <Sparkles size={14} className="text-[#7ef9ff]" />
-              <span className="hidden sm:inline">Walk-in Enroll</span>
-              <span className="sm:hidden">Enroll</span>
+              <span className="hidden sm:inline">Add Student (Enroll)</span>
+              <span className="sm:hidden">+ Enroll</span>
             </button>
 
             {/* Messages Quick Access */}

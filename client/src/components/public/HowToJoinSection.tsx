@@ -105,10 +105,10 @@ export const HowToJoinSection: React.FC = () => {
           className="mt-12 text-center"
         >
           <Link
-            to="/register"
+            to="/contact"
             className="btn btn-primary px-8 py-3.5 text-xs uppercase tracking-wider font-bold rounded-xl shadow-lg inline-flex items-center gap-2 hover:scale-105 transition-transform"
           >
-            <span>Join Now</span>
+            <span>Enquire & Visit Us</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>

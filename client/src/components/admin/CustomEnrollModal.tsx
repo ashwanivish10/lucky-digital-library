@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { studentsApi, paymentsApi } from '../../lib/api';
 import { downloadBlob } from '../../lib/utils';
+import { SeatSelector } from './SeatSelector';
 import toast from 'react-hot-toast';
 
 interface CustomEnrollModalProps {
@@ -24,14 +25,16 @@ interface CustomEnrollModalProps {
   onSuccess?: () => void;
 }
 
-const PRESET_TIMINGS = [
-  '08:00 AM to 04:00 PM',
-  '08:00 AM to 08:00 PM (Full Day)',
-  '06:00 AM to 02:00 PM (Morning Shift)',
-  '02:00 PM to 10:00 PM (Evening Shift)',
-  '10:00 PM to 06:00 AM (Night Shift)',
-  'Custom',
-];
+function formatTo12Hr(timeStr: string): string {
+  if (!timeStr) return '';
+  const [h, m] = timeStr.split(':').map(Number);
+  if (isNaN(h)) return timeStr;
+  const period = h >= 12 ? 'PM' : 'AM';
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  const padHour = String(hour12).padStart(2, '0');
+  const padMin = String(m || 0).padStart(2, '0');
+  return `${padHour}:${padMin} ${period}`;
+}
 
 export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
   isOpen,
@@ -49,9 +52,11 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [selectedTimingPreset, setSelectedTimingPreset] = useState('08:00 AM to 04:00 PM');
-  const [customShiftTimings, setCustomShiftTimings] = useState('08:00 AM to 04:00 PM');
+  // Timing selection by self (NO pre-defined presets)
+  const [timeFrom, setTimeFrom] = useState('08:00');
+  const [timeTo, setTimeTo] = useState('16:00');
   const [seatNumber, setSeatNumber] = useState('');
+  const [showSeatMap, setShowSeatMap] = useState(false);
   const [startDate, setStartDate] = useState(todayStr);
   const [endDate, setEndDate] = useState(getFutureDate(1, 0));
   const [totalFee, setTotalFee] = useState<number | string>(1500);
@@ -64,6 +69,9 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
   const parsedTotalFee = Number(totalFee) || 0;
   const parsedReceivedToday = Number(amountReceivedToday) || 0;
   const balanceDue = Math.max(0, parsedTotalFee - parsedReceivedToday);
+
+  const calculatedShift =
+    timeFrom && timeTo ? `${formatTo12Hr(timeFrom)} to ${formatTo12Hr(timeTo)}` : '';
 
   const applyDuration = (months: number, days = 0) => {
     const base = startDate ? new Date(startDate) : new Date();
@@ -97,6 +105,11 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
       return;
     }
 
+    if (!timeFrom || !timeTo) {
+      toast.error('Please select both Time From and Time To');
+      return;
+    }
+
     if (parsedTotalFee < 0) {
       toast.error('Total fee cannot be negative');
       return;
@@ -107,15 +120,14 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
       return;
     }
 
-    const shiftTimings =
-      selectedTimingPreset === 'Custom' ? customShiftTimings.trim() : selectedTimingPreset;
-
     setIsSubmitting(true);
     try {
       const payload = {
         name: name.trim(),
         phone: cleanPhone,
-        shiftTimings: shiftTimings || undefined,
+        shiftTimings: calculatedShift || undefined,
+        seatStartTime: timeFrom || undefined,
+        seatEndTime: timeTo || undefined,
         seatNumber: seatNumber.trim() || undefined,
         startDate,
         endDate,
@@ -134,13 +146,12 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
         try {
           const receiptRes = await paymentsApi.receipt(paymentId);
           downloadBlob(receiptRes.data, `Receipt-${receiptNumber || 'WalkIn'}.pdf`);
-          // Also open in new window for direct browser print
           const blobUrl = URL.createObjectURL(
             new Blob([receiptRes.data], { type: 'application/pdf' })
           );
           window.open(blobUrl, '_blank');
         } catch {
-          // If PDF generation fails, still celebrate registration
+          // If popup blocked, file is already downloaded
         }
       }
 
@@ -179,10 +190,10 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
               </div>
               <div>
                 <h3 className="font-[family-name:var(--font-ui)] text-lg font-black tracking-[-0.03em] text-white">
-                  Quick Walk-in Enrollment
+                  Student Enrollment
                 </h3>
                 <p className="text-xs text-[#a0cadb]">
-                  Instant 1-step registration, custom dates, fee & receipt
+                  Seat selection, custom timings, fee calculation & instant receipt
                 </p>
               </div>
             </div>
@@ -244,54 +255,33 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
               <div className="flex items-center gap-2 rounded-lg border border-[#cbe4ed] bg-[#eef8fb] px-3 py-2 text-xs text-[#096a82]">
                 <CheckCircle2 size={15} className="shrink-0 text-[#13b8c8]" />
                 <span>
-                  <strong>Zero-hassle Login:</strong> Phone number is automatically set as their initial password. The student will choose their own password upon first login.
+                  <strong>Automatic Password:</strong> The student's mobile number will silently be their initial login password. On their first login, they will be prompted to set their private password.
                 </span>
               </div>
             </div>
 
-            {/* Section 2: Seat & Custom Duration */}
+            {/* Section 2: Seat & Custom Timing Duration */}
             <div className="rounded-xl border border-[#dce8f0] bg-[#f8fbfd] p-4.5 space-y-4">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
-                <Clock size={15} />
-                <span>Section 2: Seat & Custom Duration</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
+                  <Clock size={15} />
+                  <span>Section 2: Seat & Timing Selection</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowSeatMap(!showSeatMap)}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087d99] hover:text-[#075a70] bg-white border border-[#cbe4ed] px-3 py-1 rounded-lg shadow-2xs hover:bg-[#eef8fb] transition-all"
+                >
+                  <Armchair size={14} className="text-[#13b8c8]" />
+                  <span>{showSeatMap ? 'Hide Seat Map' : 'Select Seat from Floor Map'}</span>
+                </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Direct Seat input and quick selector button */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#294055] mb-1">
-                    Shift Timings
-                  </label>
-                  <select
-                    value={selectedTimingPreset}
-                    onChange={(e) => {
-                      setSelectedTimingPreset(e.target.value);
-                      if (e.target.value !== 'Custom') {
-                        setCustomShiftTimings(e.target.value);
-                      }
-                    }}
-                    className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 px-3 text-sm text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
-                  >
-                    {PRESET_TIMINGS.map((preset) => (
-                      <option key={preset} value={preset}>
-                        {preset}
-                      </option>
-                    ))}
-                  </select>
-
-                  {selectedTimingPreset === 'Custom' && (
-                    <input
-                      type="text"
-                      value={customShiftTimings}
-                      onChange={(e) => setCustomShiftTimings(e.target.value)}
-                      placeholder="e.g. 08:00 AM to 04:00 PM"
-                      className="mt-2 w-full rounded-lg border border-[#cfdce6] bg-white py-2 px-3 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
-                    />
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#294055] mb-1">
-                    Seat Number (1–58)
+                    Assigned Seat (1–58)
                   </label>
                   <div className="relative">
                     <Armchair className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
@@ -302,20 +292,106 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                       value={seatNumber}
                       onChange={(e) => setSeatNumber(e.target.value)}
                       placeholder="e.g. 14 (Optional)"
-                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                     />
                   </div>
                 </div>
+
+                <div className="sm:col-span-2 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowSeatMap(true)}
+                    className="flex-1 py-2 px-3 rounded-lg border border-[#dce8f0] bg-white text-xs font-semibold text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-all text-left flex items-center justify-between"
+                  >
+                    <span>
+                      {seatNumber ? `Selected: Seat ${seatNumber}` : 'Click to pick seat on map (1–58)'}
+                    </span>
+                    <span className="text-[#087d99] font-bold text-[11px]">View Map &rarr;</span>
+                  </button>
+
+                  {seatNumber && (
+                    <button
+                      type="button"
+                      onClick={() => setSeatNumber('')}
+                      className="py-2 px-2.5 rounded-lg border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 text-xs font-bold"
+                      title="Clear seat selection"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
               </div>
 
-              {/* Custom Dates & Quick Duration */}
-              <div>
+              {/* Visual Interactive Floor Map when opened */}
+              {showSeatMap && (
+                <div className="pt-1">
+                  <SeatSelector
+                    selectedSeat={seatNumber}
+                    onSelectSeat={(num) => setSeatNumber(num)}
+                  />
+                </div>
+              )}
+
+              {/* Timing Selection by Self: Time From & Time To (NO PRESETS) */}
+              <div className="border-t border-[#e2edf3] pt-3.5 space-y-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#294055]">
+                  Timing Selection (Time From & Time To) <span className="text-red-500">*</span>
+                </label>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
+                      Time From (Start Time)
+                    </span>
+                    <div className="relative">
+                      <Clock className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
+                      <input
+                        type="time"
+                        required
+                        value={timeFrom}
+                        onChange={(e) => setTimeFrom(e.target.value)}
+                        className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-semibold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
+                      Time To (End Time)
+                    </span>
+                    <div className="relative">
+                      <Clock className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
+                      <input
+                        type="time"
+                        required
+                        value={timeTo}
+                        onChange={(e) => setTimeTo(e.target.value)}
+                        className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-semibold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {calculatedShift && (
+                  <div className="flex items-center justify-between rounded-lg bg-[#e7faff] border border-[#cbe4ed] px-3 py-1.5 text-xs text-[#087d99]">
+                    <span className="font-medium">
+                      Calculated Shift: <strong>{calculatedShift}</strong>
+                    </span>
+                    <span className="font-semibold text-[11px]">
+                      {timeFrom} &rarr; {timeTo}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Custom Duration Dates */}
+              <div className="border-t border-[#e2edf3] pt-3.5">
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
                   <label className="text-xs font-bold uppercase tracking-wider text-[#294055]">
-                    Duration Period (Exact Start & End Date) <span className="text-red-500">*</span>
+                    Duration Period (Start & End Date) <span className="text-red-500">*</span>
                   </label>
                   <div className="flex items-center gap-1.5 text-[11px]">
-                    <span className="text-[#65788c] font-medium">Quick pick:</span>
+                    <span className="text-[#65788c] font-medium">Quick duration:</span>
                     <button
                       type="button"
                       onClick={() => applyDuration(0, 15)}
@@ -359,7 +435,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
 
                   <div>
                     <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
-                      End Date (Determined by you)
+                      End Date
                     </span>
                     <div className="relative">
                       <Calendar className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
@@ -400,7 +476,6 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                       onChange={(e) => {
                         const val = e.target.value;
                         setTotalFee(val);
-                        // If amount received wasn't manually altered or equals old fee, can sync
                         if (!amountReceivedToday || Number(amountReceivedToday) === parsedTotalFee) {
                           setAmountReceivedToday(val);
                         }
@@ -450,7 +525,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                     {balanceDue > 0 ? (
                       <>
                         <strong>Outstanding Balance:</strong> ₹{balanceDue.toLocaleString('en-IN')}{' '}
-                        will be automatically tracked as student pending dues.
+                        will be automatically tracked as pending dues.
                       </>
                     ) : (
                       <>
@@ -523,7 +598,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                     type="text"
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="e.g. Walk-in student, exam preparation"
+                    placeholder="e.g. Walk-in student, civil services aspirant"
                     className="w-full rounded-lg border border-[#cfdce6] bg-white py-1.5 px-3 text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none"
                   />
                 </div>
