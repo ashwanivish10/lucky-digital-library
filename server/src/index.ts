@@ -60,6 +60,7 @@ const generalLimiter = rateLimit({
 });
 
 app.use('/api/auth', authLimiter);
+app.use('/auth', authLimiter);
 app.use('/api', generalLimiter);
 
 // Middleware
@@ -71,15 +72,22 @@ app.use(cookieParser());
 // Static files (uploads)
 app.use('/uploads', express.static(path.resolve(config.uploadsDir)));
 
-// API Routes
+// Primary API Routes (standard /api prefix)
 app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/memberships', membershipRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/settings', settingsRoutes);
 
-// Health check
-app.get('/api/health', (_req, res) => {
+// Fallback Routes (handles clients calling without /api prefix)
+app.use('/auth', authRoutes);
+app.use('/students', studentRoutes);
+app.use('/memberships', membershipRoutes);
+app.use('/payments', paymentRoutes);
+app.use('/settings', settingsRoutes);
+
+// Health check endpoints
+app.get(['/api/health', '/health', '/'], (_req, res) => {
   res.json({ success: true, message: 'Lucky Digital Library API is running', timestamp: new Date() });
 });
 

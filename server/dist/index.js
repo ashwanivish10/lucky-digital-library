@@ -90,6 +90,7 @@ const generalLimiter = (0, express_rate_limit_1.default)({
     max: 200,
 });
 app.use('/api/auth', authLimiter);
+app.use('/auth', authLimiter);
 app.use('/api', generalLimiter);
 // Middleware
 app.use((0, morgan_1.default)(config_1.config.nodeEnv === 'development' ? 'dev' : 'combined'));
@@ -98,14 +99,20 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 // Static files (uploads)
 app.use('/uploads', express_1.default.static(path_1.default.resolve(config_1.config.uploadsDir)));
-// API Routes
+// Primary API Routes (standard /api prefix)
 app.use('/api/auth', auth_1.default);
 app.use('/api/students', students_1.default);
 app.use('/api/memberships', memberships_1.default);
 app.use('/api/payments', payments_1.default);
 app.use('/api/settings', settings_1.default);
-// Health check
-app.get('/api/health', (_req, res) => {
+// Fallback Routes (handles clients calling without /api prefix)
+app.use('/auth', auth_1.default);
+app.use('/students', students_1.default);
+app.use('/memberships', memberships_1.default);
+app.use('/payments', payments_1.default);
+app.use('/settings', settings_1.default);
+// Health check endpoints
+app.get(['/api/health', '/health', '/'], (_req, res) => {
     res.json({ success: true, message: 'Lucky Digital Library API is running', timestamp: new Date() });
 });
 // Error handling
