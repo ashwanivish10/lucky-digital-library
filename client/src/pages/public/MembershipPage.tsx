@@ -43,7 +43,7 @@ export const MembershipPage: React.FC = () => {
       </section>
 
       {/* Membership Plans Grid */}
-      <section className="py-16 sm:py-24 w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 sm:py-24 w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
         {loading ? (
           <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
             {[1, 2, 3].map((i) => (

@@ -37,7 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({ settings }) => {
     <header className="sticky top-0 z-50">
       <NoticeTicker settings={settings} />
       <div className="border-b border-[#dce8f0] bg-white/95 shadow-[0_8px_24px_rgba(7,21,33,0.08)] backdrop-blur-xl transition-all duration-300">
-        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
         <div className="flex items-center justify-between gap-3 py-2 sm:py-3">
           <Link to="/" className="group flex min-w-0 shrink items-center gap-2.5 sm:gap-3 touch-target-min">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#7ef9ff]/25 bg-gradient-to-br from-[#dff9ff] via-[#7ef9ff] to-[#5dc4ff] text-xl font-black text-[#071521] shadow-[0_8px_22px_rgba(93,196,255,0.25)] transition-transform duration-300 group-hover:scale-[1.04] sm:h-11 sm:w-11 sm:text-2xl">

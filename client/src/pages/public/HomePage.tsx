@@ -154,7 +154,7 @@ export const HomePage: React.FC = () => {
         {/* Clean product grid */}
         <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:4.5rem_4.5rem] pointer-events-none" />
 
-        <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
+        <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
           <div className="grid items-center gap-12 lg:gap-16 lg:grid-cols-12">
             {/* Left Content Column (7 cols) */}
             <div className="lg:col-span-7">
@@ -274,7 +274,7 @@ export const HomePage: React.FC = () => {
       {/* ========================================================= */}
       <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(93,196,255,0.12),_transparent_25%),linear-gradient(180deg,#0b1624_0%,#091725_100%)] py-20 text-white">
         <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:44px_44px]" />
-        <div className="relative mx-auto w-full max-w-[1200px] px-4 sm:px-8 lg:px-12 xl:px-16">
+        <div className="relative mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="mb-10 text-center">
             <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#7ef9ff]">Built for focus</p>
             <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">Everything serious students need</h2>
@@ -309,7 +309,7 @@ export const HomePage: React.FC = () => {
       {/* 3. INTERACTIVE 58-SEAT SANCTUARY PREVIEW                  */}
       {/* ========================================================= */}
       <section className="border-y border-white/10 bg-[#091827] py-20 text-white">
-        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="mb-8 text-center">
             <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#7ef9ff]">Seat map</p>
             <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">A quiet workspace you can actually use</h2>
@@ -325,7 +325,7 @@ export const HomePage: React.FC = () => {
       {/* 4. MEMBERSHIP PLANS                                       */}
       {/* ========================================================= */}
       <section className="bg-[radial-gradient(circle_at_top,_rgba(126,249,255,0.08),_transparent_18%),linear-gradient(180deg,#f4f8ff_0%,#edf5ff_100%)] py-20">
-        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="mb-10 text-center">
             <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#0f6ea5]">Membership</p>
             <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-[#0d1d30] sm:text-4xl">Simple plans for every study goal</h2>
@@ -401,7 +401,7 @@ export const HomePage: React.FC = () => {
       {/* 8. SCHOLAR REVIEWS & GOOGLE FEEDBACK                      */}
       {/* ========================================================= */}
       <section className="py-24 bg-[#f4f9fc] text-[#0b1d2e] border-t border-[#dce8f0] relative">
-        <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
+        <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#13b8c8]/15 border border-[#13b8c8]/35 text-[#075a70] font-[family-name:var(--font-ui)] text-xs font-bold uppercase tracking-wider mb-2">
@@ -548,7 +548,7 @@ export const HomePage: React.FC = () => {
       {/* 9. INTERACTIVE GOOGLE MAP & LOCATION                      */}
       {/* ========================================================= */}
       <section className="border-t border-[#dce8f0] bg-[#edf4f8] py-20">
-        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
             <div>
               <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#13b8c8]">Visit us</p>

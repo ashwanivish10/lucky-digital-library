@@ -391,11 +391,9 @@ export const AdminLayout: React.FC = () => {
           </div>
         </header>
 
-        {/* Content Outlet with 1200px Centered Desktop Constraint */}
+        {/* Content Outlet */}
         <main className="flex-1 overflow-y-auto bg-[#f4f9fc] p-3 sm:p-4 md:p-8 pb-20 md:pb-8 w-full max-w-full">
-          <div className="mx-auto w-full max-w-[1200px]">
-            <Outlet />
-          </div>
+          <Outlet />
         </main>
 
         {/* Admin Mobile Bottom Navigation Bar (md:hidden) */}

@@ -1,32 +1,7 @@
 /* ==========================================================================
-   LUCKY DIGITAL LIBRARY — GLOBAL RESPONSIVE ARCHITECTURE
-   Native Mobile App (< 769px) & Spacious Desktop Web (>= 769px)
+   LUCKY DIGITAL LIBRARY — RESPONSIVE ARCHITECTURE
+   Native Mobile App (< 769px) & Unlocked Spacious Desktop Web (>= 769px)
    ========================================================================== */
-
-/* 1. ROOT LOCK & OVERFLOW BOUNDS (ZERO BOUNCE & ZERO HORIZONTAL SCROLL) */
-html,
-body {
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden !important;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overscroll-behavior-y: none;
-  -webkit-overflow-scrolling: touch;
-  -webkit-tap-highlight-color: transparent;
-}
-
-#root {
-  width: 100%;
-  max-width: 100vw;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden !important;
-  display: flex;
-  flex-direction: column;
-}
 
 /* Universal box-sizing & image boundary guard */
 *,
@@ -44,45 +19,34 @@ iframe {
   height: auto;
 }
 
-/* 2. DESKTOP CONTAINER CONSTRAINT (min-width: 769px) */
-@media (min-width: 769px) {
-  .site-container,
-  .app-container,
-  .desktop-constrained {
-    max-width: 1200px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    width: 100% !important;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
-  }
-
-  /* Hide mobile app elements on desktop */
-  .mobile-only,
-  .mobile-bottom-nav {
-    display: none !important;
-  }
-}
-
-/* 3. MOBILE-FIRST APP UI (max-width: 768px) */
+/* ==========================================================================
+   MOBILE VIEW ONLY (max-width: 768px)
+   Locked app feel, zero horizontal scroll, overscroll lock, 48px touch targets
+   ========================================================================== */
 @media (max-width: 768px) {
-  /* Hide desktop-only elements on mobile */
+  html,
+  body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden !important;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overscroll-behavior-y: none; /* Mobile vertical lock so screen doesn't bounce */
+    -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden !important;
+  }
+
   .desktop-only {
     display: none !important;
   }
 
-  /* Full screen bounds without horizontal wiggle */
-  .site-container,
-  .app-container,
-  .desktop-constrained {
-    width: 100% !important;
-    max-width: 100vw !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-    overflow-x: hidden !important;
-  }
-
-  /* Minimum 48x48px Touch Targets for Interactive Elements */
+  /* Minimum 48x48px Touch Targets for Interactive Elements on Mobile */
   button,
   a[role="button"],
   input[type="button"],
@@ -94,7 +58,6 @@ iframe {
     touch-action: manipulation;
   }
 
-  /* Ensure text inputs are at least 48px tall on mobile for effortless tapping */
   input[type="text"],
   input[type="email"],
   input[type="password"],
@@ -103,13 +66,7 @@ iframe {
   input[type="date"],
   input[type="time"] {
     min-height: 48px;
-    font-size: 16px !important; /* Prevents auto-zoom on iOS */
-  }
-
-  /* Form & card padding adjustments for phone screens */
-  .mobile-card {
-    border-radius: 1rem;
-    padding: 1rem !important;
+    font-size: 16px !important; /* Prevents auto-zoom on mobile */
   }
 
   /* Content clearance for fixed bottom navigation bar */
@@ -118,7 +75,27 @@ iframe {
   }
 }
 
-/* 4. FIXED MOBILE BOTTOM NAVIGATION BAR STYLING */
+/* ==========================================================================
+   DESKTOP / LAPTOP VIEW (min-width: 769px)
+   Keep exact previous look: spacious, natural vertical scrolling, NO LOCKS
+   ========================================================================== */
+@media (min-width: 769px) {
+  html,
+  body {
+    overflow-x: hidden;
+    /* Natural vertical scrolling, no overscroll locking */
+  }
+
+  /* Hide mobile app elements on desktop */
+  .mobile-only,
+  .mobile-bottom-nav {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   FIXED MOBILE BOTTOM NAVIGATION BAR (Rendered on mobile viewports)
+   ========================================================================== */
 .mobile-bottom-nav {
   position: fixed;
   bottom: 0;
@@ -170,7 +147,7 @@ iframe {
   transition: transform 0.2s ease;
 }
 
-/* 5. SMOOTH IN-APP TRANSITIONS & ACCESSIBILITY */
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
