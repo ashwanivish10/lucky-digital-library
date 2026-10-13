@@ -275,8 +275,10 @@ export const AddStudentPage: React.FC = () => {
                 className="form-input"
               >
                 <option value="">Unassigned</option>
-                {Array.from({ length: 64 }, (_, index) => index + 1).map((seatNumber) => (
-                  <option key={seatNumber} value={String(seatNumber)}>Seat {seatNumber}</option>
+                {Array.from({ length: 58 }, (_, index) => index + 1).map((seatNumber) => (
+                  <option key={seatNumber} value={String(seatNumber)}>
+                    Seat {seatNumber} ({seatNumber <= 30 ? 'East Wing' : 'West Wing'})
+                  </option>
                 ))}
               </select>
             </div>

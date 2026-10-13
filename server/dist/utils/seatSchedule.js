@@ -77,7 +77,7 @@ const getSeatNumber = (seatNumber) => {
     if (!match)
         return null;
     const value = Number(match[0]);
-    return value >= 1 && value <= 64 ? value : null;
+    return value >= 1 && value <= 58 ? value : null;
 };
 const normalizeSeatNumber = (seatNumber) => {
     const normalized = getSeatNumber(seatNumber);
@@ -87,7 +87,7 @@ exports.normalizeSeatNumber = normalizeSeatNumber;
 const findSeatScheduleConflict = async (seatNumber, schedule, excludeStudentId) => {
     const targetSeat = getSeatNumber(seatNumber);
     if (!targetSeat)
-        return 'Choose a valid seat from 1 to 64.';
+        return 'Choose a valid seat from 1 to 58.';
     const assignedStudents = await Student_1.Student.find({
         status: 'active',
         registrationStatus: 'approved',

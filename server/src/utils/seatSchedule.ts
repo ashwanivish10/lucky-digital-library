@@ -99,7 +99,7 @@ const getSeatNumber = (seatNumber: string): number | null => {
   const match = seatNumber.match(/\d+/);
   if (!match) return null;
   const value = Number(match[0]);
-  return value >= 1 && value <= 64 ? value : null;
+  return value >= 1 && value <= 58 ? value : null;
 };
 
 export const normalizeSeatNumber = (seatNumber: string): string | null => {
@@ -113,7 +113,7 @@ export const findSeatScheduleConflict = async (
   excludeStudentId?: string
 ): Promise<string | null> => {
   const targetSeat = getSeatNumber(seatNumber);
-  if (!targetSeat) return 'Choose a valid seat from 1 to 64.';
+  if (!targetSeat) return 'Choose a valid seat from 1 to 58.';
 
   const assignedStudents = await Student.find({
     status: 'active',

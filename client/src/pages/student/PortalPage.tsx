@@ -309,7 +309,7 @@ export const PortalPage: React.FC = () => {
           </div>
         )}
 
-        {/* 64-Seat Interactive Floor Plan & Allocated Seat */}
+        {/* 58-Seat Interactive Floor Plan & Allocated Seat */}
         <div className="mb-8">
           <SeatMap highlightSeat={student?.seatNumber} />
         </div>

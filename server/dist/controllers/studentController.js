@@ -145,7 +145,7 @@ const createStudent = async (req, res) => {
     if (data.seatNumber?.trim()) {
         const normalizedSeatNumber = (0, seatSchedule_1.normalizeSeatNumber)(data.seatNumber);
         if (!normalizedSeatNumber) {
-            res.status(400).json({ success: false, message: 'Choose a valid seat from 1 to 64.' });
+            res.status(400).json({ success: false, message: 'Choose a valid seat from 1 to 58.' });
             return;
         }
         const conflict = await (0, seatSchedule_1.findSeatScheduleConflict)(data.seatNumber, {
@@ -215,7 +215,7 @@ const updateStudent = async (req, res) => {
     if (nextSeatNumber.trim()) {
         const normalizedSeatNumber = (0, seatSchedule_1.normalizeSeatNumber)(nextSeatNumber);
         if (!normalizedSeatNumber) {
-            res.status(400).json({ success: false, message: 'Choose a valid seat from 1 to 64.' });
+            res.status(400).json({ success: false, message: 'Choose a valid seat from 1 to 58.' });
             return;
         }
         updates.seatNumber = normalizedSeatNumber;
@@ -318,7 +318,7 @@ const approveRegistration = async (req, res) => {
             }
             const normalizedSeatNumber = (0, seatSchedule_1.normalizeSeatNumber)(seatNumber);
             if (!normalizedSeatNumber) {
-                res.status(400).json({ success: false, message: 'Choose a valid seat from 1 to 64.' });
+                res.status(400).json({ success: false, message: 'Choose a valid seat from 1 to 58.' });
                 return;
             }
             student.seatNumber = normalizedSeatNumber;
@@ -428,7 +428,7 @@ const getSeatMap = async (req, res) => {
         const match = s.seatNumber.match(/\d+/);
         if (match) {
             const num = parseInt(match[0], 10);
-            if (num >= 1 && num <= 64) {
+            if (num >= 1 && num <= 58) {
                 seatOccupancy[num] = {
                     studentCode: req.user?.role === 'admin' ? s.studentCode : undefined,
                     studentName: req.user?.role === 'admin' ? s.name : undefined,
@@ -443,21 +443,23 @@ const getSeatMap = async (req, res) => {
             const match = me.seatNumber.match(/\d+/);
             if (match) {
                 const num = parseInt(match[0], 10);
-                if (num >= 1 && num <= 64) {
+                if (num >= 1 && num <= 58) {
                     mySeatNumber = num;
                 }
             }
         }
     }
     const seats = [];
-    for (let i = 1; i <= 64; i++) {
+    for (let i = 1; i <= 58; i++) {
         const isOccupied = !!seatOccupancy[i];
         const isMySeat = mySeatNumber === i && isOccupied;
-        const side = i <= 31 ? 'left' : 'right';
+        // East Wing: 1–30 (right wall in layout), West Wing: 31–58 (left wall in layout)
+        const side = i <= 30 ? 'right' : 'left';
         seats.push({
             seatNumber: i,
             label: `Seat ${i}`,
             side,
+            wing: i <= 30 ? 'East Wing' : 'West Wing',
             isOccupied,
             isMySeat,
             studentCode: seatOccupancy[i]?.studentCode,
@@ -467,9 +469,11 @@ const getSeatMap = async (req, res) => {
     res.json({
         success: true,
         data: {
-            totalSeats: 64,
-            leftRowSeats: 31,
-            rightRowSeats: 33,
+            totalSeats: 58,
+            eastWingSeats: 30,
+            westWingSeats: 28,
+            leftRowSeats: 28, // West Wing (31–58)
+            rightRowSeats: 30, // East Wing (1–30)
             mySeatNumber,
             seats,
             openingHours: await (0, seatSchedule_1.getOpeningHours)(),

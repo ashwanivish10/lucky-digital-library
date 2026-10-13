@@ -189,7 +189,7 @@ export const HomePage: React.FC = () => {
                 className="text-base sm:text-lg text-white/75 leading-relaxed max-w-2xl font-medium mb-8"
               >
                 {settings?.description ||
-                  'Engineered exclusively for competitive aspirants and serious scholars. 64 dedicated ergonomic cabins, pin-drop silent atmosphere, dual-band optical fiber, and 24×7 round-the-clock access all 7 days in Prayagraj.'}
+                  'Engineered exclusively for competitive aspirants and serious scholars. 58 dedicated ergonomic cabins, pin-drop silent atmosphere, dual-band optical fiber, and 24×7 round-the-clock access all 7 days in Prayagraj.'}
               </motion.p>
 
               {/* Action Buttons */}
@@ -211,7 +211,7 @@ export const HomePage: React.FC = () => {
                   className="btn border border-white/15 bg-white/[0.04] text-white hover:border-[#7ef9ff] hover:bg-[#7ef9ff]/10 px-7 py-4 text-xs uppercase tracking-[0.14em] font-semibold transition-all flex items-center gap-2 rounded-full shadow-[0_10px_24px_rgba(7,14,26,0.2)]"
                 >
                   <Armchair className="w-4 h-4 text-[#7ef9ff]" />
-                  <span>View 64-Desk Layout</span>
+                  <span>View 58-Desk Layout</span>
                 </Link>
               </motion.div>
 
@@ -242,7 +242,7 @@ export const HomePage: React.FC = () => {
           {/* Bottom Prestige Metrics Ribbon */}
           <div className="mt-16 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 text-center md:grid-cols-4 md:divide-x md:divide-white/10 md:divide-y-0">
             <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">64 Desks</div>
+              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">58 Desks</div>
               <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a9d9ff]">
                 Acoustic Cabins
               </p>
@@ -306,7 +306,7 @@ export const HomePage: React.FC = () => {
       <AboutStorySection />
 
       {/* ========================================================= */}
-      {/* 3. INTERACTIVE 64-SEAT SANCTUARY PREVIEW                  */}
+      {/* 3. INTERACTIVE 58-SEAT SANCTUARY PREVIEW                  */}
       {/* ========================================================= */}
       <section className="border-y border-white/10 bg-[#091827] py-20 text-white">
         <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
