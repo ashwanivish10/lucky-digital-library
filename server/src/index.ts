@@ -20,11 +20,32 @@ const app = express();
 
 // Security
 app.use(helmet({ contentSecurityPolicy: false }));
+
+// --- CORS Configuration (supports local dev and Vercel deployments) ---
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://lucky-digital-library.vercel.app',
+  config.clientUrl,
+].filter(Boolean);
+
 app.use(cors({
-  origin: config.clientUrl,
+  origin: (origin, callback) => {
+    // Allow non-browser requests (mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    // Allow configured origins or any Vercel preview domain
+    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
+
+// Preflight handler
+app.options('*', cors());
 
 // Rate limiting
 const authLimiter = rateLimit({
@@ -69,8 +90,12 @@ app.use(errorHandler);
 // Start server
 async function start() {
   await connectDB();
-  app.listen(config.port, () => {
-    console.log(`🚀 Server running at http://localhost:${config.port}`);
+
+  // Listen on 0.0.0.0 and use PORT environment variable (required for Render)
+  const PORT = Number(process.env.PORT) || config.port || 5000;
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📦 Environment: ${config.nodeEnv}`);
 
     // Background Google Reviews sync (runs on startup + every 6 hours)

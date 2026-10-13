@@ -55,11 +55,30 @@ const settings_1 = __importDefault(require("./routes/settings"));
 const app = (0, express_1.default)();
 // Security
 app.use((0, helmet_1.default)({ contentSecurityPolicy: false }));
+// --- CORS Configuration (supports local dev and Vercel deployments) ---
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://lucky-digital-library.vercel.app',
+    config_1.config.clientUrl,
+].filter(Boolean);
 app.use((0, cors_1.default)({
-    origin: config_1.config.clientUrl,
+    origin: (origin, callback) => {
+        // Allow non-browser requests (mobile apps, curl, server-to-server)
+        if (!origin)
+            return callback(null, true);
+        // Allow configured origins or any Vercel preview domain
+        if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+        return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
+// Preflight handler
+app.options('*', (0, cors_1.default)());
 // Rate limiting
 const authLimiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000,
@@ -95,8 +114,10 @@ app.use(errorHandler_1.errorHandler);
 // Start server
 async function start() {
     await (0, database_1.connectDB)();
-    app.listen(config_1.config.port, () => {
-        console.log(`🚀 Server running at http://localhost:${config_1.config.port}`);
+    // Listen on 0.0.0.0 and use PORT environment variable (required for Render)
+    const PORT = Number(process.env.PORT) || config_1.config.port || 5000;
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`🚀 Server running on port ${PORT}`);
         console.log(`📦 Environment: ${config_1.config.nodeEnv}`);
         // Background Google Reviews sync (runs on startup + every 6 hours)
         Promise.resolve().then(() => __importStar(require('./services/googleReviewsSync'))).then(({ syncGoogleReviews }) => {
