@@ -273,14 +273,14 @@ export const AddStudentPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Section 2: Seat & Custom Timing Duration */}
+        {/* Section 2: Shift Timings & Seat Assignment */}
         <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
               <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
                 2
               </span>
-              <span>Seat & Timing Selection</span>
+              <span>Shift Timings & Desk Allocation</span>
             </div>
 
             <button
@@ -293,70 +293,8 @@ export const AddStudentPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Seat input / selected badge */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#294055] mb-1">
-                Seat Number (1–58)
-              </label>
-              <div className="relative">
-                <Armchair className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  min={1}
-                  max={58}
-                  value={seatNumber}
-                  onChange={(e) => setSeatNumber(e.target.value)}
-                  placeholder="e.g. 14"
-                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
-                />
-              </div>
-            </div>
-
-            <div className="sm:col-span-2 flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setShowSeatMap(!showSeatMap)}
-                className={`flex-1 py-2.5 px-3.5 rounded-xl border text-xs font-bold transition-all text-left flex items-center justify-between ${
-                  seatNumber
-                    ? 'border-[#087d99] bg-[#071521] text-[#7ef9ff]'
-                    : 'border-[#dce8f0] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd]'
-                }`}
-              >
-                <div className="flex items-center gap-1.5">
-                  <Armchair size={15} className={seatNumber ? 'text-[#7ef9ff]' : 'text-[#13b8c8]'} />
-                  <span>{seatNumber ? `Assigned Desk: Seat ${seatNumber}` : 'Tap to Pick Seat on Floor Map'}</span>
-                </div>
-                <span className="text-[11px] underline">
-                  {showSeatMap ? 'Close' : 'Choose &rarr;'}
-                </span>
-              </button>
-
-              {seatNumber && (
-                <button
-                  type="button"
-                  onClick={() => setSeatNumber('')}
-                  className="py-2.5 px-3 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 text-xs font-bold transition-colors"
-                >
-                  Clear
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Interactive Floor Map */}
-          {showSeatMap && (
-            <div className="pt-1 animate-fade-in">
-              <SeatSelector
-                selectedSeat={seatNumber}
-                onSelectSeat={(num) => setSeatNumber(num)}
-              />
-            </div>
-          )}
-
           {/* Timing Selection by Self: Time From & Time To (NO PRESETS REQUIRED) */}
-          <div className="border-t border-[#e2edf3] pt-4 space-y-2.5">
+          <div className="space-y-2.5">
             <div className="flex flex-wrap items-center justify-between gap-1.5">
               <label className="text-xs font-bold uppercase tracking-wider text-[#294055]">
                 Custom Shift Timings <span className="text-rose-500">*</span>
@@ -434,11 +372,83 @@ export const AddStudentPage: React.FC = () => {
               <div className="flex items-center justify-between rounded-xl bg-[#e7faff] border border-[#cbe4ed] px-3.5 py-2 text-xs text-[#087d99]">
                 <span className="font-semibold flex items-center gap-1.5">
                   <Clock size={13} className="text-[#13b8c8]" />
-                  Shift: <strong>{calculatedShift}</strong>
+                  Shift Slot: <strong>{calculatedShift}</strong>
                 </span>
                 <span className="font-bold text-[11px] bg-white/80 px-2 py-0.5 rounded-md border border-[#cbe4ed]">
                   {timeFrom} &rarr; {timeTo}
                 </span>
+              </div>
+            )}
+          </div>
+
+          {/* Seat input / selected badge */}
+          <div className="border-t border-[#e2edf3] pt-4 space-y-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#294055] mb-1">
+                  Seat Number (1–58)
+                </label>
+                <div className="relative">
+                  <Armchair className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    min={1}
+                    max={58}
+                    value={seatNumber}
+                    onChange={(e) => setSeatNumber(e.target.value)}
+                    placeholder="e.g. 14"
+                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-2 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowSeatMap(!showSeatMap)}
+                  className={`flex-1 py-2.5 px-3.5 rounded-xl border text-xs font-bold transition-all text-left flex items-center justify-between ${
+                    seatNumber
+                      ? 'border-[#087d99] bg-[#071521] text-[#7ef9ff]'
+                      : 'border-[#dce8f0] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd]'
+                  }`}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <Armchair size={15} className={seatNumber ? 'text-[#7ef9ff]' : 'text-[#13b8c8]'} />
+                    <span>
+                      {seatNumber
+                        ? `Assigned Desk: Seat ${seatNumber}`
+                        : calculatedShift
+                        ? `Pick Seat for ${calculatedShift}`
+                        : 'Tap to Pick Seat on Floor Map'}
+                    </span>
+                  </div>
+                  <span className="text-[11px] underline">
+                    {showSeatMap ? 'Close' : 'Choose &rarr;'}
+                  </span>
+                </button>
+
+                {seatNumber && (
+                  <button
+                    type="button"
+                    onClick={() => setSeatNumber('')}
+                    className="py-2.5 px-3 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 text-xs font-bold transition-colors"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Interactive Floor Map with Live Shift Timing Overlap Filtering */}
+            {showSeatMap && (
+              <div className="pt-1 animate-fade-in">
+                <SeatSelector
+                  selectedSeat={seatNumber}
+                  onSelectSeat={(num) => setSeatNumber(num)}
+                  startTime={timeFrom}
+                  endTime={timeTo}
+                />
               </div>
             )}
           </div>

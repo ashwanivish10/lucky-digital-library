@@ -328,6 +328,8 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                   <SeatSelector
                     selectedSeat={seatNumber}
                     onSelectSeat={(num) => setSeatNumber(num)}
+                    startTime={timeFrom}
+                    endTime={timeTo}
                   />
                 </div>
               )}

@@ -1,24 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import { Armchair, Check, AlertCircle, RefreshCw, Search } from 'lucide-react';
+import { Armchair, Check, AlertCircle, RefreshCw, Search, Sparkles, Clock } from 'lucide-react';
 import { studentsApi } from '../../lib/api';
 
-interface SeatItem {
+function formatTo12Hr(timeStr: string): string {
+  if (!timeStr) return '';
+  const [h, m] = timeStr.split(':').map(Number);
+  if (isNaN(h)) return timeStr;
+  const period = h >= 12 ? 'PM' : 'AM';
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  const padHour = String(hour12).padStart(2, '0');
+  const padMin = String(m || 0).padStart(2, '0');
+  return `${padHour}:${padMin} ${period}`;
+}
+
+export interface BookedShift {
+  studentName?: string;
+  studentCode?: string;
+  shiftTimings?: string;
+  seatStartTime?: string;
+  seatEndTime?: string;
+  isOverlapping?: boolean;
+}
+
+export interface SeatItem {
   seatNumber: number;
   label: string;
   wing: string;
   isOccupied: boolean;
+  isShared?: boolean;
   studentName?: string;
   studentCode?: string;
+  bookedShifts?: BookedShift[];
 }
 
-interface SeatSelectorProps {
+export interface SeatSelectorProps {
   selectedSeat: string;
   onSelectSeat: (seatNum: string) => void;
+  startTime?: string;
+  endTime?: string;
 }
 
 export const SeatSelector: React.FC<SeatSelectorProps> = ({
   selectedSeat,
   onSelectSeat,
+  startTime,
+  endTime,
 }) => {
   const [seats, setSeats] = useState<SeatItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,8 +53,14 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
 
   const fetchSeats = () => {
     setLoading(true);
+    const params: Record<string, string> = {};
+    if (startTime && endTime) {
+      params.startTime = startTime;
+      params.endTime = endTime;
+    }
+
     studentsApi
-      .getSeatMap()
+      .getSeatMap(params)
       .then((res) => {
         if (res.data?.data?.seats) {
           setSeats(res.data.data.seats);
@@ -42,10 +74,11 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
 
   useEffect(() => {
     fetchSeats();
-  }, []);
+  }, [startTime, endTime]);
 
   const totalSeats = seats.length || 58;
   const occupiedCount = seats.filter((s) => s.isOccupied).length;
+  const sharedCount = seats.filter((s) => !s.isOccupied && s.isShared).length;
   const availableCount = totalSeats - occupiedCount;
 
   const eastSeats = seats.filter((s) => s.seatNumber <= 30);
@@ -63,7 +96,8 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
     filteredSeats = filteredSeats.filter(
       (s) =>
         String(s.seatNumber).includes(q) ||
-        s.studentName?.toLowerCase().includes(q)
+        s.studentName?.toLowerCase().includes(q) ||
+        s.bookedShifts?.some((b) => b.studentName?.toLowerCase().includes(q))
     );
   }
 
@@ -84,9 +118,17 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
             <Armchair className="h-4 w-4" />
           </div>
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#0b1d2e] block leading-tight">
-              Floor Seat Map
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#0b1d2e] block leading-tight">
+                Floor Seat Map
+              </span>
+              {startTime && endTime && (
+                <span className="hidden xs:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#e7faff] text-[#087d99] border border-[#cbe4ed]">
+                  <Clock size={10} />
+                  {formatTo12Hr(startTime)} – {formatTo12Hr(endTime)}
+                </span>
+              )}
+            </div>
             <span className="text-[10px] text-[#65788c]">Tap any seat to select</span>
           </div>
           <button
@@ -105,12 +147,28 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             {availableCount} Free
           </span>
+          {sharedCount > 0 && (
+            <span className="flex items-center gap-1 font-semibold text-[#087d99] bg-[#e7faff] border border-[#cbe4ed] px-2.5 py-1 rounded-full">
+              <Sparkles size={11} className="text-[#13b8c8]" />
+              {sharedCount} Shared (Open)
+            </span>
+          )}
           <span className="flex items-center gap-1 font-semibold text-rose-700 bg-rose-50 border border-rose-200/80 px-2.5 py-1 rounded-full">
             <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
-            {occupiedCount} Occupied
+            {occupiedCount} Taken
           </span>
         </div>
       </div>
+
+      {/* Shift Context Indicator for Mobile */}
+      {startTime && endTime && (
+        <div className="xs:hidden flex items-center justify-between px-3 py-1.5 rounded-xl bg-[#f0fbfd] border border-[#cbe4ed] text-[11px] text-[#087d99]">
+          <span className="font-semibold flex items-center gap-1">
+            <Clock size={12} className="text-[#13b8c8]" /> Checking Shift:
+          </span>
+          <span className="font-bold">{formatTo12Hr(startTime)} – {formatTo12Hr(endTime)}</span>
+        </div>
+      )}
 
       {/* Wing Filter Tabs & Quick Search */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
@@ -210,22 +268,27 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
             {filteredSeats.map((seat) => {
               const isSelected = selectedSeat === String(seat.seatNumber);
               const isOccupied = seat.isOccupied;
+              const isShared = !isOccupied && !!seat.isShared;
+
+              const occupantTooltip = isOccupied
+                ? `Seat ${seat.seatNumber} (Taken during this shift by ${seat.studentName || 'Student'})`
+                : isShared
+                ? `Seat ${seat.seatNumber} (Shared Desk - Open for this shift)`
+                : `Seat ${seat.seatNumber} (Completely Vacant)`;
 
               return (
                 <button
                   key={seat.seatNumber}
                   type="button"
                   onClick={() => handleSeatClick(seat)}
-                  title={
-                    isOccupied
-                      ? `Seat ${seat.seatNumber} (Occupied by ${seat.studentName || 'Student'})`
-                      : `Seat ${seat.seatNumber} (Available)`
-                  }
+                  title={occupantTooltip}
                   className={`relative flex flex-col items-center justify-center rounded-xl border py-2 px-1 text-xs font-bold transition-all min-h-[46px] select-none active:scale-95 ${
                     isSelected
                       ? 'border-[#087d99] bg-[#071521] text-[#7ef9ff] shadow-md ring-2 ring-[#7ef9ff]/50 scale-[1.03] z-10'
                       : isOccupied
                       ? 'border-rose-200 bg-rose-50/80 text-rose-800 hover:bg-rose-100 hover:border-rose-300'
+                      : isShared
+                      ? 'border-[#76d6e6] bg-[#f0fbfd] text-[#087d99] hover:border-[#13b8c8] hover:bg-[#e4f8fc]'
                       : 'border-[#dce8f0] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd]'
                   }`}
                 >
@@ -241,10 +304,12 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
                         ? 'text-[#a0cadb] font-semibold'
                         : isOccupied
                         ? 'text-rose-600 font-semibold'
+                        : isShared
+                        ? 'text-[#087d99] font-bold'
                         : 'text-emerald-600 font-medium'
                     }`}
                   >
-                    {isOccupied ? 'Taken' : 'Open'}
+                    {isOccupied ? 'Taken' : isShared ? 'Shared' : 'Open'}
                   </span>
                 </button>
               );
@@ -253,22 +318,59 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
         )}
       </div>
 
-      {/* Selected seat occupant warning if occupied */}
+      {/* Selected seat occupant feedback & warning */}
       {selectedSeat && (
         (() => {
           const matched = seats.find((s) => String(s.seatNumber) === selectedSeat);
-          if (matched?.isOccupied) {
+          if (!matched) return null;
+
+          if (matched.isOccupied) {
+            const conflictShift = matched.bookedShifts?.find((b) => b.isOverlapping)?.shiftTimings;
             return (
-              <div className="flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-3.5 py-2 text-xs text-amber-900 animate-fade-in">
-                <AlertCircle size={15} className="shrink-0 text-amber-600" />
-                <span>
-                  <strong>Occupied Desk:</strong> Seat {selectedSeat} is currently assigned to{' '}
-                  <span className="font-bold">{matched.studentName || 'another student'}</span>. Selecting will update desk assignment.
-                </span>
+              <div className="flex items-start gap-2.5 rounded-xl border border-rose-300 bg-rose-50/90 px-3.5 py-2.5 text-xs text-rose-900 animate-fade-in">
+                <AlertCircle size={15} className="shrink-0 text-rose-600 mt-0.5" />
+                <div>
+                  <div className="font-bold">
+                    Shift Conflict: Seat {selectedSeat} is already booked!
+                  </div>
+                  <div className="text-[11px] text-rose-700 mt-0.5">
+                    Currently assigned to <span className="font-bold">{matched.studentName || 'another student'}</span>
+                    {conflictShift ? ` during ${conflictShift}` : ''}.
+                    Please choose another seat or non-overlapping hours.
+                  </div>
+                </div>
               </div>
             );
           }
-          return null;
+
+          if (matched.isShared) {
+            const otherOccupants = matched.bookedShifts?.map((b) => `${b.studentName || 'Student'} (${b.shiftTimings || 'Other Shift'})`).join(', ');
+            return (
+              <div className="flex items-start gap-2.5 rounded-xl border border-[#9ae6f0] bg-[#f0fbfd] px-3.5 py-2.5 text-xs text-[#065b70] animate-fade-in">
+                <Sparkles size={15} className="shrink-0 text-[#13b8c8] mt-0.5" />
+                <div>
+                  <div className="font-bold flex items-center gap-1.5">
+                    Time-Shared Desk Available!
+                    <span className="text-[10px] bg-[#e7faff] text-[#087d99] px-1.5 py-0.5 rounded font-semibold border border-[#cbe4ed]">
+                      No Conflict
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-[#087d99] mt-0.5">
+                    Seat {selectedSeat} is open for your chosen shift. Other shift(s) on this desk: <span className="font-semibold">{otherOccupants || 'Active in another shift'}</span>.
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2 text-xs text-emerald-900 animate-fade-in">
+              <Check size={14} className="shrink-0 text-emerald-600" />
+              <span>
+                <strong>Vacant Desk:</strong> Seat {selectedSeat} is completely free with no other occupants.
+              </span>
+            </div>
+          );
         })()
       )}
     </div>

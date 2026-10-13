@@ -357,49 +357,22 @@ const getSeatMap = async (req, res) => {
         status: 'active',
         registrationStatus: 'approved',
         seatNumber: { $exists: true, $ne: '' },
-    }).select('name studentCode seatNumber seatDays seatStartTime seatEndTime');
+    }).select('name studentCode seatNumber seatDays seatStartTime seatEndTime shiftTimings').lean();
     const queryDays = typeof req.query.days === 'string' ? req.query.days.split(',').filter(Boolean) : [];
-    const queryStart = typeof req.query.startTime === 'string' ? req.query.startTime : '';
-    const queryEnd = typeof req.query.endTime === 'string' ? req.query.endTime : '';
-    const hasScheduleFilter = queryDays.length > 0 || queryStart || queryEnd;
+    const queryStart = typeof req.query.startTime === 'string' ? req.query.startTime.trim() : '';
+    const queryEnd = typeof req.query.endTime === 'string' ? req.query.endTime.trim() : '';
+    const hasTimeFilter = Boolean(queryStart && queryEnd);
     let requestedSchedule = null;
-    if (hasScheduleFilter) {
+    if (hasTimeFilter || queryDays.length > 0) {
         requestedSchedule = {
-            seatDays: queryDays,
+            seatDays: queryDays.length > 0 ? queryDays : [...seatSchedule_1.WEEK_DAYS],
             seatStartTime: queryStart,
             seatEndTime: queryEnd,
         };
-        const scheduleError = await (0, seatSchedule_1.validateSeatSchedule)(requestedSchedule);
-        if (scheduleError) {
-            res.status(400).json({ success: false, message: scheduleError });
-            return;
-        }
-    }
-    const students = requestedSchedule
-        ? allStudents.filter((student) => (0, seatSchedule_1.seatSchedulesOverlap)(requestedSchedule, {
-            seatDays: student.seatDays || [],
-            seatStartTime: student.seatStartTime || '',
-            seatEndTime: student.seatEndTime || '',
-        }))
-        : allStudents;
-    const seatOccupancy = {};
-    for (const s of students) {
-        if (!s.seatNumber)
-            continue;
-        const match = s.seatNumber.match(/\d+/);
-        if (match) {
-            const num = parseInt(match[0], 10);
-            if (num >= 1 && num <= 58) {
-                seatOccupancy[num] = {
-                    studentCode: req.user?.role === 'admin' ? s.studentCode : undefined,
-                    studentName: req.user?.role === 'admin' ? s.name : undefined,
-                };
-            }
-        }
     }
     let mySeatNumber = null;
     if (req.user?.role === 'student' && req.user?.studentId) {
-        const me = await Student_1.Student.findById(req.user.studentId).select('seatNumber');
+        const me = await Student_1.Student.findById(req.user.studentId).select('seatNumber').lean();
         if (me?.seatNumber) {
             const match = me.seatNumber.match(/\d+/);
             if (match) {
@@ -410,21 +383,78 @@ const getSeatMap = async (req, res) => {
             }
         }
     }
+    // Index active students by seat number
+    const studentsBySeat = {};
+    for (const s of allStudents) {
+        if (!s.seatNumber)
+            continue;
+        const match = s.seatNumber.match(/\d+/);
+        if (match) {
+            const num = parseInt(match[0], 10);
+            if (num >= 1 && num <= 58) {
+                if (!studentsBySeat[num])
+                    studentsBySeat[num] = [];
+                studentsBySeat[num].push(s);
+            }
+        }
+    }
     const seats = [];
     for (let i = 1; i <= 58; i++) {
-        const isOccupied = !!seatOccupancy[i];
-        const isMySeat = mySeatNumber === i && isOccupied;
-        // East Wing: 1–30 (right wall in layout), West Wing: 31–58 (left wall in layout)
+        const seatStudents = studentsBySeat[i] || [];
+        let isOccupied = false;
+        let isShared = false;
+        let conflictingStudent = undefined;
+        if (requestedSchedule && (requestedSchedule.seatStartTime || requestedSchedule.seatEndTime)) {
+            // Check temporal overlap for the requested shift slot
+            const overlapping = seatStudents.filter((s) => (0, seatSchedule_1.seatSchedulesOverlap)(requestedSchedule, {
+                seatDays: s.seatDays || [],
+                seatStartTime: s.seatStartTime || '',
+                seatEndTime: s.seatEndTime || '',
+            }));
+            if (overlapping.length > 0) {
+                isOccupied = true;
+                conflictingStudent = overlapping[0];
+            }
+            else if (seatStudents.length > 0) {
+                // Desk is assigned to another student, but for a DIFFERENT non-overlapping shift!
+                isOccupied = false;
+                isShared = true;
+            }
+        }
+        else {
+            // Default overview: marked occupied if any active student is assigned
+            if (seatStudents.length > 0) {
+                isOccupied = true;
+                conflictingStudent = seatStudents[0];
+            }
+        }
+        const isMySeat = mySeatNumber === i && (isOccupied || seatStudents.some(s => s._id.toString() === req.user?.studentId?.toString()));
         const side = i <= 30 ? 'right' : 'left';
+        const bookedShifts = seatStudents.map((s) => ({
+            studentName: req.user?.role === 'admin' ? s.name : 'Occupied',
+            studentCode: req.user?.role === 'admin' ? s.studentCode : undefined,
+            shiftTimings: s.shiftTimings || (s.seatStartTime && s.seatEndTime ? `${s.seatStartTime} - ${s.seatEndTime}` : 'Full Day'),
+            seatStartTime: s.seatStartTime,
+            seatEndTime: s.seatEndTime,
+            isOverlapping: requestedSchedule && (requestedSchedule.seatStartTime || requestedSchedule.seatEndTime)
+                ? (0, seatSchedule_1.seatSchedulesOverlap)(requestedSchedule, {
+                    seatDays: s.seatDays || [],
+                    seatStartTime: s.seatStartTime || '',
+                    seatEndTime: s.seatEndTime || '',
+                })
+                : true,
+        }));
         seats.push({
             seatNumber: i,
             label: `Seat ${i}`,
             side,
             wing: i <= 30 ? 'East Wing' : 'West Wing',
             isOccupied,
+            isShared,
             isMySeat,
-            studentCode: seatOccupancy[i]?.studentCode,
-            studentName: seatOccupancy[i]?.studentName,
+            studentCode: req.user?.role === 'admin' && conflictingStudent ? conflictingStudent.studentCode : undefined,
+            studentName: req.user?.role === 'admin' && conflictingStudent ? conflictingStudent.name : undefined,
+            bookedShifts,
         });
     }
     res.json({
@@ -488,8 +518,29 @@ const customEnroll = async (req, res) => {
         }
         normalizedSeat = norm;
     }
-    // 1. Find or create Student
+    // 1. Find existing student if any
     let student = await Student_1.Student.findOne({ phone: cleanPhone });
+    // 1b. Check seat temporal conflict if seat is specified
+    if (normalizedSeat) {
+        const candidateSchedule = {
+            seatDays: [...seatSchedule_1.WEEK_DAYS],
+            seatStartTime: data.seatStartTime?.trim() || '',
+            seatEndTime: data.seatEndTime?.trim() || '',
+        };
+        if (candidateSchedule.seatStartTime && candidateSchedule.seatEndTime) {
+            const scheduleError = await (0, seatSchedule_1.validateSeatSchedule)(candidateSchedule);
+            if (scheduleError) {
+                res.status(400).json({ success: false, message: scheduleError });
+                return;
+            }
+        }
+        const conflict = await (0, seatSchedule_1.findSeatScheduleConflict)(normalizedSeat, candidateSchedule, student?._id?.toString());
+        if (conflict) {
+            res.status(409).json({ success: false, message: conflict });
+            return;
+        }
+    }
+    // 1c. Create or update Student record
     if (!student) {
         const studentCode = await (0, codeGenerator_1.generateStudentCode)();
         student = await Student_1.Student.create({
@@ -517,6 +568,7 @@ const customEnroll = async (req, res) => {
             student.seatEndTime = data.seatEndTime.trim();
         if (data.shiftTimings)
             student.shiftTimings = data.shiftTimings.trim();
+        student.seatDays = [...seatSchedule_1.WEEK_DAYS];
         student.registrationStatus = 'approved';
         student.status = 'active';
         if (data.notes) {
