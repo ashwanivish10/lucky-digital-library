@@ -99,21 +99,21 @@ export const AdminLayout: React.FC = () => {
 
   return (
     <div className="admin-layout relative flex min-h-screen bg-[#f4f9fc] font-sans">
-      {/* Mobile Backdrop */}
+      {/* Mobile Backdrop (Clean dim without blur) */}
       {mobileSidebarOpen && (
         <div
-          className="fixed inset-0 bg-[#060A14]/70 backdrop-blur-sm z-40 md:hidden transition-opacity"
+          className="fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity"
           onClick={() => setMobileSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`admin-sidebar sticky top-0 z-50 flex h-screen flex-col border-r border-white/10 bg-[#071521] text-white transition-all duration-300 ${
+        className={`admin-sidebar z-50 flex h-screen flex-col border-r border-white/10 bg-[#071521] text-white transition-all duration-300 ${
           sidebarCollapsed ? 'w-[72px] min-w-[72px]' : 'w-[260px] min-w-[260px]'
-        } ${
+        } md:sticky md:top-0 ${
           mobileSidebarOpen
-            ? 'fixed left-0 top-0 bottom-0 shadow-2xl translate-x-0 w-[260px] min-w-[260px]'
+            ? 'fixed left-0 top-0 bottom-0 shadow-2xl translate-x-0 w-[270px] min-w-[270px]'
             : 'max-md:-translate-x-full max-md:fixed max-md:left-0'
         }`}
       >
@@ -203,7 +203,7 @@ export const AdminLayout: React.FC = () => {
       {/* Main Content Area */}
       <div className="admin-main flex h-screen min-w-0 flex-1 flex-col overflow-hidden bg-[#f4f9fc]">
         {/* TopBar */}
-        <header className="admin-topbar sticky top-0 z-30 flex h-16 flex-shrink-0 items-center justify-between border-b border-[#dce8f0] bg-white/95 px-4 shadow-[0_4px_16px_rgba(7,21,33,0.04)] backdrop-blur-xl md:px-8">
+        <header className="admin-topbar sticky top-0 z-30 flex h-16 flex-shrink-0 items-center justify-between border-b border-[#dce8f0] bg-white px-4 shadow-[0_2px_8px_rgba(7,21,33,0.04)] md:px-8">
           <div className="flex items-center gap-3">
             {/* Hamburger on Mobile */}
             <button
