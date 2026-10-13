@@ -33,6 +33,11 @@ export const AdminLayout: React.FC = () => {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
+  // Automatically close mobile sidebar when route changes
+  useEffect(() => {
+    setMobileSidebarOpen(false);
+  }, [location.pathname]);
+
   // Poll/fetch unread messages count
   useEffect(() => {
     let isMounted = true;
@@ -135,52 +140,51 @@ export const AdminLayout: React.FC = () => {
   ];
 
   return (
-    <div className="admin-layout relative flex min-h-screen bg-[#f4f9fc] font-sans">
-      {/* Mobile Backdrop (Clean dim without blur) */}
+    <div className="relative flex min-h-screen bg-[#f4f9fc] font-sans">
+      {/* Mobile Backdrop */}
       {mobileSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity"
+          className="fixed inset-0 z-40 bg-black/60 transition-opacity md:hidden"
           onClick={() => setMobileSidebarOpen(false)}
+          aria-hidden="true"
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`admin-sidebar z-50 flex h-screen flex-col border-r border-white/10 bg-[#071521] text-white transition-all duration-300 ${
-          sidebarCollapsed ? 'w-[72px] min-w-[72px]' : 'w-[260px] min-w-[260px]'
-        } md:sticky md:top-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex h-full max-h-screen flex-col border-r border-white/10 bg-[#071521] text-white transition-transform duration-300 ease-in-out md:static md:h-screen md:sticky md:top-0 md:translate-x-0 ${
+          sidebarCollapsed ? 'md:w-[72px] md:min-w-[72px]' : 'md:w-[260px] md:min-w-[260px]'
+        } w-[280px] min-w-[280px] ${
           mobileSidebarOpen
-            ? 'fixed left-0 top-0 bottom-0 shadow-2xl translate-x-0 w-[270px] min-w-[270px]'
-            : 'max-md:-translate-x-full max-md:fixed max-md:left-0'
+            ? 'translate-x-0 shadow-2xl pointer-events-auto visible'
+            : '-translate-x-full pointer-events-none md:pointer-events-auto max-md:invisible'
         }`}
       >
         <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#7ef9ff] to-transparent" />
 
         {/* Logo Section */}
-        <div className="sidebar-logo flex items-center justify-between border-b border-white/10 px-4 py-4">
+        <div className="flex items-center justify-between border-b border-white/10 px-4 py-4">
           <div className="flex items-center gap-3 overflow-hidden">
             <div className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-xl border border-[#7ef9ff]/25 bg-gradient-to-br from-[#dff9ff] via-[#7ef9ff] to-[#5dc4ff] text-lg font-black text-[#071521] shadow-[0_8px_22px_rgba(93,196,255,0.2)]">
               L
             </div>
-            {!sidebarCollapsed && (
-              <div className="truncate">
-                <span className="block font-[family-name:var(--font-ui)] text-sm font-black leading-tight tracking-[-0.04em] text-white">
-                  Lucky Digital Library
-                </span>
-                <span className="mt-0.5 block font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase tracking-[0.18em] text-[#7ef9ff]">
-                  Admin Portal
-                </span>
-              </div>
-            )}
+            <div className={`truncate ${sidebarCollapsed ? 'md:hidden' : 'block'}`}>
+              <span className="block font-[family-name:var(--font-ui)] text-sm font-black leading-tight tracking-[-0.04em] text-white">
+                Lucky Digital Library
+              </span>
+              <span className="mt-0.5 block font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase tracking-[0.18em] text-[#7ef9ff]">
+                Admin Portal
+              </span>
+            </div>
           </div>
           {/* Close button for mobile */}
           <button
             type="button"
-            className="rounded p-1.5 text-white/60 transition-colors hover:text-[#7ef9ff] md:hidden"
+            className="rounded-lg p-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white md:hidden"
             onClick={() => setMobileSidebarOpen(false)}
             aria-label="Close menu"
           >
-            <X size={18} />
+            <X size={20} />
           </button>
         </div>
 
@@ -188,11 +192,13 @@ export const AdminLayout: React.FC = () => {
         <div className="flex-1 overflow-y-auto py-3 space-y-4">
           {navSections.map((section, idx) => (
             <div key={idx} className="px-2">
-              {!sidebarCollapsed && (
-                <div className="sidebar-section-label px-3 py-1.5 font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase tracking-[0.2em] text-[#7ef9ff]/50">
-                  {section.title}
-                </div>
-              )}
+              <div
+                className={`px-3 py-1.5 font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase tracking-[0.2em] text-[#7ef9ff]/50 ${
+                  sidebarCollapsed ? 'md:hidden' : 'block'
+                }`}
+              >
+                {section.title}
+              </div>
               <div className="space-y-1">
                 {section.items.map((item) => {
                   const Icon = item.icon;
@@ -203,30 +209,32 @@ export const AdminLayout: React.FC = () => {
                       end={item.end}
                       onClick={() => setMobileSidebarOpen(false)}
                       className={({ isActive }) =>
-                        `sidebar-link relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
+                        `relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
                           isActive
                             ? 'bg-[#7ef9ff]/10 text-[#7ef9ff] ring-1 ring-inset ring-[#7ef9ff]/15 font-semibold'
                             : 'text-white/65 hover:bg-white/5 hover:text-white'
-                        } ${sidebarCollapsed ? 'justify-center px-0' : ''}`
+                        } ${sidebarCollapsed ? 'md:justify-center md:px-0' : ''}`
                       }
                       title={sidebarCollapsed ? item.label : undefined}
                     >
                       <div className="relative flex items-center justify-center">
                         <Icon size={18} className="flex-shrink-0" />
                         {sidebarCollapsed && item.badge && item.badge > 0 ? (
-                          <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#13b8c8] ring-2 ring-[#071521]" />
+                          <span className="hidden md:block absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#13b8c8] ring-2 ring-[#071521]" />
                         ) : null}
                       </div>
-                      {!sidebarCollapsed && (
-                        <>
-                          <span className="truncate flex-1">{item.label}</span>
-                          {item.badge && item.badge > 0 ? (
-                            <span className="ml-auto inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#13b8c8] text-[#071521]">
-                              {item.badge}
-                            </span>
-                          ) : null}
-                        </>
-                      )}
+                      <span className={`truncate flex-1 ${sidebarCollapsed ? 'md:hidden' : 'block'}`}>
+                        {item.label}
+                      </span>
+                      {item.badge && item.badge > 0 ? (
+                        <span
+                          className={`ml-auto inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#13b8c8] text-[#071521] ${
+                            sidebarCollapsed ? 'md:hidden' : 'inline-flex'
+                          }`}
+                        >
+                          {item.badge}
+                        </span>
+                      ) : null}
                     </NavLink>
                   );
                 })}
@@ -241,20 +249,22 @@ export const AdminLayout: React.FC = () => {
             to="/"
             target="_blank"
             className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs text-[#7ef9ff] transition-all hover:bg-white/5 hover:text-white ${
-              sidebarCollapsed ? 'justify-center px-0' : ''
+              sidebarCollapsed ? 'md:justify-center md:px-0' : ''
             }`}
             title="View Public Site"
           >
             <ExternalLink size={16} className="flex-shrink-0" />
-            {!sidebarCollapsed && <span className="font-medium tracking-wide">View Public Site</span>}
+            <span className={`font-medium tracking-wide ${sidebarCollapsed ? 'md:hidden' : 'inline'}`}>
+              View Public Site
+            </span>
           </NavLink>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <div className="admin-main flex h-screen min-w-0 flex-1 flex-col overflow-hidden bg-[#f4f9fc]">
+      <div className="flex h-screen min-w-0 flex-1 flex-col overflow-hidden bg-[#f4f9fc]">
         {/* TopBar */}
-        <header className="admin-topbar sticky top-0 z-30 flex h-16 flex-shrink-0 items-center justify-between border-b border-[#dce8f0] bg-white px-4 shadow-[0_2px_8px_rgba(7,21,33,0.04)] md:px-8">
+        <header className="sticky top-0 z-30 flex h-16 flex-shrink-0 items-center justify-between border-b border-[#dce8f0] bg-white px-4 shadow-[0_2px_8px_rgba(7,21,33,0.04)] md:px-8">
           <div className="flex items-center gap-3">
             {/* Hamburger on Mobile */}
             <button
@@ -367,7 +377,7 @@ export const AdminLayout: React.FC = () => {
         </header>
 
         {/* Content Outlet */}
-        <main className="admin-content flex-1 overflow-y-auto bg-[#f4f9fc] p-4 md:p-8">
+        <main className="flex-1 overflow-y-auto bg-[#f4f9fc] p-4 md:p-8">
           <Outlet />
         </main>
       </div>
