@@ -101,7 +101,7 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
         className="pointer-events-none absolute -bottom-24 right-1/4 h-96 w-96 rounded-full bg-[#087d99]/10 blur-[120px]"
       />
 
-      <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
+      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* ========================================================= */}
           {/* LEFT COLUMN: HINDI NARRATIVE CONTENT ONLY (7 Cols)         */}

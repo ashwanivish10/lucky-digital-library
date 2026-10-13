@@ -18,6 +18,7 @@ import { useAuth } from '../../context/AuthContext';
 import { studentsApi, paymentsApi } from '../../lib/api';
 import { formatINR, formatDate, getStatusBadgeClass, getStatusLabel, getPaymentMethodLabel, downloadBlob } from '../../lib/utils';
 import { SeatMap } from '../../components/common/SeatMap';
+import MobileBottomNav from '../../components/public/MobileBottomNav';
 import toast from 'react-hot-toast';
 
 export const PortalPage: React.FC = () => {
@@ -132,8 +133,8 @@ export const PortalPage: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Content Container */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      {/* Main Content Container with Desktop Centering & Mobile Bottom Clearance */}
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-24 sm:pb-8 w-full">
         {/* Welcome Header */}
         <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 card border-[#dce8f0] p-6 sm:p-8">
           <div>
@@ -425,6 +426,7 @@ export const PortalPage: React.FC = () => {
           </div>
         )}
       </main>
+      <MobileBottomNav />
     </div>
   );
 };

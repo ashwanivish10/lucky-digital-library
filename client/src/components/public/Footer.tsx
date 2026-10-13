@@ -17,7 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
         style={{ background: 'radial-gradient(circle, rgba(126,249,255,0.75) 0%, transparent 70%)' }}
       />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16 flex-col items-center gap-4">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 flex-col items-center gap-4">
         <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 font-[family-name:var(--font-ui)] text-2xl font-black leading-tight tracking-[-0.05em] sm:text-3xl md:text-5xl">
           <span>Made with</span>
           <Heart className="h-6 w-6 shrink-0 fill-[#fb7185] text-[#fb7185] sm:h-8 sm:w-8 md:h-10 md:w-10" aria-label="love" />

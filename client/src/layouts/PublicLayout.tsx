@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/public/Navbar';
 import Footer from '../components/public/Footer';
+import MobileBottomNav from '../components/public/MobileBottomNav';
 import { settingsApi } from '../lib/api';
 import { ISiteSettings } from '../types/public';
 
@@ -27,12 +28,13 @@ export const PublicLayout: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f4f9fc] text-[#0b1d2e] selection:bg-[#13b8c8] selection:text-[#0b1d2e] relative overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[#f4f9fc] text-[#0b1d2e] selection:bg-[#13b8c8] selection:text-[#0b1d2e] relative overflow-x-hidden w-full max-w-full">
       <Navbar settings={settings} />
-      <main className="flex-1 w-full relative z-10">
+      <main className="flex-1 w-full relative z-10 has-mobile-bottom-nav pb-16 md:pb-0">
         <Outlet context={{ settings }} />
       </main>
       <Footer settings={settings} />
+      <MobileBottomNav />
     </div>
   );
 };

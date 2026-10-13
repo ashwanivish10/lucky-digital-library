@@ -45,7 +45,7 @@ export const HowToJoinSection: React.FC = () => {
         className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#13b8c8]/10 blur-[140px]"
       />
 
-      <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
+      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header: ONLY heading as requested */}
         <div className="text-center max-w-xl mx-auto mb-14 sm:mb-16">
           <motion.h2

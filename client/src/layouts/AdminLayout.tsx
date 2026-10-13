@@ -270,11 +270,11 @@ export const AdminLayout: React.FC = () => {
             {/* Hamburger on Mobile */}
             <button
               type="button"
-              className="rounded-lg p-2 text-[#294055] transition-colors hover:bg-[#f1f7fa] md:hidden"
+              className="inline-flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl p-2 text-[#294055] transition-colors hover:bg-[#f1f7fa] md:hidden"
               onClick={() => setMobileSidebarOpen(true)}
               aria-label="Open mobile menu"
             >
-              <Menu size={20} />
+              <Menu size={22} />
             </button>
 
             {/* Collapse toggle on Desktop */}
@@ -287,16 +287,16 @@ export const AdminLayout: React.FC = () => {
               <Menu size={18} />
             </button>
 
-            <h1 className="font-[family-name:var(--font-ui)] text-lg font-black tracking-[-0.04em] text-[#0b1d2e] md:text-xl">
+            <h1 className="font-[family-name:var(--font-ui)] text-base font-black tracking-[-0.04em] text-[#0b1d2e] sm:text-lg md:text-xl truncate max-w-[160px] xs:max-w-none">
               {getPageTitle()}
             </h1>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             {/* Add Student Link Button */}
             <Link
               to="/admin/students/add"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#7ef9ff]/30 bg-gradient-to-r from-[#071521] via-[#0d2235] to-[#14324c] px-3 py-1.5 text-xs font-bold text-[#7ef9ff] shadow-sm hover:border-[#7ef9ff]/60 hover:text-white transition-all"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-[#7ef9ff]/30 bg-gradient-to-r from-[#071521] via-[#0d2235] to-[#14324c] px-3.5 py-2 text-xs font-bold text-[#7ef9ff] shadow-sm hover:border-[#7ef9ff]/60 hover:text-white transition-all"
               title="Enroll student with seat selection, custom timing, fee & receipt"
             >
               <Sparkles size={14} className="text-[#7ef9ff]" />
@@ -308,12 +308,13 @@ export const AdminLayout: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/admin/messages')}
-              className="relative rounded-full p-2 text-[#65788c] transition-colors hover:bg-[#f1f7fa] hover:text-[#087d99]"
+              className="relative inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl text-[#65788c] transition-colors hover:bg-[#f1f7fa] hover:text-[#087d99]"
               title="Messages & Inquiries"
+              aria-label="Messages"
             >
               <MessageSquare size={19} />
               {unreadCount > 0 && (
-                <span className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#13b8c8] px-1 text-[9px] font-bold text-[#071521]">
+                <span className="absolute top-1.5 right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#13b8c8] px-1 text-[9px] font-bold text-[#071521]">
                   {unreadCount}
                 </span>
               )}
@@ -323,8 +324,9 @@ export const AdminLayout: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/admin/approvals')}
-              className="relative rounded-full p-2 text-[#65788c] transition-colors hover:bg-[#f1f7fa] hover:text-[#087d99]"
+              className="relative inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl text-[#65788c] transition-colors hover:bg-[#f1f7fa] hover:text-[#087d99]"
               title="Pending Approvals"
+              aria-label="Approvals"
             >
               <Bell size={19} />
             </button>
@@ -333,8 +335,9 @@ export const AdminLayout: React.FC = () => {
             <div className="relative">
               <button
                 type="button"
-                className="flex items-center gap-2.5 rounded-xl border border-transparent p-1.5 transition-colors hover:border-[#dce8f0] hover:bg-[#f8fbfd]"
+                className="flex min-h-[44px] items-center gap-2 rounded-xl border border-transparent p-1 transition-colors hover:border-[#dce8f0] hover:bg-[#f8fbfd]"
                 onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                aria-label="User profile menu"
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#7ef9ff]/30 bg-[#0b2032] text-xs font-bold text-[#7ef9ff] shadow-sm">
                   {user?.name ? getInitials(user.name) : <UserIcon size={15} />}
@@ -388,10 +391,108 @@ export const AdminLayout: React.FC = () => {
           </div>
         </header>
 
-        {/* Content Outlet */}
-        <main className="flex-1 overflow-y-auto bg-[#f4f9fc] p-4 md:p-8">
-          <Outlet />
+        {/* Content Outlet with 1200px Centered Desktop Constraint */}
+        <main className="flex-1 overflow-y-auto bg-[#f4f9fc] p-3 sm:p-4 md:p-8 pb-20 md:pb-8 w-full max-w-full">
+          <div className="mx-auto w-full max-w-[1200px]">
+            <Outlet />
+          </div>
         </main>
+
+        {/* Admin Mobile Bottom Navigation Bar (md:hidden) */}
+        <nav
+          className="mobile-bottom-nav md:hidden"
+          aria-label="Admin Bottom Navigation"
+        >
+          <NavLink
+            to="/admin"
+            end
+            className={({ isActive }) =>
+              `mobile-bottom-nav-item flex-1 ${isActive ? 'active' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <LayoutDashboard
+                  size={20}
+                  className={isActive ? 'text-[#087d99] stroke-[2.4]' : 'text-[#65788c] stroke-[1.8]'}
+                />
+                <span className={`text-[10px] mt-0.5 ${isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'}`}>
+                  Dashboard
+                </span>
+              </>
+            )}
+          </NavLink>
+
+          <NavLink
+            to="/admin/students"
+            end
+            className={({ isActive }) =>
+              `mobile-bottom-nav-item flex-1 ${isActive ? 'active' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <Users
+                  size={20}
+                  className={isActive ? 'text-[#087d99] stroke-[2.4]' : 'text-[#65788c] stroke-[1.8]'}
+                />
+                <span className={`text-[10px] mt-0.5 ${isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'}`}>
+                  Students
+                </span>
+              </>
+            )}
+          </NavLink>
+
+          <NavLink
+            to="/admin/students/add"
+            className={({ isActive }) =>
+              `mobile-bottom-nav-item flex-1 ${isActive ? 'active' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-r from-[#087d99] to-[#13b8c8] text-white shadow-sm -mt-1">
+                  <UserPlus size={15} />
+                </div>
+                <span className={`text-[10px] mt-0.5 ${isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'}`}>
+                  Add New
+                </span>
+              </>
+            )}
+          </NavLink>
+
+          <NavLink
+            to="/admin/payments"
+            end
+            className={({ isActive }) =>
+              `mobile-bottom-nav-item flex-1 ${isActive ? 'active' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <CreditCard
+                  size={20}
+                  className={isActive ? 'text-[#087d99] stroke-[2.4]' : 'text-[#65788c] stroke-[1.8]'}
+                />
+                <span className={`text-[10px] mt-0.5 ${isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'}`}>
+                  Payments
+                </span>
+              </>
+            )}
+          </NavLink>
+
+          <button
+            type="button"
+            onClick={() => setMobileSidebarOpen(true)}
+            className="mobile-bottom-nav-item flex-1"
+            aria-label="Open More Admin Options"
+          >
+            <Menu size={20} className="text-[#65788c] stroke-[1.8]" />
+            <span className="text-[10px] mt-0.5 font-medium text-[#65788c]">
+              Menu
+            </span>
+          </button>
+        </nav>
       </div>
     </div>
   );
