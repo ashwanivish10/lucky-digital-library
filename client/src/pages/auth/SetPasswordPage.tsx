@@ -48,7 +48,7 @@ export const SetPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top_right,rgba(93,196,255,0.12),transparent_40%),#f4f9fc] px-4 py-12">
+    <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top_right,rgba(93,196,255,0.12),transparent_40%),#f4f9fc] px-4 pt-8 pb-24 sm:py-12">
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 15 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -84,12 +84,12 @@ export const SetPasswordPage: React.FC = () => {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="At least 6 characters"
-                className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-11 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10"
+                className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-11 text-base sm:text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10 min-h-[48px] sm:min-h-0"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center p-1 text-[#7b90a3] hover:text-[#087d99]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center p-2 min-w-[44px] min-h-[44px] text-[#7b90a3] hover:text-[#087d99]"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -109,12 +109,12 @@ export const SetPasswordPage: React.FC = () => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Re-enter your new password"
-                className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-11 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10"
+                className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-11 text-base sm:text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10 min-h-[48px] sm:min-h-0"
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center p-1 text-[#7b90a3] hover:text-[#087d99]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center p-2 min-w-[44px] min-h-[44px] text-[#7b90a3] hover:text-[#087d99]"
                 aria-label={showConfirmPassword ? "Hide password" : "Show password"}
               >
                 {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -136,7 +136,7 @@ export const SetPasswordPage: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="btn btn-primary mt-2 w-full justify-center rounded-xl py-3.5 text-sm shadow-[0_12px_28px_rgba(93,196,255,0.24)]"
+            className="btn btn-primary mt-2 w-full justify-center rounded-xl py-3.5 min-h-[48px] text-sm shadow-[0_12px_28px_rgba(93,196,255,0.24)]"
           >
             {isSubmitting ? (
               <span>Saving Password...</span>

@@ -163,8 +163,79 @@ export const ApprovalsPage: React.FC = () => {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+          <>
+            {/* Mobile Cards (md:hidden) */}
+            <div className="md:hidden p-3 space-y-3">
+              {students.map((student) => (
+                <div
+                  key={student._id}
+                  className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd]/60 p-4 shadow-xs space-y-3"
+                >
+                  {/* Top row: Applicant Name + Provisional Student ID */}
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="font-bold text-sm text-[#0b1d2e]">{student.name}</div>
+                    <span className="font-mono font-bold text-xs text-[#0b1d2e] bg-[#f4f9fc] border border-[#dce8f0] px-2 py-0.5 rounded">
+                      {student.studentCode}
+                    </span>
+                  </div>
+
+                  {/* Address (if present) */}
+                  {student.address && (
+                    <div className="text-xs text-[#64748B]">{student.address}</div>
+                  )}
+
+                  {/* Contact row: Phone + Email */}
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-[#475569] pt-2 border-t border-[#e7faff]">
+                    <div className="flex items-center gap-1.5 font-medium">
+                      <Phone className="w-3.5 h-3.5 text-[#13b8c8]" />
+                      <a href={`tel:${student.phone}`} className="hover:underline font-mono">{student.phone}</a>
+                    </div>
+                    {student.email && (
+                      <div className="flex items-center gap-1.5 text-[#64748B]">
+                        <Mail className="w-3.5 h-3.5 text-[#94A3B8]" />
+                        <span>{student.email}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Applied Date & Notes */}
+                  <div className="flex items-center justify-between gap-2 text-xs pt-2 border-t border-[#e7faff]">
+                    <div className="text-[#64748B]">
+                      Applied: <span className="text-[#0b1d2e] font-medium">{formatDate(student.createdAt || student.joiningDate)}</span>
+                    </div>
+                    {student.notes && (
+                      <div className="text-right text-[11px] text-[#334155] italic max-w-[55%] truncate">
+                        &quot;{student.notes}&quot;
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Action Buttons: Approve & Reject (min 44px touch targets) */}
+                  <div className="pt-2 border-t border-[#e7faff] flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => openApproveModal(student)}
+                      className="flex-1 min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#0b1d2e] hover:bg-[#13b8c8] text-white text-xs font-semibold shadow-xs transition-colors"
+                    >
+                      <Check className="w-4 h-4 text-[#7ef9ff]" />
+                      <span>Approve</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleReject(student)}
+                      className="min-h-[44px] px-4 py-2 inline-flex items-center justify-center gap-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-[#DC2626] text-xs font-semibold border border-rose-200 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                      <span>Reject</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-[#0b1d2e] text-white text-[11px] font-semibold uppercase tracking-wider">
                   <th className="py-3.5 px-4">Provisional ID</th>
@@ -228,8 +299,9 @@ export const ApprovalsPage: React.FC = () => {
               </tbody>
             </table>
           </div>
-        )}
-      </div>
+        </>
+      )}
+    </div>
 
       {/* Approval Modal */}
       {modalOpen && selectedStudent && (
@@ -288,7 +360,7 @@ export const ApprovalsPage: React.FC = () => {
                     value={selectedSeatNumber}
                     onChange={(event) => setSelectedSeatNumber(event.target.value)}
                     disabled={seatAvailabilityLoading}
-                    className="mt-1.5 w-full rounded-xl border border-[#dce8f0] bg-white px-3.5 py-2.5 text-sm font-normal focus:border-[#13b8c8] focus:outline-none"
+                    className="mt-1.5 w-full rounded-xl border border-[#dce8f0] bg-white px-3.5 py-2.5 text-base md:text-sm font-normal focus:border-[#13b8c8] focus:outline-none"
                   >
                     <option value="">
                       {seatAvailabilityLoading
@@ -316,7 +388,7 @@ export const ApprovalsPage: React.FC = () => {
                   required
                   value={joiningDate}
                   onChange={(e) => setJoiningDate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#dce8f0] text-sm focus:outline-none focus:border-[#13b8c8]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#dce8f0] text-base md:text-sm focus:outline-none focus:border-[#13b8c8]"
                 />
                 <span className="text-[11px] text-[#64748B] mt-1 block">
                   Stored distinctly from application date for strict audit tracking.
@@ -330,7 +402,7 @@ export const ApprovalsPage: React.FC = () => {
                 <select
                   value={selectedPlanId}
                   onChange={(e) => setSelectedPlanId(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#dce8f0] text-sm focus:outline-none focus:border-[#13b8c8]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#dce8f0] text-base md:text-sm focus:outline-none focus:border-[#13b8c8]"
                 >
                   <option value="">-- Assign Later --</option>
                   {plans.map((p) => (
@@ -349,7 +421,7 @@ export const ApprovalsPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="btn btn-secondary btn-sm"
+                  className="btn btn-secondary btn-sm min-h-[44px] md:min-h-0 flex items-center justify-center"
                 >
                   Cancel
                 </button>
@@ -357,7 +429,7 @@ export const ApprovalsPage: React.FC = () => {
                   type="button"
                   onClick={handleApproveConfirm}
                   disabled={isProcessing}
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-primary btn-sm min-h-[44px] md:min-h-0 flex items-center justify-center"
                 >
                   {isProcessing ? 'Enrolling...' : 'Confirm Enrollment'}
                 </button>

@@ -88,10 +88,18 @@ export const Navbar: React.FC<NavbarProps> = ({ settings }) => {
             </Link>
           </div>
 
-          <div className="flex shrink-0 items-center gap-1.5 md:hidden">
+          <div className="flex shrink-0 items-center gap-2 md:hidden">
+            <Link
+              to="/login"
+              className="inline-flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl border border-[#dce8f0] bg-white text-[#294055] shadow-xs transition-colors hover:border-[#69cddd] hover:bg-[#f2fcff] hover:text-[#087d99] active:scale-95"
+              aria-label="Student Login"
+              title="Student Login"
+            >
+              <User className="h-4 w-4 text-[#087d99]" />
+            </Link>
             <Link
               to="/contact"
-              className="btn btn-primary inline-flex min-h-[48px] min-w-[48px] items-center justify-center gap-1 rounded-xl px-3 py-2 text-xs font-bold"
+              className="btn btn-primary inline-flex min-h-[48px] min-w-[48px] items-center justify-center gap-1 rounded-xl px-3 py-2 text-xs font-bold active:scale-95"
               aria-label="Enquire or Join"
             >
               <span>Join</span>

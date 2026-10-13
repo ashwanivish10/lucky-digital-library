@@ -124,9 +124,9 @@ export const PortalPage: React.FC = () => {
             </div>
             <button
               onClick={handleLogout}
-              className="btn btn-secondary border-white/20 text-white hover:bg-white/10 btn-sm text-xs py-1.5 px-3"
+              className="btn btn-secondary border-white/20 text-white hover:bg-white/10 btn-sm text-xs py-2 px-3.5 min-h-[44px] inline-flex items-center"
             >
-              <LogOut className="w-3.5 h-3.5 mr-1" />
+              <LogOut className="w-3.5 h-3.5 mr-1.5" />
               Sign Out
             </button>
           </div>
@@ -337,55 +337,96 @@ export const PortalPage: React.FC = () => {
               <p className="text-xs text-[#65788c]/70 mt-1">Receipts will appear here as fees are processed by administration.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-lg border border-[#dce8f0]">
-              <table className="w-full text-left border-collapse text-sm">
-                <thead>
-                  <tr className="bg-[#0b1d2e] text-white text-xs font-semibold uppercase tracking-wider">
-                    <th className="py-3 px-4">Receipt No</th>
-                    <th className="py-3 px-4">Date</th>
-                    <th className="py-3 px-4">Period</th>
-                    <th className="py-3 px-4">Method</th>
-                    <th className="py-3 px-4">Amount</th>
-                    <th className="py-3 px-4 text-right">Receipt Download</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#dce8f0]">
-                  {payments.map((p: any, idx: number) => (
-                    <tr
-                      key={p._id}
-                      className={idx % 2 === 0 ? 'bg-white hover:bg-[#f4f9fc]/60 transition-colors' : 'bg-[#f4f9fc]/40 hover:bg-[#f4f9fc] transition-colors'}
-                    >
-                      <td className="py-3.5 px-4 font-mono font-semibold text-[#0b1d2e]">
+            <div>
+              {/* Mobile Card List (md:hidden) */}
+              <div className="md:hidden space-y-3">
+                {payments.map((p: any) => (
+                  <div
+                    key={p._id}
+                    className="p-4 rounded-2xl bg-white border border-[#dce8f0] shadow-sm space-y-3"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-mono font-semibold text-xs text-[#0b1d2e] bg-[#f4f9fc] border border-[#dce8f0] px-2 py-0.5 rounded">
                         {p.receiptNumber}
-                      </td>
-                      <td className="py-3.5 px-4 text-[#0b1d2e]">
-                        {formatDate(p.paymentDate)}
-                      </td>
-                      <td className="py-3.5 px-4 text-xs text-[#65788c]">
-                        {p.periodLabel || 'Membership Fee'}
-                      </td>
-                      <td className="py-3.5 px-4">
-                        <span className="inline-block px-2.5 py-0.5 rounded text-[11px] font-semibold bg-[#f4f9fc] border border-[#dce8f0] text-[#0b1d2e]">
-                          {getPaymentMethodLabel(p.paymentMethod)}
-                        </span>
-                      </td>
-                      <td className="py-3.5 px-4 font-semibold text-[#1A5C3B]">
+                      </span>
+                      <span className="font-bold text-sm text-[#1A5C3B]">
                         {formatINR(p.amountReceived)}
-                      </td>
-                      <td className="py-3.5 px-4 text-right">
-                        <button
-                          onClick={() => handleDownloadReceipt(p._id, p.receiptNumber)}
-                          disabled={downloadingId === p._id}
-                          className="btn btn-secondary btn-sm text-xs py-1 px-3 border-[#13b8c8] text-[#0b1d2e] hover:bg-[#13b8c8] hover:text-[#0b1d2e]"
-                        >
-                          <Download className="w-3.5 h-3.5 mr-1" />
-                          {downloadingId === p._id ? 'Downloading...' : 'PDF'}
-                        </button>
-                      </td>
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs text-[#65788c]">
+                      <span>{formatDate(p.paymentDate)}</span>
+                      <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-[#f4f9fc] border border-[#dce8f0] text-[#0b1d2e]">
+                        {getPaymentMethodLabel(p.paymentMethod)}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs pt-2 border-t border-[#edf4f8]">
+                      <span className="text-[#65788c] font-medium">{p.periodLabel || 'Membership Fee'}</span>
+                      <button
+                        onClick={() => handleDownloadReceipt(p._id, p.receiptNumber)}
+                        disabled={downloadingId === p._id}
+                        className="btn btn-secondary text-xs py-2 px-3.5 min-h-[44px] border-[#13b8c8] text-[#0b1d2e] hover:bg-[#13b8c8] hover:text-[#0b1d2e] inline-flex items-center"
+                      >
+                        <Download className="w-3.5 h-3.5 mr-1.5" />
+                        <span>{downloadingId === p._id ? 'Downloading...' : 'PDF Receipt'}</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table (hidden md:block) */}
+              <div className="hidden md:block overflow-x-auto rounded-lg border border-[#dce8f0]">
+                <table className="w-full text-left border-collapse text-sm">
+                  <thead>
+                    <tr className="bg-[#0b1d2e] text-white text-xs font-semibold uppercase tracking-wider">
+                      <th className="py-3 px-4">Receipt No</th>
+                      <th className="py-3 px-4">Date</th>
+                      <th className="py-3 px-4">Period</th>
+                      <th className="py-3 px-4">Method</th>
+                      <th className="py-3 px-4">Amount</th>
+                      <th className="py-3 px-4 text-right">Receipt Download</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-[#dce8f0]">
+                    {payments.map((p: any, idx: number) => (
+                      <tr
+                        key={p._id}
+                        className={idx % 2 === 0 ? 'bg-white hover:bg-[#f4f9fc]/60 transition-colors' : 'bg-[#f4f9fc]/40 hover:bg-[#f4f9fc] transition-colors'}
+                      >
+                        <td className="py-3.5 px-4 font-mono font-semibold text-[#0b1d2e]">
+                          {p.receiptNumber}
+                        </td>
+                        <td className="py-3.5 px-4 text-[#0b1d2e]">
+                          {formatDate(p.paymentDate)}
+                        </td>
+                        <td className="py-3.5 px-4 text-xs text-[#65788c]">
+                          {p.periodLabel || 'Membership Fee'}
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span className="inline-block px-2.5 py-0.5 rounded text-[11px] font-semibold bg-[#f4f9fc] border border-[#dce8f0] text-[#0b1d2e]">
+                            {getPaymentMethodLabel(p.paymentMethod)}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4 font-semibold text-[#1A5C3B]">
+                          {formatINR(p.amountReceived)}
+                        </td>
+                        <td className="py-3.5 px-4 text-right">
+                          <button
+                            onClick={() => handleDownloadReceipt(p._id, p.receiptNumber)}
+                            disabled={downloadingId === p._id}
+                            className="btn btn-secondary btn-sm text-xs py-1 px-3 border-[#13b8c8] text-[#0b1d2e] hover:bg-[#13b8c8] hover:text-[#0b1d2e]"
+                          >
+                            <Download className="w-3.5 h-3.5 mr-1" />
+                            {downloadingId === p._id ? 'Downloading...' : 'PDF'}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
         </div>

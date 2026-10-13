@@ -181,11 +181,11 @@ export const AdminLayout: React.FC = () => {
           {/* Close button for mobile */}
           <button
             type="button"
-            className="rounded-lg p-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white md:hidden"
+            className="flex min-h-[48px] min-w-[48px] items-center justify-center rounded-lg p-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white md:hidden"
             onClick={() => setMobileSidebarOpen(false)}
             aria-label="Close menu"
           >
-            <X size={20} />
+            <X size={22} />
           </button>
         </div>
 
@@ -194,13 +194,13 @@ export const AdminLayout: React.FC = () => {
           {navSections.map((section, idx) => (
             <div key={idx} className="px-2">
               <div
-                className={`px-3 py-1.5 font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase tracking-[0.2em] text-[#7ef9ff]/50 ${
+                className={`px-4 py-2 md:px-3 md:py-1.5 font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase tracking-[0.2em] text-[#7ef9ff]/50 ${
                   sidebarCollapsed ? 'md:hidden' : 'block'
                 }`}
               >
                 {section.title}
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1.5 md:space-y-1">
                 {section.items.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -210,7 +210,7 @@ export const AdminLayout: React.FC = () => {
                       end={item.end}
                       onClick={() => setMobileSidebarOpen(false)}
                       className={({ isActive }) =>
-                        `relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
+                        `relative flex items-center gap-3 rounded-xl min-h-[48px] px-4 py-3 md:min-h-0 md:px-3 md:py-2.5 text-sm font-medium transition-all ${
                           isActive
                             ? 'bg-[#7ef9ff]/10 text-[#7ef9ff] ring-1 ring-inset ring-[#7ef9ff]/15 font-semibold'
                             : 'text-white/65 hover:bg-white/5 hover:text-white'
@@ -249,7 +249,7 @@ export const AdminLayout: React.FC = () => {
           <NavLink
             to="/"
             target="_blank"
-            className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs text-[#7ef9ff] transition-all hover:bg-white/5 hover:text-white ${
+            className={`flex items-center gap-2.5 rounded-xl min-h-[48px] px-4 py-3 md:min-h-0 md:px-3 md:py-2.5 text-xs text-[#7ef9ff] transition-all hover:bg-white/5 hover:text-white ${
               sidebarCollapsed ? 'md:justify-center md:px-0' : ''
             }`}
             title="View Public Site"
@@ -411,10 +411,16 @@ export const AdminLayout: React.FC = () => {
             {({ isActive }) => (
               <>
                 <LayoutDashboard
-                  size={20}
-                  className={isActive ? 'text-[#087d99] stroke-[2.4]' : 'text-[#65788c] stroke-[1.8]'}
+                  size={22}
+                  className={`transition-transform duration-200 ${
+                    isActive ? 'text-[#087d99] stroke-[2.4] scale-110' : 'text-[#65788c] stroke-[1.8]'
+                  }`}
                 />
-                <span className={`text-[10px] mt-0.5 ${isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'}`}>
+                <span
+                  className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
+                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                  }`}
+                >
                   Dashboard
                 </span>
               </>
@@ -431,10 +437,16 @@ export const AdminLayout: React.FC = () => {
             {({ isActive }) => (
               <>
                 <Users
-                  size={20}
-                  className={isActive ? 'text-[#087d99] stroke-[2.4]' : 'text-[#65788c] stroke-[1.8]'}
+                  size={22}
+                  className={`transition-transform duration-200 ${
+                    isActive ? 'text-[#087d99] stroke-[2.4] scale-110' : 'text-[#65788c] stroke-[1.8]'
+                  }`}
                 />
-                <span className={`text-[10px] mt-0.5 ${isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'}`}>
+                <span
+                  className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
+                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                  }`}
+                >
                   Students
                 </span>
               </>
@@ -449,10 +461,14 @@ export const AdminLayout: React.FC = () => {
           >
             {({ isActive }) => (
               <>
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-r from-[#087d99] to-[#13b8c8] text-white shadow-sm -mt-1">
-                  <UserPlus size={15} />
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-[#087d99] to-[#13b8c8] text-white shadow-[0_4px_12px_rgba(8,125,153,0.35)] -mt-3 transition-transform active:scale-95">
+                  <UserPlus size={18} className="!w-[18px] !h-[18px]" />
                 </div>
-                <span className={`text-[10px] mt-0.5 ${isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'}`}>
+                <span
+                  className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
+                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                  }`}
+                >
                   Add New
                 </span>
               </>
@@ -469,10 +485,16 @@ export const AdminLayout: React.FC = () => {
             {({ isActive }) => (
               <>
                 <CreditCard
-                  size={20}
-                  className={isActive ? 'text-[#087d99] stroke-[2.4]' : 'text-[#65788c] stroke-[1.8]'}
+                  size={22}
+                  className={`transition-transform duration-200 ${
+                    isActive ? 'text-[#087d99] stroke-[2.4] scale-110' : 'text-[#65788c] stroke-[1.8]'
+                  }`}
                 />
-                <span className={`text-[10px] mt-0.5 ${isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'}`}>
+                <span
+                  className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
+                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                  }`}
+                >
                   Payments
                 </span>
               </>
@@ -485,8 +507,8 @@ export const AdminLayout: React.FC = () => {
             className="mobile-bottom-nav-item flex-1"
             aria-label="Open More Admin Options"
           >
-            <Menu size={20} className="text-[#65788c] stroke-[1.8]" />
-            <span className="text-[10px] mt-0.5 font-medium text-[#65788c]">
+            <Menu size={22} className="text-[#65788c] stroke-[1.8]" />
+            <span className="text-[11px] mt-0.5 tracking-tight font-medium text-[#65788c]">
               Menu
             </span>
           </button>

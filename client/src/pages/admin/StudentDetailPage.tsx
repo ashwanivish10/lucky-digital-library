@@ -362,11 +362,11 @@ export const StudentDetailPage: React.FC = () => {
       )}
 
       {/* Tab Navigation */}
-      <div className="border-b border-[#dce8f0] flex gap-8 text-sm font-semibold">
+      <div className="border-b border-[#dce8f0] flex overflow-x-auto no-scrollbar gap-6 sm:gap-8 text-sm font-semibold whitespace-nowrap -mx-2 px-2 sm:mx-0 sm:px-0">
         <button
           type="button"
           onClick={() => setActiveTab('profile')}
-          className={`pb-3 flex items-center gap-2 border-b-2 transition-colors ${
+          className={`pb-3 min-h-[44px] flex items-center gap-2 border-b-2 transition-colors ${
             activeTab === 'profile'
               ? 'border-[#13b8c8] text-[#0b1d2e]'
               : 'border-transparent text-slate-400 hover:text-slate-700'
@@ -379,7 +379,7 @@ export const StudentDetailPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setActiveTab('membership')}
-          className={`pb-3 flex items-center gap-2 border-b-2 transition-colors ${
+          className={`pb-3 min-h-[44px] flex items-center gap-2 border-b-2 transition-colors ${
             activeTab === 'membership'
               ? 'border-[#13b8c8] text-[#0b1d2e]'
               : 'border-transparent text-slate-400 hover:text-slate-700'
@@ -392,7 +392,7 @@ export const StudentDetailPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setActiveTab('payments')}
-          className={`pb-3 flex items-center gap-2 border-b-2 transition-colors ${
+          className={`pb-3 min-h-[44px] flex items-center gap-2 border-b-2 transition-colors ${
             activeTab === 'payments'
               ? 'border-[#13b8c8] text-[#0b1d2e]'
               : 'border-transparent text-slate-400 hover:text-slate-700'
@@ -651,55 +651,94 @@ export const StudentDetailPage: React.FC = () => {
               </Link>
             </div>
           ) : (
-            <div className="card bg-white rounded-xl border border-[#dce8f0] shadow-sm overflow-hidden">
-              <div className="table-container">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="bg-[#0b1d2e] text-[#f4f9fc] text-xs uppercase tracking-wider">
-                      <th className="py-3 px-4">Receipt No</th>
-                      <th className="py-3 px-4">Amount</th>
-                      <th className="py-3 px-4">Method</th>
-                      <th className="py-3 px-4">Date</th>
-                      <th className="py-3 px-4">Category</th>
-                      <th className="py-3 px-4">Period</th>
-                      <th className="py-3 px-4 text-right">Receipt</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#e7faff] text-xs">
-                    {payments.map((p) => (
-                      <tr key={p._id} className="hover:bg-[#f8fbfd]">
-                        <td className="py-3.5 px-4 font-mono font-semibold text-[#0b1d2e]">
-                          {p.receiptNumber}
-                        </td>
-                        <td className="py-3.5 px-4 font-bold text-[#2D6A4F] text-sm">
-                          {formatINR(p.amountReceived)}
-                        </td>
-                        <td className="py-3.5 px-4 capitalize">
-                          {getPaymentMethodLabel(p.paymentMethod)}
-                        </td>
-                        <td className="py-3.5 px-4 text-slate-600">
-                          {formatDate(p.paymentDate)}
-                        </td>
-                        <td className="py-3.5 px-4 font-medium text-slate-700">
-                          {p.feeCategory}
-                        </td>
-                        <td className="py-3.5 px-4 text-slate-500">
-                          {p.periodLabel || '—'}
-                        </td>
-                        <td className="py-3.5 px-4 text-right">
-                          <button
-                            type="button"
-                            onClick={() => handleDownloadReceipt(p._id, p.receiptNumber)}
-                            className="btn btn-secondary py-1 px-2.5 text-xs border border-[#dce8f0] hover:border-[#13b8c8]"
-                            title="Download PDF Receipt"
-                          >
-                            <Download size={13} /> PDF
-                          </button>
-                        </td>
+            <div className="space-y-3">
+              {/* Mobile Card View (md:hidden) */}
+              <div className="md:hidden space-y-3">
+                {payments.map((p) => (
+                  <div
+                    key={p._id}
+                    className="card bg-white p-4 rounded-2xl border border-[#dce8f0] shadow-sm space-y-3"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-mono text-xs font-semibold text-[#0b1d2e] bg-[#f4f9fc] border border-[#dce8f0] px-2 py-0.5 rounded">
+                        {p.receiptNumber}
+                      </span>
+                      <span className="font-bold text-sm text-[#2D6A4F]">
+                        {formatINR(p.amountReceived)}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs text-slate-500">
+                      <span className="capitalize">{getPaymentMethodLabel(p.paymentMethod)}</span>
+                      <span>{formatDate(p.paymentDate)}</span>
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs pt-2 border-t border-[#f0f5f9]">
+                      <span className="text-slate-600 font-medium">{p.feeCategory} {p.periodLabel ? `(${p.periodLabel})` : ''}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleDownloadReceipt(p._id, p.receiptNumber)}
+                        className="btn btn-secondary py-1.5 px-3 text-xs min-h-[40px] border border-[#dce8f0] hover:border-[#13b8c8] inline-flex items-center gap-1.5"
+                      >
+                        <Download size={13} />
+                        <span>PDF</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table (hidden md:block) */}
+              <div className="hidden md:block card bg-white rounded-xl border border-[#dce8f0] shadow-sm overflow-hidden">
+                <div className="table-container">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-[#0b1d2e] text-[#f4f9fc] text-xs uppercase tracking-wider">
+                        <th className="py-3 px-4">Receipt No</th>
+                        <th className="py-3 px-4">Amount</th>
+                        <th className="py-3 px-4">Method</th>
+                        <th className="py-3 px-4">Date</th>
+                        <th className="py-3 px-4">Category</th>
+                        <th className="py-3 px-4">Period</th>
+                        <th className="py-3 px-4 text-right">Receipt</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-[#e7faff] text-xs">
+                      {payments.map((p) => (
+                        <tr key={p._id} className="hover:bg-[#f8fbfd]">
+                          <td className="py-3.5 px-4 font-mono font-semibold text-[#0b1d2e]">
+                            {p.receiptNumber}
+                          </td>
+                          <td className="py-3.5 px-4 font-bold text-[#2D6A4F] text-sm">
+                            {formatINR(p.amountReceived)}
+                          </td>
+                          <td className="py-3.5 px-4 capitalize">
+                            {getPaymentMethodLabel(p.paymentMethod)}
+                          </td>
+                          <td className="py-3.5 px-4 text-slate-600">
+                            {formatDate(p.paymentDate)}
+                          </td>
+                          <td className="py-3.5 px-4 font-medium text-slate-700">
+                            {p.feeCategory}
+                          </td>
+                          <td className="py-3.5 px-4 text-slate-500">
+                            {p.periodLabel || '—'}
+                          </td>
+                          <td className="py-3.5 px-4 text-right">
+                            <button
+                              type="button"
+                              onClick={() => handleDownloadReceipt(p._id, p.receiptNumber)}
+                              className="btn btn-secondary py-1 px-2.5 text-xs border border-[#dce8f0] hover:border-[#13b8c8]"
+                              title="Download PDF Receipt"
+                            >
+                              <Download size={13} /> PDF
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           )}

@@ -144,7 +144,7 @@ export const PaymentsPage: React.FC = () => {
               placeholder="Search student or receipt..."
               value={studentSearch}
               onChange={(e) => setStudentSearch(e.target.value)}
-              className="text-xs w-full bg-transparent text-[#0b1d2e] placeholder-[#65788c] focus:outline-none"
+              className="text-base md:text-xs w-full bg-transparent text-[#0b1d2e] placeholder-[#65788c] focus:outline-none"
             />
             {studentSearch && (
               <button
@@ -167,7 +167,7 @@ export const PaymentsPage: React.FC = () => {
                 setFromFilter(e.target.value);
                 setPage(1);
               }}
-              className="text-xs bg-transparent text-[#0b1d2e] focus:outline-none cursor-pointer"
+              className="text-base md:text-xs bg-transparent text-[#0b1d2e] focus:outline-none cursor-pointer"
             />
           </div>
 
@@ -181,7 +181,7 @@ export const PaymentsPage: React.FC = () => {
                 setToFilter(e.target.value);
                 setPage(1);
               }}
-              className="text-xs bg-transparent text-[#0b1d2e] focus:outline-none cursor-pointer"
+              className="text-base md:text-xs bg-transparent text-[#0b1d2e] focus:outline-none cursor-pointer"
             />
           </div>
 
@@ -245,9 +245,114 @@ export const PaymentsPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobile Card View (md:hidden) */}
+      <div className="md:hidden space-y-3">
+        {loading ? (
+          // Mobile Skeletons
+          Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-[#dce8f0] bg-white p-4 shadow-sm space-y-3 animate-pulse"
+            >
+              <div className="flex items-center justify-between">
+                <div className="h-5 w-24 bg-[#edf4f8] rounded"></div>
+                <div className="h-5 w-20 bg-[#edf4f8] rounded"></div>
+              </div>
+              <div className="h-4 w-36 bg-[#edf4f8] rounded"></div>
+              <div className="h-4 w-full bg-[#edf4f8] rounded"></div>
+              <div className="h-10 w-full bg-[#edf4f8] rounded-xl pt-2"></div>
+            </div>
+          ))
+        ) : filteredPayments.length === 0 ? (
+          // Mobile Empty state
+          <div className="rounded-2xl border border-[#dce8f0] bg-white p-8 text-center shadow-sm">
+            <div className="w-14 h-14 rounded-full bg-[#13b8c8]/10 flex items-center justify-center text-[#13b8c8] mx-auto mb-3">
+              <CreditCard size={28} />
+            </div>
+            <p className="text-base font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+              No payments found
+            </p>
+            <p className="text-xs text-[#65788c] mt-1 max-w-sm mx-auto">
+              Try adjusting your date range or payment filter parameters.
+            </p>
+          </div>
+        ) : (
+          filteredPayments.map((p) => (
+            <div
+              key={p._id}
+              className="rounded-2xl border border-[#dce8f0] bg-white p-4 shadow-sm space-y-3"
+            >
+              {/* Top row: Receipt # (mono bold) + Amount (INR) */}
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-mono font-bold text-xs text-[#0b1d2e] bg-[#f4f9fc] border border-[#dce8f0] px-2.5 py-1 rounded-md">
+                  #{p.receiptNumber}
+                </span>
+                <span className="font-[family-name:var(--font-ui)] font-bold text-[#1A5C3B] text-base">
+                  {formatINR(p.amountReceived)}
+                </span>
+              </div>
+
+              {/* Second row: Student name & code */}
+              <div className="flex items-center justify-between gap-2 text-xs">
+                {p.studentId ? (
+                  <Link
+                    to={`/admin/students/${p.studentId._id}`}
+                    className="font-semibold text-sm text-[#0b1d2e] hover:text-[#13b8c8] transition-colors"
+                  >
+                    {p.studentId.name}
+                    <span className="ml-1.5 font-mono text-xs text-[#65788c] font-normal">
+                      ({p.studentId.studentCode})
+                    </span>
+                  </Link>
+                ) : (
+                  <span className="text-[#65788c] italic text-xs">Unknown Student</span>
+                )}
+                {p.status && (
+                  <span className="badge badge-success text-[10px] uppercase font-bold tracking-wider shrink-0">
+                    {p.status}
+                  </span>
+                )}
+              </div>
+
+              {/* Third row: Payment method + Category & Period */}
+              <div className="flex items-center justify-between gap-2 text-xs pt-2 border-t border-[#f0f5f9]">
+                <span className="px-2.5 py-1 rounded bg-[#edf4f8] border border-[#dce8f0] text-[#0b1d2e] font-medium text-[10px] uppercase font-eyebrow tracking-wider">
+                  {getPaymentMethodLabel(p.paymentMethod)}
+                </span>
+
+                <div className="text-right">
+                  <div className="font-semibold text-xs text-[#0b1d2e]">{p.feeCategory}</div>
+                  {p.periodLabel && (
+                    <div className="text-[11px] text-[#65788c]">{p.periodLabel}</div>
+                  )}
+                </div>
+              </div>
+
+              {/* Fourth row: Date + Download Receipt Button (min 44px touch target) */}
+              <div className="flex items-center justify-between gap-2 pt-2 border-t border-[#f0f5f9]">
+                <div className="text-xs text-[#65788c]">
+                  Date: <span className="font-medium text-[#0b1d2e]">{formatDate(p.paymentDate)}</span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleDownloadReceipt(p._id, p.receiptNumber)}
+                  className="min-h-[44px] px-3.5 py-2 text-xs font-semibold rounded-xl bg-white border border-[#dce8f0] hover:border-[#13b8c8] text-[#0b1d2e] inline-flex items-center gap-1.5 shadow-xs transition-colors"
+                  title="Download Tax Receipt"
+                >
+                  <Download size={14} className="text-[#13b8c8]" />
+                  <span>Download Receipt</span>
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
       {/* Payments Table */}
-      <div className="table-container shadow-sm border border-[#dce8f0] rounded-lg overflow-hidden bg-white">
-        <table className="w-full text-left border-collapse">
+      <div className="table-container shadow-sm border border-[#dce8f0] rounded-2xl md:rounded-lg overflow-hidden bg-white">
+        <div className="hidden md:block">
+          <table className="w-full text-left border-collapse">
           <thead>
             <tr>
               <th className="py-3 px-4">Receipt No</th>
@@ -349,9 +454,10 @@ export const PaymentsPage: React.FC = () => {
             )}
           </tbody>
         </table>
+        </div>
 
         {/* Pagination Bar */}
-        <div className="p-3.5 border-t border-[#dce8f0] bg-[#f4f9fc] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65788c]">
+        <div className="p-3.5 border-t-0 md:border-t border-[#dce8f0] bg-[#f4f9fc] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65788c]">
           <div>
             Showing Page <span className="font-semibold text-[#0b1d2e]">{page}</span> of{' '}
             <span className="font-semibold text-[#0b1d2e]">{totalPages}</span> (Total {totalCount} transactions)
@@ -362,7 +468,7 @@ export const PaymentsPage: React.FC = () => {
               type="button"
               disabled={page <= 1 || loading}
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none"
+              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none min-h-[44px] md:min-h-0 flex items-center justify-center"
             >
               <ChevronLeft size={13} /> Previous
             </button>
@@ -370,7 +476,7 @@ export const PaymentsPage: React.FC = () => {
               type="button"
               disabled={page >= totalPages || loading}
               onClick={() => setPage((p) => p + 1)}
-              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none"
+              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none min-h-[44px] md:min-h-0 flex items-center justify-center"
             >
               Next <ChevronRight size={13} />
             </button>

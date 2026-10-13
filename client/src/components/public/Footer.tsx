@@ -10,7 +10,7 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
   const mapLink = settings?.mapLink || 'https://maps.app.goo.gl/AaCd93WYde8cYnx79';
 
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-[#050d18] px-4 py-12 text-center text-white sm:px-6 sm:py-16">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-[#050d18] px-4 pt-12 pb-24 sm:px-6 sm:py-16 text-center text-white">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full opacity-20 blur-[110px]"

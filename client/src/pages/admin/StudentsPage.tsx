@@ -152,7 +152,7 @@ export const StudentsPage: React.FC = () => {
               setSearchTerm(e.target.value);
               setPage(1);
             }}
-            className="w-full text-sm text-[#0b1d2e] bg-transparent placeholder-[#65788c] focus:outline-none"
+            className="w-full text-base md:text-sm text-[#0b1d2e] bg-transparent placeholder-[#65788c] focus:outline-none"
           />
           {searchTerm && (
             <button
@@ -221,9 +221,183 @@ export const StudentsPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobile Card View (md:hidden) */}
+      <div className="md:hidden space-y-3">
+        {loading ? (
+          // Mobile Skeletons
+          Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-[#dce8f0] bg-white p-4 shadow-sm space-y-3 animate-pulse"
+            >
+              <div className="flex items-center justify-between">
+                <div className="h-5 w-36 bg-[#edf4f8] rounded"></div>
+                <div className="h-5 w-16 bg-[#edf4f8] rounded-full"></div>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="h-4 w-24 bg-[#edf4f8] rounded"></div>
+                <div className="h-4 w-28 bg-[#edf4f8] rounded"></div>
+              </div>
+              <div className="h-4 w-full bg-[#edf4f8] rounded"></div>
+              <div className="h-4 w-3/4 bg-[#edf4f8] rounded"></div>
+              <div className="h-10 w-full bg-[#edf4f8] rounded-xl pt-2"></div>
+            </div>
+          ))
+        ) : students.length === 0 ? (
+          // Mobile Empty state
+          <div className="rounded-2xl border border-[#dce8f0] bg-white p-8 text-center shadow-sm">
+            <div className="w-14 h-14 rounded-full bg-[#13b8c8]/10 flex items-center justify-center text-[#13b8c8] mx-auto mb-3">
+              <Users size={28} />
+            </div>
+            <p className="text-base font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+              No students found
+            </p>
+            <p className="text-xs text-[#65788c] mt-1 max-w-sm mx-auto">
+              Try modifying your search or filter settings, or enroll a new student.
+            </p>
+            <Link
+              to="/admin/students/add"
+              className="btn btn-primary mt-4 text-xs py-2.5 px-4 min-h-[44px] inline-flex items-center justify-center gap-1.5"
+            >
+              <UserPlus size={14} /> <span>Add Student</span>
+            </Link>
+          </div>
+        ) : (
+          students.map((student) => {
+            const isPending = student.registrationStatus === 'pending';
+            const activeMem = student.activeMembership;
+
+            return (
+              <div
+                key={student._id}
+                className="rounded-2xl border border-[#dce8f0] bg-white p-4 shadow-sm space-y-3"
+              >
+                {/* Top row: Student name (bold, left) + Status badge (right) */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Link
+                      to={`/admin/students/${student._id}`}
+                      className="font-semibold text-sm text-[#0b1d2e] hover:text-[#13b8c8] truncate transition-colors"
+                    >
+                      {student.name}
+                    </Link>
+                    {isPending && (
+                      <span className="badge badge-pending text-[10px] py-0.5 px-1.5 font-bold shrink-0">
+                        Pending
+                      </span>
+                    )}
+                  </div>
+                  <span className={`badge ${getStatusBadgeClass(student.status)} text-[10px] shrink-0`}>
+                    {getStatusLabel(student.status)}
+                  </span>
+                </div>
+
+                {/* Second row: Student code (mono) + phone number */}
+                <div className="flex items-center justify-between gap-2 text-xs text-[#65788c]">
+                  <span className="font-mono font-medium text-[#0b1d2e] bg-[#f4f9fc] border border-[#dce8f0] px-2 py-0.5 rounded">
+                    {student.studentCode}
+                  </span>
+                  <a
+                    href={`tel:${student.phone}`}
+                    className="font-mono text-xs hover:text-[#13b8c8] transition-colors"
+                  >
+                    {student.phone}
+                  </a>
+                </div>
+
+                {/* Third row: Seat number + Timing/Shift (if available) */}
+                <div className="flex items-center justify-between gap-2 text-xs pt-2 border-t border-[#f0f5f9]">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[#65788c] text-[11px]">Seat:</span>
+                    {student.seatNumber ? (
+                      <span className="px-2 py-0.5 bg-[#edf4f8] border border-[#dce8f0] rounded text-[#0b1d2e] font-mono font-semibold text-xs">
+                        {student.seatNumber}
+                      </span>
+                    ) : (
+                      <span className="text-[#65788c]">—</span>
+                    )}
+                  </div>
+
+                  <div className="text-right">
+                    {student.seatStartTime && student.seatEndTime ? (
+                      <div className="flex flex-col items-end">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#e7faff] text-[#075a70] border border-[#13b8c8]/30 font-semibold font-mono text-[11px]">
+                          <Clock className="w-3 h-3 text-[#13b8c8]" />
+                          <span>{student.seatStartTime} – {student.seatEndTime}</span>
+                        </span>
+                        {student.seatDays && student.seatDays.length > 0 && (
+                          <span className="text-[10px] text-[#65788c] mt-0.5 font-medium">
+                            {student.seatDays.length === 7
+                              ? 'All 7 Days (24×7)'
+                              : student.seatDays.map((d: string) => d.slice(0, 3)).join(', ')}
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="text-[#65788c] text-[11px] font-medium">Full Day (24×7)</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Fourth row: Membership plan name + expiry date */}
+                <div className="flex items-center justify-between gap-2 text-xs pt-2 border-t border-[#f0f5f9]">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[#65788c] text-[11px]">Plan:</span>
+                    {activeMem ? (
+                      <span className={`badge ${getStatusBadgeClass(activeMem.status)} text-[10px]`}>
+                        {activeMem.planNameSnapshot}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-[#65788c] italic">No Active Plan</span>
+                    )}
+                  </div>
+
+                  {activeMem && (
+                    <div className="text-[11px] text-[#65788c]">
+                      Exp: <span className="font-medium text-[#0b1d2e]">{formatDate(activeMem.endDate)}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bottom row: Action buttons (View, Edit, Archive) as icon buttons with labels, min 44px touch targets */}
+                <div className="pt-2 border-t border-[#f0f5f9] flex items-center gap-2">
+                  <Link
+                    to={`/admin/students/${student._id}`}
+                    className="flex-1 min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#f4f9fc] hover:bg-[#edf4f8] text-[#0b1d2e] text-xs font-semibold border border-[#dce8f0] transition-colors"
+                  >
+                    <Eye size={15} className="text-[#13b8c8]" />
+                    <span>View</span>
+                  </Link>
+
+                  <Link
+                    to={`/admin/students/${student._id}#profile`}
+                    className="flex-1 min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#f4f9fc] hover:bg-[#edf4f8] text-[#0b1d2e] text-xs font-semibold border border-[#dce8f0] transition-colors"
+                  >
+                    <Edit2 size={15} className="text-[#087d99]" />
+                    <span>Edit</span>
+                  </Link>
+
+                  {student.status !== 'archived' && (
+                    <button
+                      type="button"
+                      onClick={() => setStudentToArchive(student)}
+                      className="min-h-[44px] px-3.5 py-2 inline-flex items-center justify-center gap-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-[#8B1A1A] text-xs font-semibold border border-rose-200 transition-colors"
+                    >
+                      <Archive size={15} />
+                      <span>Archive</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
       {/* Table Container */}
-      <div className="table-container shadow-sm border border-[#dce8f0] rounded-lg overflow-hidden bg-white">
-        <table className="w-full text-left border-collapse">
+      <div className="table-container shadow-sm border border-[#dce8f0] rounded-2xl md:rounded-lg overflow-hidden bg-white">
+        <div className="hidden md:block">
+          <table className="w-full text-left border-collapse">
           <thead>
             <tr>
               <th className="py-3 px-4">Student ID</th>
@@ -402,9 +576,10 @@ export const StudentsPage: React.FC = () => {
             )}
           </tbody>
         </table>
+        </div>
 
         {/* Pagination Bar */}
-        <div className="p-3.5 border-t border-[#dce8f0] bg-[#f4f9fc] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65788c]">
+        <div className="p-3.5 border-t-0 md:border-t border-[#dce8f0] bg-[#f4f9fc] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65788c]">
           <div>
             Showing Page <span className="font-semibold text-[#0b1d2e]">{page}</span> of{' '}
             <span className="font-semibold text-[#0b1d2e]">{totalPages}</span>
@@ -415,7 +590,7 @@ export const StudentsPage: React.FC = () => {
               type="button"
               disabled={page <= 1 || loading}
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none"
+              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none min-h-[44px] md:min-h-0 flex items-center justify-center"
             >
               <ChevronLeft size={13} /> Previous
             </button>
@@ -423,7 +598,7 @@ export const StudentsPage: React.FC = () => {
               type="button"
               disabled={page >= totalPages || loading}
               onClick={() => setPage((p) => p + 1)}
-              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none"
+              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none min-h-[44px] md:min-h-0 flex items-center justify-center"
             >
               Next <ChevronRight size={13} />
             </button>
@@ -452,7 +627,7 @@ export const StudentsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setStudentToArchive(null)}
-                className="btn btn-secondary text-xs py-2 px-4"
+                className="btn btn-secondary text-xs py-2 px-4 min-h-[44px] md:min-h-0 flex items-center justify-center"
                 disabled={archiving}
               >
                 Cancel
@@ -460,7 +635,7 @@ export const StudentsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleArchiveConfirm}
-                className="btn bg-[#8B1A1A] hover:bg-[#6b1414] text-white text-xs py-2 px-4 rounded border-none font-semibold transition-colors"
+                className="btn bg-[#8B1A1A] hover:bg-[#6b1414] text-white text-xs py-2 px-4 rounded border-none font-semibold transition-colors min-h-[44px] md:min-h-0 flex items-center justify-center"
                 disabled={archiving}
               >
                 {archiving ? 'Archiving...' : 'Yes, Archive'}

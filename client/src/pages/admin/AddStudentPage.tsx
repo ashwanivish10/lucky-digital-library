@@ -207,7 +207,7 @@ export const AddStudentPage: React.FC = () => {
         
         {/* Section 1: Student Details */}
         <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-3.5">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
               <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
                 1
@@ -275,7 +275,7 @@ export const AddStudentPage: React.FC = () => {
 
         {/* Section 2: Shift Timings & Seat Assignment */}
         <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
               <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
                 2
@@ -286,7 +286,7 @@ export const AddStudentPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowSeatMap(!showSeatMap)}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087d99] hover:text-[#075a70] bg-white border border-[#cbe4ed] px-3 py-1.5 rounded-xl shadow-xs hover:bg-[#eef8fb] transition-all"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087d99] hover:text-[#075a70] bg-white border border-[#cbe4ed] px-3 py-1.5 rounded-xl shadow-xs hover:bg-[#eef8fb] transition-all self-start sm:self-auto min-h-[36px] sm:min-h-0"
             >
               <Armchair size={14} className="text-[#13b8c8]" />
               <span>{showSeatMap ? 'Hide Map' : 'Floor Map (1–58)'}</span>
@@ -301,33 +301,33 @@ export const AddStudentPage: React.FC = () => {
               </label>
 
               {/* 1-tap quick timing buttons for speed without restriction */}
-              <div className="flex items-center gap-1 text-[11px] overflow-x-auto no-scrollbar py-0.5">
-                <span className="text-[#65788c] font-medium hidden xs:inline">Quick fill:</span>
+              <div className="flex items-center gap-1.5 text-[11px] overflow-x-auto no-scrollbar py-1 -mx-1 px-1 [mask-image:linear-gradient(to_right,black_85%,transparent)] sm:[mask-image:none]">
+                <span className="text-[#65788c] font-medium hidden xs:inline shrink-0">Quick fill:</span>
                 <button
                   type="button"
                   onClick={() => setPresetTiming('08:00', '16:00')}
-                  className="px-2 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   8 AM – 4 PM
                 </button>
                 <button
                   type="button"
                   onClick={() => setPresetTiming('08:00', '20:00')}
-                  className="px-2 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   8 AM – 8 PM
                 </button>
                 <button
                   type="button"
                   onClick={() => setPresetTiming('06:00', '14:00')}
-                  className="px-2 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   6 AM – 2 PM
                 </button>
                 <button
                   type="button"
                   onClick={() => setPresetTiming('14:00', '22:00')}
-                  className="px-2 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   2 PM – 10 PM
                 </button>
@@ -461,33 +461,33 @@ export const AddStudentPage: React.FC = () => {
               </label>
 
               {/* 1-tap quick duration chips */}
-              <div className="flex items-center gap-1 text-[11px]">
-                <span className="text-[#65788c] font-medium hidden xs:inline">Quick pick:</span>
+              <div className="flex items-center gap-1.5 text-[11px] overflow-x-auto no-scrollbar py-1 -mx-1 px-1 [mask-image:linear-gradient(to_right,black_85%,transparent)] sm:[mask-image:none]">
+                <span className="text-[#65788c] font-medium hidden xs:inline shrink-0">Quick pick:</span>
                 <button
                   type="button"
                   onClick={() => applyDuration(0, 15)}
-                  className="px-2.5 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   15 Days
                 </button>
                 <button
                   type="button"
                   onClick={() => applyDuration(1)}
-                  className="px-2.5 py-0.5 rounded-md border border-[#087d99] bg-[#e7faff] text-[#087d99] font-bold shadow-2xs"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#087d99] bg-[#e7faff] text-[#087d99] font-bold shadow-2xs whitespace-nowrap shrink-0"
                 >
                   1 Month
                 </button>
                 <button
                   type="button"
                   onClick={() => applyDuration(2)}
-                  className="px-2.5 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   2 Mos
                 </button>
                 <button
                   type="button"
                   onClick={() => applyDuration(3)}
-                  className="px-2.5 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   3 Mos
                 </button>
@@ -541,7 +541,7 @@ export const AddStudentPage: React.FC = () => {
 
         {/* Section 3: Custom Billing & Payment */}
         <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
               <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
                 3
@@ -552,11 +552,11 @@ export const AddStudentPage: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
             <div>
-              <div className="flex items-center justify-between mb-1">
+              <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#294055]">
                   Agreed Fee (₹) <span className="text-rose-500">*</span>
                 </label>
-                <div className="flex items-center gap-1 text-[10px]">
+                <div className="flex items-center gap-1.5 text-[11px] overflow-x-auto no-scrollbar py-1 -mx-1 px-1 [mask-image:linear-gradient(to_right,black_85%,transparent)] sm:[mask-image:none]">
                   <button
                     type="button"
                     onClick={() => {
@@ -565,7 +565,7 @@ export const AddStudentPage: React.FC = () => {
                         setAmountReceivedToday(1000);
                       }
                     }}
-                    className="px-1.5 py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8]"
+                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8] whitespace-nowrap shrink-0"
                   >
                     ₹1k
                   </button>
@@ -577,7 +577,7 @@ export const AddStudentPage: React.FC = () => {
                         setAmountReceivedToday(1500);
                       }
                     }}
-                    className="px-1.5 py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8]"
+                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8] whitespace-nowrap shrink-0"
                   >
                     ₹1.5k
                   </button>
@@ -589,7 +589,7 @@ export const AddStudentPage: React.FC = () => {
                         setAmountReceivedToday(2000);
                       }
                     }}
-                    className="px-1.5 py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8]"
+                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8] whitespace-nowrap shrink-0"
                   >
                     ₹2k
                   </button>
@@ -620,22 +620,22 @@ export const AddStudentPage: React.FC = () => {
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1">
+              <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#294055]">
                   Amount Paid Today (₹) <span className="text-rose-500">*</span>
                 </label>
-                <div className="flex items-center gap-1 text-[10px]">
+                <div className="flex items-center gap-1.5 text-[11px] overflow-x-auto no-scrollbar py-1 -mx-1 px-1 [mask-image:linear-gradient(to_right,black_85%,transparent)] sm:[mask-image:none]">
                   <button
                     type="button"
                     onClick={handlePayFull}
-                    className="px-2 py-0.5 rounded font-bold bg-[#e7faff] border border-[#cbe4ed] text-[#087d99] hover:bg-[#d8f6fd]"
+                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded font-bold bg-[#e7faff] border border-[#cbe4ed] text-[#087d99] hover:bg-[#d8f6fd] whitespace-nowrap shrink-0"
                   >
                     Full Pay
                   </button>
                   <button
                     type="button"
                     onClick={() => setAmountReceivedToday(Math.round(parsedTotalFee / 2))}
-                    className="px-1.5 py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8]"
+                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8] whitespace-nowrap shrink-0"
                   >
                     50%
                   </button>
@@ -738,7 +738,7 @@ export const AddStudentPage: React.FC = () => {
                   value={transactionReference}
                   onChange={(e) => setTransactionReference(e.target.value)}
                   placeholder="e.g. 4028472910"
-                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-2 px-3 text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 sm:py-2 px-3 text-base sm:text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none min-h-[44px] sm:min-h-0"
                 />
               </div>
             )}
@@ -752,14 +752,14 @@ export const AddStudentPage: React.FC = () => {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="e.g. Walk-in student, UPSC aspirant"
-                className="w-full rounded-xl border border-[#cfdce6] bg-white py-2 px-3 text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none"
+                className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 sm:py-2 px-3 text-base sm:text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none min-h-[44px] sm:min-h-0"
               />
             </div>
           </div>
         </div>
 
         {/* Action Buttons: Sticky Bottom Bar on Mobile for maximum convenience */}
-        <div className="sticky bottom-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#dce8f0] px-4 py-3 -mx-4 -mb-4 sm:static sm:p-0 sm:m-0 sm:border-t sm:border-[#e2edf3] sm:pt-4 sm:bg-transparent">
+        <div className="sticky bottom-[4.5rem] md:bottom-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#dce8f0] px-4 py-3 -mx-4 -mb-4 sm:static sm:p-0 sm:m-0 sm:border-t sm:border-[#e2edf3] sm:pt-4 sm:bg-transparent">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             {/* Live mobile summary */}
             <div className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-4 text-xs font-semibold text-[#65788c]">

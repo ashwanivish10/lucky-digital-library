@@ -73,6 +73,29 @@ iframe {
   .has-mobile-bottom-nav {
     padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 16px)) !important;
   }
+
+  /* Hide scrollbar on mobile for app feel */
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Active bottom nav pill indicator */
+  .mobile-bottom-nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 3px;
+    border-radius: 9999px;
+    background: #13b8c8;
+  }
 }
 
 /* ==========================================================================
@@ -137,14 +160,14 @@ iframe {
 
 .mobile-bottom-nav-item.active svg {
   color: #087d99;
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.1);
 }
 
 .mobile-bottom-nav-item svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   margin-bottom: 2px;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Accessibility */

@@ -52,8 +52,8 @@ export const ContactPage: React.FC = () => {
       </section>
 
       {/* Centered Send Us a Message Form Card */}
-      <section className="py-14 sm:py-20 max-w-2xl mx-auto px-4 sm:px-6">
-        <div className="bg-white rounded-2xl p-6 sm:p-10 border border-[#dce8f0] shadow-sm">
+      <section className="py-14 sm:py-20 pb-24 sm:pb-20 max-w-2xl mx-auto px-4 sm:px-6">
+        <div className="bg-white rounded-2xl p-5 sm:p-10 border border-[#dce8f0] shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
@@ -66,7 +66,7 @@ export const ContactPage: React.FC = () => {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="e.g. Amit Sharma"
-                  className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
                 />
               </div>
 
@@ -79,7 +79,7 @@ export const ContactPage: React.FC = () => {
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   placeholder="e.g. 9876543210"
-                  className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
                 />
               </div>
             </div>
@@ -94,7 +94,7 @@ export const ContactPage: React.FC = () => {
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   placeholder="amit@example.com"
-                  className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
                 />
               </div>
 
@@ -107,7 +107,7 @@ export const ContactPage: React.FC = () => {
                   value={form.subject}
                   onChange={(e) => setForm({ ...form, subject: e.target.value })}
                   placeholder="e.g. Seat Availability Inquiry"
-                  className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
                 />
               </div>
             </div>
@@ -122,14 +122,14 @@ export const ContactPage: React.FC = () => {
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 placeholder="Provide details about your study shift, exam preparation, or any specific requirements..."
-                className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-sm"
+                className="w-full px-4 py-3 min-h-[120px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn btn-primary w-full py-3.5 justify-center text-sm font-bold shadow-md rounded-xl"
+              className="btn btn-primary w-full py-3.5 min-h-[48px] justify-center text-sm font-bold shadow-md rounded-xl"
             >
               {isSubmitting ? (
                 <span>Sending Message...</span>

@@ -305,7 +305,7 @@ export const MessagesPage: React.FC = () => {
                 setStatusFilter(tab.id);
                 setPage(1);
               }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap min-h-[44px] md:min-h-0 flex items-center justify-center ${
                 statusFilter === tab.id
                   ? 'bg-[#0b1d2e] text-white shadow-xs'
                   : 'text-[#65788c] hover:bg-[#edf4f8] hover:text-[#0b1d2e]'
@@ -327,7 +327,7 @@ export const MessagesPage: React.FC = () => {
               setSearchTerm(e.target.value);
               setPage(1);
             }}
-            className="w-full pl-9 pr-8 py-2 rounded-xl text-xs bg-[#f4f9fc] border border-[#dce8f0] focus:outline-none focus:border-[#13b8c8] focus:bg-white text-[#0b1d2e] placeholder-[#a0b3c6] transition-all"
+            className="w-full pl-9 pr-8 py-2 rounded-xl text-base md:text-xs bg-[#f4f9fc] border border-[#dce8f0] focus:outline-none focus:border-[#13b8c8] focus:bg-white text-[#0b1d2e] placeholder-[#a0b3c6] transition-all"
           />
           {searchTerm && (
             <button
@@ -468,7 +468,7 @@ export const MessagesPage: React.FC = () => {
                 </div>
 
                 {/* Actions Bar */}
-                <div className="pt-3 border-t border-[#f0f5f9] flex flex-wrap items-center justify-between gap-2.5">
+                <div className="pt-3 border-t border-[#f0f5f9] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-2 flex-wrap">
                     {/* Quick WhatsApp Reply */}
                     {waLink && (
@@ -476,7 +476,7 @@ export const MessagesPage: React.FC = () => {
                         href={waLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366]/20 font-bold text-xs transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366]/20 font-bold text-xs transition-colors min-h-[44px] md:min-h-0"
                         title="Chat on WhatsApp"
                       >
                         <MessageCircle size={14} className="text-[#25D366]" />
@@ -488,7 +488,7 @@ export const MessagesPage: React.FC = () => {
                     {msg.phone && (
                       <a
                         href={`tel:${msg.phone}`}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#edf4f8] hover:bg-[#dce8f0] text-[#0b1d2e] font-semibold text-xs transition-colors"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#edf4f8] hover:bg-[#dce8f0] text-[#0b1d2e] font-semibold text-xs transition-colors min-h-[44px] md:min-h-0"
                       >
                         <Phone size={13} className="text-[#65788c]" />
                         <span>Call</span>
@@ -499,7 +499,7 @@ export const MessagesPage: React.FC = () => {
                     {msg.email && (
                       <a
                         href={`mailto:${msg.email}?subject=Regarding your message to Lucky Digital Library`}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#edf4f8] hover:bg-[#dce8f0] text-[#0b1d2e] font-semibold text-xs transition-colors"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#edf4f8] hover:bg-[#dce8f0] text-[#0b1d2e] font-semibold text-xs transition-colors min-h-[44px] md:min-h-0"
                       >
                         <Mail size={13} className="text-[#65788c]" />
                         <span>Email</span>
@@ -507,17 +507,17 @@ export const MessagesPage: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
                     {/* Status Toggle Buttons */}
                     {msg.status !== 'replied' && (
                       <button
                         type="button"
                         onClick={() => handleQuickStatusChange(msg, 'replied')}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold text-xs transition-colors"
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold text-xs transition-colors min-h-[44px] md:min-h-0"
                         title="Mark as Replied"
                       >
                         <CheckCircle2 size={13} />
-                        <span className="hidden sm:inline">Mark Replied</span>
+                        <span className="inline">Mark Replied</span>
                       </button>
                     )}
 
@@ -525,7 +525,7 @@ export const MessagesPage: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleQuickStatusChange(msg, 'read')}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs transition-colors"
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs transition-colors min-h-[44px] md:min-h-0"
                         title="Mark as Read"
                       >
                         <span>Mark Read</span>
@@ -534,7 +534,7 @@ export const MessagesPage: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleQuickStatusChange(msg, 'unread')}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-cyan-50 text-cyan-800 hover:bg-cyan-100 font-semibold text-xs transition-colors"
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-cyan-50 text-cyan-800 hover:bg-cyan-100 font-semibold text-xs transition-colors min-h-[44px] md:min-h-0"
                         title="Mark as Unread"
                       >
                         <span>Mark Unread</span>
@@ -545,7 +545,7 @@ export const MessagesPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleOpenDetailModal(msg)}
-                      className="p-1.5 rounded-xl text-[#65788c] hover:text-[#0b1d2e] hover:bg-[#edf4f8] transition-colors"
+                      className="p-1.5 rounded-xl text-[#65788c] hover:text-[#0b1d2e] hover:bg-[#edf4f8] transition-colors min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 flex items-center justify-center"
                       title="Add Notes or Edit Status"
                     >
                       <Edit3 size={15} />
@@ -555,7 +555,7 @@ export const MessagesPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setDeleteModalMessage(msg)}
-                      className="p-1.5 rounded-xl text-[#65788c] hover:text-[#8B1A1A] hover:bg-rose-50 transition-colors"
+                      className="p-1.5 rounded-xl text-[#65788c] hover:text-[#8B1A1A] hover:bg-rose-50 transition-colors min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 flex items-center justify-center"
                       title="Delete message"
                     >
                       <Trash2 size={15} />
@@ -579,7 +579,7 @@ export const MessagesPage: React.FC = () => {
               type="button"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="btn btn-secondary py-1 px-3 text-xs disabled:opacity-40"
+              className="btn btn-secondary py-1 px-3 text-xs disabled:opacity-40 min-h-[44px] md:min-h-0 flex items-center justify-center"
             >
               Previous
             </button>
@@ -587,7 +587,7 @@ export const MessagesPage: React.FC = () => {
               type="button"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="btn btn-secondary py-1 px-3 text-xs disabled:opacity-40"
+              className="btn btn-secondary py-1 px-3 text-xs disabled:opacity-40 min-h-[44px] md:min-h-0 flex items-center justify-center"
             >
               Next
             </button>
@@ -655,7 +655,7 @@ export const MessagesPage: React.FC = () => {
               <select
                 value={editStatus}
                 onChange={(e) => setEditStatus(e.target.value as MessageStatus)}
-                className="w-full p-2.5 rounded-xl border border-[#dce8f0] text-xs text-[#0b1d2e] bg-[#f8fbfd] focus:bg-white focus:outline-none focus:border-[#13b8c8]"
+                className="w-full p-2.5 rounded-xl border border-[#dce8f0] text-base md:text-xs text-[#0b1d2e] bg-[#f8fbfd] focus:bg-white focus:outline-none focus:border-[#13b8c8]"
               >
                 <option value="unread">Unread / New</option>
                 <option value="read">Read</option>
@@ -674,7 +674,7 @@ export const MessagesPage: React.FC = () => {
                 placeholder="E.g., Spoke on phone, invited for library trial on Saturday..."
                 value={editNotes}
                 onChange={(e) => setEditNotes(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#dce8f0] text-xs text-[#0b1d2e] bg-[#f8fbfd] focus:bg-white focus:outline-none focus:border-[#13b8c8] resize-none"
+                className="w-full p-2.5 rounded-xl border border-[#dce8f0] text-base md:text-xs text-[#0b1d2e] bg-[#f8fbfd] focus:bg-white focus:outline-none focus:border-[#13b8c8] resize-none"
               />
             </div>
 
@@ -683,7 +683,7 @@ export const MessagesPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedMessage(null)}
-                className="btn btn-secondary text-xs py-2 px-4"
+                className="btn btn-secondary text-xs py-2 px-4 min-h-[44px] md:min-h-0 flex items-center justify-center"
               >
                 Cancel
               </button>
@@ -691,7 +691,7 @@ export const MessagesPage: React.FC = () => {
                 type="button"
                 onClick={handleSaveModal}
                 disabled={savingNote}
-                className="btn btn-primary text-xs py-2 px-4"
+                className="btn btn-primary text-xs py-2 px-4 min-h-[44px] md:min-h-0 flex items-center justify-center"
               >
                 {savingNote ? 'Saving...' : 'Save Changes'}
               </button>
@@ -724,7 +724,7 @@ export const MessagesPage: React.FC = () => {
                 type="button"
                 onClick={() => setDeleteModalMessage(null)}
                 disabled={deleting}
-                className="btn btn-secondary text-xs py-2 px-4"
+                className="btn btn-secondary text-xs py-2 px-4 min-h-[44px] md:min-h-0 flex items-center justify-center"
               >
                 Cancel
               </button>
@@ -732,7 +732,7 @@ export const MessagesPage: React.FC = () => {
                 type="button"
                 onClick={handleDeleteConfirm}
                 disabled={deleting}
-                className="px-4 py-2 rounded-xl bg-[#8B1A1A] text-white hover:bg-rose-700 font-bold text-xs transition-colors"
+                className="px-4 py-2 rounded-xl bg-[#8B1A1A] text-white hover:bg-rose-700 font-bold text-xs transition-colors min-h-[44px] md:min-h-0 flex items-center justify-center"
               >
                 {deleting ? 'Deleting...' : 'Yes, Delete'}
               </button>

@@ -37,19 +37,16 @@ export const MobileBottomNav: React.FC = () => {
               <>
                 <div className="relative flex items-center justify-center">
                   <Icon
-                    size={20}
-                    className={
+                    size={22}
+                    className={`transition-transform duration-200 ${
                       isActive
-                        ? 'text-[#087d99] stroke-[2.4]'
+                        ? 'text-[#087d99] stroke-[2.4] scale-110'
                         : 'text-[#65788c] stroke-[1.8]'
-                    }
+                    }`}
                   />
-                  {isActive && (
-                    <span className="absolute -top-1 -right-1 h-1.5 w-1.5 rounded-full bg-[#13b8c8]" />
-                  )}
                 </div>
                 <span
-                  className={`text-[10px] mt-0.5 tracking-tight ${
+                  className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
                     isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
                   }`}
                 >

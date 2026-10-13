@@ -170,7 +170,7 @@ export const RecordPaymentPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 pb-24 md:pb-6">
       <div className="page-header">
         <div>
           <h1 className="page-title text-2xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
@@ -218,31 +218,31 @@ export const RecordPaymentPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
             <button
               onClick={handleDownloadReceipt}
               disabled={isDownloading}
-              className="btn btn-primary px-6"
+              className="btn btn-primary w-full sm:w-auto px-6 min-h-[48px] justify-center"
             >
               <Download className="w-4 h-4 mr-2" />
               {isDownloading ? 'Generating PDF...' : 'Download PDF Receipt'}
             </button>
             <button
               onClick={handleReset}
-              className="btn btn-secondary px-6"
+              className="btn btn-secondary w-full sm:w-auto px-6 min-h-[48px] justify-center"
             >
               Record Another Payment
             </button>
             <button
               onClick={() => navigate('/admin/payments')}
-              className="btn btn-secondary border-transparent text-[#64748B]"
+              className="btn btn-secondary border-transparent text-[#64748B] w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-center"
             >
               View Payments List
             </button>
           </div>
         </motion.div>
       ) : (
-        <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-8 border border-[#dce8f0] shadow-sm space-y-8">
+        <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-5 sm:p-8 border border-[#dce8f0] shadow-sm space-y-6 sm:space-y-8">
           {/* Section 1: Student Selection */}
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wider text-[#0b1d2e] mb-4 flex items-center gap-2">
@@ -283,13 +283,13 @@ export const RecordPaymentPage: React.FC = () => {
             ) : (
               <div className="relative">
                 <div className="relative">
-                  <Search className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-3.5" />
+                  <Search className="w-4 h-4 text-[#94A3B8] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search student by name, student code, or phone number..."
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/40 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-sm"
+                    className="w-full pl-10 pr-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/40 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
                   />
                 </div>
 
@@ -331,7 +331,7 @@ export const RecordPaymentPage: React.FC = () => {
                   Amount Received (INR) *
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3.5 top-3 text-lg font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">₹</span>
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-lg font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] pointer-events-none">₹</span>
                   <input
                     type="number"
                     min="1"
@@ -339,7 +339,7 @@ export const RecordPaymentPage: React.FC = () => {
                     value={amountINR}
                     onChange={(e) => setAmountINR(e.target.value === '' ? '' : Number(e.target.value))}
                     placeholder="1200"
-                    className="w-full pl-9 pr-4 py-3 rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-lg font-semibold"
+                    className="w-full pl-9 pr-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-lg font-semibold"
                   />
                 </div>
               </div>
@@ -351,7 +351,7 @@ export const RecordPaymentPage: React.FC = () => {
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value as any)}
-                  className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] bg-white text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-white text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
                 >
                   <option value="cash">Cash (In-person)</option>
                   <option value="upi">UPI (GPay / PhonePe / Paytm / BHIM)</option>
@@ -372,7 +372,7 @@ export const RecordPaymentPage: React.FC = () => {
                   required
                   value={paymentDate}
                   onChange={(e) => setPaymentDate(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
                 />
               </div>
 
@@ -385,7 +385,7 @@ export const RecordPaymentPage: React.FC = () => {
                   value={feeCategory}
                   onChange={(e) => setFeeCategory(e.target.value)}
                   placeholder="e.g. Monthly Fee"
-                  className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
                 />
               </div>
 
@@ -398,7 +398,7 @@ export const RecordPaymentPage: React.FC = () => {
                   value={periodLabel}
                   onChange={(e) => setPeriodLabel(e.target.value)}
                   placeholder="e.g. November 2026"
-                  className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
                 />
               </div>
             </div>
@@ -413,7 +413,7 @@ export const RecordPaymentPage: React.FC = () => {
                   value={transactionReference}
                   onChange={(e) => setTransactionReference(e.target.value)}
                   placeholder="e.g. UPI Ref 324158912389"
-                  className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-sm font-mono"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm font-mono"
                 />
               </div>
 
@@ -426,30 +426,30 @@ export const RecordPaymentPage: React.FC = () => {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="e.g. Received partial payment; balance to follow"
-                  className="w-full px-4 py-3 rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
                 />
               </div>
             </div>
           </div>
 
-          <div className="pt-6 border-t border-[#dce8f0] flex items-center justify-between">
-            <div className="text-xs text-[#64748B] flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#2D6A4F]" />
-              Generates audit-verified sequential receipt code
+          <div className="pt-6 border-t border-[#dce8f0] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-4">
+            <div className="text-xs text-[#64748B] flex items-center justify-center sm:justify-start gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-[#2D6A4F] shrink-0" />
+              <span>Generates audit-verified sequential receipt code</span>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => navigate('/admin/payments')}
-                className="btn btn-secondary"
+                className="btn btn-secondary w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-center"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting || !selectedStudent}
-                className="btn btn-primary px-8"
+                className="btn btn-primary w-full sm:w-auto px-8 min-h-[48px] justify-center"
               >
                 {isSubmitting ? 'Recording...' : 'Confirm & Generate Receipt'}
               </button>

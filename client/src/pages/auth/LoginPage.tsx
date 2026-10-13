@@ -131,7 +131,7 @@ export const LoginPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center bg-[radial-gradient(circle_at_top_right,rgba(93,196,255,0.08),transparent_35%),#f4f9fc] px-5 py-10 sm:px-12 sm:py-12 md:px-16 lg:col-span-7">
+      <div className="flex flex-col justify-center bg-[radial-gradient(circle_at_top_right,rgba(93,196,255,0.08),transparent_35%),#f4f9fc] px-5 py-10 pb-20 sm:px-12 sm:py-12 md:px-16 lg:col-span-7">
         <div className="lg:hidden mb-8 text-center">
           <Link to="/" className="mb-2 inline-flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#7ef9ff]/25 bg-gradient-to-br from-[#dff9ff] via-[#7ef9ff] to-[#5dc4ff] text-xl font-black text-[#071521] shadow-[0_8px_22px_rgba(93,196,255,0.25)]">
@@ -175,7 +175,7 @@ export const LoginPage: React.FC = () => {
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
                   placeholder="10-digit Phone or student@example.com"
-                  className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-4 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10"
+                  className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-4 text-base sm:text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10 min-h-[48px] sm:min-h-0"
                 />
               </div>
             </div>
@@ -201,12 +201,12 @@ export const LoginPage: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-11 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10"
+                  className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-11 text-base sm:text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10 min-h-[48px] sm:min-h-0"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center p-1 text-[#7b90a3] transition-colors hover:text-[#087d99]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center p-2 min-w-[44px] min-h-[44px] text-[#7b90a3] transition-colors hover:text-[#087d99]"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -217,7 +217,7 @@ export const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn btn-primary mt-2 w-full justify-center rounded-xl py-3.5 text-sm shadow-[0_12px_28px_rgba(93,196,255,0.24)]"
+              className="btn btn-primary mt-2 w-full justify-center rounded-xl py-3.5 min-h-[48px] text-sm shadow-[0_12px_28px_rgba(93,196,255,0.24)]"
             >
               {isSubmitting ? (
                 <span>Authenticating...</span>

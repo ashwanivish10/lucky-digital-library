@@ -179,36 +179,36 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* Quick Actions Bar */}
-      <div className="dashboard-actions flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#dce8f0] bg-white p-4 shadow-sm">
+      <div className="dashboard-actions flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-[#dce8f0] bg-white p-3.5 sm:p-4 shadow-sm">
         <div className="flex items-center gap-2 font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.16em] text-[#294055]">
           <span className="h-2 w-2 rounded-full bg-[#13b8c8] shadow-[0_0_10px_rgba(19,184,200,0.5)]"></span>
           Quick actions
         </div>
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-2.5 w-full sm:w-auto">
           <Link
             to="/admin/students/add"
-            className="dashboard-action inline-flex items-center gap-1.5 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] px-3 py-2 text-xs font-semibold text-[#294055] transition-colors hover:border-[#25b8d0] hover:bg-[#e9faff] hover:text-[#087d99]"
+            className="dashboard-action inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] px-3 py-2.5 text-xs font-semibold text-[#294055] transition-colors hover:border-[#25b8d0] hover:bg-[#e9faff] hover:text-[#087d99] min-h-[44px]"
           >
             <UserPlus size={14} className="text-[#087d99]" />
             Add Student
           </Link>
           <Link
             to="/admin/payments/record"
-            className="dashboard-action inline-flex items-center gap-1.5 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] px-3 py-2 text-xs font-semibold text-[#294055] transition-colors hover:border-[#25b8d0] hover:bg-[#e9faff] hover:text-[#087d99]"
+            className="dashboard-action inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] px-3 py-2.5 text-xs font-semibold text-[#294055] transition-colors hover:border-[#25b8d0] hover:bg-[#e9faff] hover:text-[#087d99] min-h-[44px]"
           >
             <PlusCircle size={14} className="text-[#087d99]" />
             Record Payment
           </Link>
           <Link
             to="/admin/approvals"
-            className="dashboard-action inline-flex items-center gap-1.5 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] px-3 py-2 text-xs font-semibold text-[#294055] transition-colors hover:border-[#25b8d0] hover:bg-[#e9faff] hover:text-[#087d99]"
+            className="dashboard-action inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] px-3 py-2.5 text-xs font-semibold text-[#294055] transition-colors hover:border-[#25b8d0] hover:bg-[#e9faff] hover:text-[#087d99] min-h-[44px]"
           >
             <Clock size={14} className="text-[#5dc4ff]" />
             Review Approvals
           </Link>
           <Link
             to="/admin/plans"
-            className="dashboard-action inline-flex items-center gap-1.5 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] px-3 py-2 text-xs font-semibold text-[#294055] transition-colors hover:border-[#25b8d0] hover:bg-[#e9faff] hover:text-[#087d99]"
+            className="dashboard-action inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] px-3 py-2.5 text-xs font-semibold text-[#294055] transition-colors hover:border-[#25b8d0] hover:bg-[#e9faff] hover:text-[#087d99] min-h-[44px]"
           >
             <Layers size={14} className="text-[#73849d]" />
             Membership Plans
@@ -217,47 +217,47 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* 8 StatCards Grid (2 col mobile, 4 col desktop) */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* 1. Total Students */}
-        <div className="stat-card bg-white rounded-lg p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
+        <div className="stat-card bg-white rounded-2xl p-3.5 sm:p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
           <div className="flex items-start justify-between">
             <div>
-              <span className="text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
+              <span className="text-[10px] sm:text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
                 Total Students
               </span>
               {loading ? (
-                <div className="h-8 w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
+                <div className="h-7 sm:h-8 w-14 sm:w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
               ) : (
-                <div className="text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mt-1.5 tracking-tight">
+                <div className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mt-1 tracking-tight">
                   {summary?.totalStudents ?? 0}
                 </div>
               )}
-              <span className="text-[11px] text-[#65788c] mt-1 block">Registered in library</span>
+              <span className="text-[10px] sm:text-[11px] text-[#65788c] mt-0.5 sm:mt-1 block">Registered in library</span>
             </div>
-            <div className="w-10 h-10 rounded-lg bg-[#0b1d2e]/5 text-[#0b1d2e] flex items-center justify-center border border-[#0b1d2e]/10">
-              <Users size={20} />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#0b1d2e]/5 text-[#0b1d2e] flex items-center justify-center border border-[#0b1d2e]/10 shrink-0">
+              <Users className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
         </div>
 
         {/* 2. Active Members */}
-        <div className="stat-card bg-white rounded-lg p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
+        <div className="stat-card bg-white rounded-2xl p-3.5 sm:p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
           <div className="flex items-start justify-between">
             <div>
-              <span className="text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
+              <span className="text-[10px] sm:text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
                 Active Members
               </span>
               {loading ? (
-                <div className="h-8 w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
+                <div className="h-7 sm:h-8 w-14 sm:w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
               ) : (
-                <div className="text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#1A5C3B] mt-1.5 tracking-tight">
+                <div className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#1A5C3B] mt-1 tracking-tight">
                   {summary?.activeStudents ?? 0}
                 </div>
               )}
-              <span className="text-[11px] text-[#65788c] mt-1 block">Currently seated / enrolled</span>
+              <span className="text-[10px] sm:text-[11px] text-[#65788c] mt-0.5 sm:mt-1 block">Currently enrolled</span>
             </div>
-            <div className="w-10 h-10 rounded-lg bg-[#1A5C3B]/10 text-[#1A5C3B] flex items-center justify-center border border-[#1A5C3B]/20">
-              <UserCheck size={20} />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#1A5C3B]/10 text-[#1A5C3B] flex items-center justify-center border border-[#1A5C3B]/20 shrink-0">
+              <UserCheck className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
         </div>
@@ -265,135 +265,135 @@ export const DashboardPage: React.FC = () => {
         {/* 3. Pending Approvals */}
         <Link
           to="/admin/students?registrationStatus=pending"
-          className="stat-card bg-white rounded-lg p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden hover:border-[#13b8c8] hover:shadow-md transition-all group block"
+          className="stat-card bg-white rounded-2xl p-3.5 sm:p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden hover:border-[#13b8c8] hover:shadow-md transition-all group block"
         >
           <div className="flex items-start justify-between">
             <div>
-              <span className="text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#5dc4ff] flex items-center gap-1">
-                Pending Approvals
-                <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
+              <span className="text-[10px] sm:text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#5dc4ff] flex items-center gap-1">
+                Approvals
+                <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform hidden sm:inline" />
               </span>
               {loading ? (
-                <div className="h-8 w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
+                <div className="h-7 sm:h-8 w-14 sm:w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
               ) : (
-                <div className="text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#5dc4ff] mt-1.5 tracking-tight">
+                <div className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#5dc4ff] mt-1 tracking-tight">
                   {summary?.pendingApprovals ?? 0}
                 </div>
               )}
-              <span className="text-[11px] text-[#65788c] mt-1 block">Awaiting verification</span>
+              <span className="text-[10px] sm:text-[11px] text-[#65788c] mt-0.5 sm:mt-1 block">Awaiting check</span>
             </div>
-            <div className="w-10 h-10 rounded-lg bg-[#5dc4ff]/10 text-[#5dc4ff] flex items-center justify-center border border-[#5dc4ff]/20">
-              <Clock size={20} />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#5dc4ff]/10 text-[#5dc4ff] flex items-center justify-center border border-[#5dc4ff]/20 shrink-0">
+              <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
         </Link>
 
         {/* 4. Expiring Soon */}
-        <div className="stat-card bg-white rounded-lg p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
+        <div className="stat-card bg-white rounded-2xl p-3.5 sm:p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
           <div className="flex items-start justify-between">
             <div>
-              <span className="text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
+              <span className="text-[10px] sm:text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
                 Expiring Soon
               </span>
               {loading ? (
-                <div className="h-8 w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
+                <div className="h-7 sm:h-8 w-14 sm:w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
               ) : (
-                <div className="text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#5dc4ff] mt-1.5 tracking-tight">
+                <div className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#5dc4ff] mt-1 tracking-tight">
                   {summary?.expiringSoon ?? 0}
                 </div>
               )}
-              <span className="text-[11px] text-[#65788c] mt-1 block">Within warning window</span>
+              <span className="text-[10px] sm:text-[11px] text-[#65788c] mt-0.5 sm:mt-1 block">In window</span>
             </div>
-            <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-200">
-              <AlertTriangle size={20} />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-200 shrink-0">
+              <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
         </div>
 
         {/* 5. Active Memberships */}
-        <div className="stat-card bg-white rounded-lg p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
+        <div className="stat-card bg-white rounded-2xl p-3.5 sm:p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
           <div className="flex items-start justify-between">
             <div>
-              <span className="text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
-                Active Subscriptions
+              <span className="text-[10px] sm:text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
+                Active Plans
               </span>
               {loading ? (
-                <div className="h-8 w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
+                <div className="h-7 sm:h-8 w-14 sm:w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
               ) : (
-                <div className="text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mt-1.5 tracking-tight">
+                <div className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mt-1 tracking-tight">
                   {summary?.activeMemberships ?? 0}
                 </div>
               )}
-              <span className="text-[11px] text-[#65788c] mt-1 block">Valid memberships</span>
+              <span className="text-[10px] sm:text-[11px] text-[#65788c] mt-0.5 sm:mt-1 block">Valid plans</span>
             </div>
-            <div className="w-10 h-10 rounded-lg bg-[#13b8c8]/15 text-[#13b8c8] flex items-center justify-center border border-[#13b8c8]/30">
-              <Award size={20} />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#13b8c8]/15 text-[#13b8c8] flex items-center justify-center border border-[#13b8c8]/30 shrink-0">
+              <Award className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
         </div>
 
         {/* 6. Monthly Collection */}
-        <div className="stat-card bg-white rounded-lg p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
+        <div className="stat-card bg-white rounded-2xl p-3.5 sm:p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
           <div className="flex items-start justify-between">
             <div>
-              <span className="text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
-                Monthly Collection
+              <span className="text-[10px] sm:text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
+                This Month
               </span>
               {loading ? (
-                <div className="h-8 w-24 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
+                <div className="h-7 sm:h-8 w-16 sm:w-24 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
               ) : (
-                <div className="text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#1A5C3B] mt-1.5 tracking-tight">
+                <div className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#1A5C3B] mt-1 tracking-tight truncate">
                   ₹{(summary?.monthlyCollected ?? 0).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                 </div>
               )}
-              <span className="text-[11px] text-[#65788c] mt-1 block">Current calendar month</span>
+              <span className="text-[10px] sm:text-[11px] text-[#65788c] mt-0.5 sm:mt-1 block">Current month</span>
             </div>
-            <div className="w-10 h-10 rounded-lg bg-[#1A5C3B]/10 text-[#1A5C3B] flex items-center justify-center border border-[#1A5C3B]/20">
-              <IndianRupee size={20} />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#1A5C3B]/10 text-[#1A5C3B] flex items-center justify-center border border-[#1A5C3B]/20 shrink-0">
+              <IndianRupee className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
         </div>
 
         {/* 7. Yearly Collection */}
-        <div className="stat-card bg-white rounded-lg p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
+        <div className="stat-card bg-white rounded-2xl p-3.5 sm:p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
           <div className="flex items-start justify-between">
             <div>
-              <span className="text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
-                Yearly Collection
+              <span className="text-[10px] sm:text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
+                This Year
               </span>
               {loading ? (
-                <div className="h-8 w-24 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
+                <div className="h-7 sm:h-8 w-16 sm:w-24 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
               ) : (
-                <div className="text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mt-1.5 tracking-tight">
+                <div className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mt-1 tracking-tight truncate">
                   ₹{(summary?.yearlyCollected ?? 0).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                 </div>
               )}
-              <span className="text-[11px] text-[#65788c] mt-1 block">Fiscal year accumulated</span>
+              <span className="text-[10px] sm:text-[11px] text-[#65788c] mt-0.5 sm:mt-1 block">Fiscal year</span>
             </div>
-            <div className="w-10 h-10 rounded-lg bg-[#13b8c8]/10 text-[#13b8c8] flex items-center justify-center border border-[#13b8c8]/20">
-              <TrendingUp size={20} />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#13b8c8]/10 text-[#13b8c8] flex items-center justify-center border border-[#13b8c8]/20 shrink-0">
+              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
         </div>
 
         {/* 8. Expired Memberships */}
-        <div className="stat-card bg-white rounded-lg p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
+        <div className="stat-card bg-white rounded-2xl p-3.5 sm:p-5 border border-[#dce8f0] shadow-sm relative overflow-hidden">
           <div className="flex items-start justify-between">
             <div>
-              <span className="text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
-                Expired Memberships
+              <span className="text-[10px] sm:text-[11px] font-eyebrow uppercase tracking-wider font-semibold text-[#65788c] block">
+                Expired
               </span>
               {loading ? (
-                <div className="h-8 w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
+                <div className="h-7 sm:h-8 w-14 sm:w-16 bg-[#edf4f8] animate-pulse rounded mt-2"></div>
               ) : (
-                <div className="text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#8B1A1A] mt-1.5 tracking-tight">
+                <div className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#8B1A1A] mt-1 tracking-tight">
                   {summary?.expiredMemberships ?? 0}
                 </div>
               )}
-              <span className="text-[11px] text-[#65788c] mt-1 block">Require renewal notice</span>
+              <span className="text-[10px] sm:text-[11px] text-[#65788c] mt-0.5 sm:mt-1 block">Needs renewal</span>
             </div>
-            <div className="w-10 h-10 rounded-lg bg-[#8B1A1A]/10 text-[#8B1A1A] flex items-center justify-center border border-[#8B1A1A]/20">
-              <XCircle size={20} />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#8B1A1A]/10 text-[#8B1A1A] flex items-center justify-center border border-[#8B1A1A]/20 shrink-0">
+              <XCircle className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
           </div>
         </div>
@@ -402,7 +402,7 @@ export const DashboardPage: React.FC = () => {
       {/* Analytics Charts Grid (2x2) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Chart 1: Monthly Fee Collection */}
-        <div className="card bg-white p-6 rounded-lg border border-[#dce8f0] shadow-sm">
+        <div className="card bg-white p-4 sm:p-6 rounded-2xl border border-[#dce8f0] shadow-sm">
           <div className="mb-4">
             <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">Monthly Fee Collection</h3>
             <p className="text-xs text-[#65788c]">Last 6 months revenue distribution in INR (₹)</p>
@@ -431,7 +431,7 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* Chart 2: New Student Registrations */}
-        <div className="card bg-white p-6 rounded-lg border border-[#dce8f0] shadow-sm">
+        <div className="card bg-white p-4 sm:p-6 rounded-2xl border border-[#dce8f0] shadow-sm">
           <div className="mb-4">
             <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">New Student Registrations</h3>
             <p className="text-xs text-[#65788c]">Trend of enrollments across the last 6 months</p>
@@ -464,7 +464,7 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* Chart 3: Membership Status Breakdown */}
-        <div className="card bg-white p-6 rounded-lg border border-[#dce8f0] shadow-sm">
+        <div className="card bg-white p-4 sm:p-6 rounded-2xl border border-[#dce8f0] shadow-sm">
           <div className="mb-4">
             <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">Membership Status Breakdown</h3>
             <p className="text-xs text-[#65788c]">Proportion of active, expiring, and expired accounts</p>
@@ -509,7 +509,7 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* Chart 4: Payment Method Breakdown */}
-        <div className="card bg-white p-6 rounded-lg border border-[#dce8f0] shadow-sm">
+        <div className="card bg-white p-4 sm:p-6 rounded-2xl border border-[#dce8f0] shadow-sm">
           <div className="mb-4">
             <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">Payment Method Breakdown</h3>
             <p className="text-xs text-[#65788c]">Transaction breakdown across UPI, Cash, and Online channels</p>
