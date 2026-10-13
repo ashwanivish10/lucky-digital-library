@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 
 export const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,29 +16,27 @@ export const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim() || !password) {
-      toast.error('Please enter both email and password.');
+    if (!identifier.trim() || !password) {
+      toast.error('Please enter your phone number/email and password.');
       return;
     }
 
     setIsSubmitting(true);
     try {
-      await login(email, password);
-      toast.success('Welcome back!');
-      
-      // Check user role from localStorage to redirect properly
-      const savedUser = localStorage.getItem('user');
-      if (savedUser) {
-        const u = JSON.parse(savedUser);
-        if (u.role === 'admin') {
-          navigate('/admin');
-          return;
-        } else {
-          navigate('/portal');
-          return;
-        }
+      const result = await login(identifier.trim(), password);
+
+      if (result.requiresPasswordChange) {
+        toast('Welcome! Please set a secure password for your account.', { icon: '🔐' });
+        navigate('/set-password');
+        return;
       }
-      navigate('/portal');
+
+      toast.success('Welcome back!');
+      if (result.user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/portal');
+      }
     } catch (err: any) {
       const msg = err.response?.data?.message || 'Invalid credentials or inactive account.';
       toast.error(msg);
@@ -167,16 +165,16 @@ export const LoginPage: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="form-label mb-2 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#294055]">
-                Email Address
+                Phone Number or Email
               </label>
               <div className="relative flex items-center">
                 <Mail className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
                 <input
-                  type="email"
+                  type="text"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="student@example.com"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  placeholder="10-digit Phone or student@example.com"
                   className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-4 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10"
                 />
               </div>

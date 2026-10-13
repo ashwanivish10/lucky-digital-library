@@ -37,9 +37,11 @@ export const ApprovalsPage: React.FC = () => {
     fetchPendingStudents();
     plansApi.list()
       .then((res) => {
-        const activePlans = (res.data?.data || []).filter((p: any) => p.isActive);
-        setPlans(activePlans);
-        if (activePlans.length > 0) setSelectedPlanId(activePlans[0]._id);
+        const allPlans = res.data?.data || [];
+        const activePlans = allPlans.filter((p: any) => p.isActive);
+        const finalPlans = activePlans.length > 0 ? activePlans : allPlans;
+        setPlans(finalPlans);
+        if (finalPlans.length > 0) setSelectedPlanId(finalPlans[0]._id);
       })
       .catch(console.error);
   }, []);

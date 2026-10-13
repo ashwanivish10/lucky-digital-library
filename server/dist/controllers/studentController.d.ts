@@ -8,4 +8,5 @@ export declare const updateStudentStatus: (req: AuthRequest, res: Response) => P
 export declare const approveRegistration: (req: AuthRequest, res: Response) => Promise<void>;
 export declare const publicRegister: (req: AuthRequest, res: Response) => Promise<void>;
 export declare const getSeatMap: (req: AuthRequest, res: Response) => Promise<void>;
+export declare const customEnroll: (req: AuthRequest, res: Response) => Promise<void>;
 //# sourceMappingURL=studentController.d.ts.map

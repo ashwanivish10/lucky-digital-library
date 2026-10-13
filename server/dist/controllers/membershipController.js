@@ -6,6 +6,7 @@ const date_fns_1 = require("date-fns");
 const Membership_1 = require("../models/Membership");
 const MembershipPlan_1 = require("../models/MembershipPlan");
 const Student_1 = require("../models/Student");
+const User_1 = require("../models/User");
 const SiteSettings_1 = require("../models/SiteSettings");
 const AuditLog_1 = require("../models/AuditLog");
 const errorHandler_1 = require("../middleware/errorHandler");
@@ -68,8 +69,11 @@ const createMembership = async (req, res) => {
         throw (0, errorHandler_1.createError)('Student not found', 404);
     if (!plan)
         throw (0, errorHandler_1.createError)('Membership plan not found', 404);
-    if (!plan.isActive)
-        throw (0, errorHandler_1.createError)('This plan is currently inactive', 400);
+    // If the plan was marked inactive, activate it so student's membership is active
+    if (!plan.isActive) {
+        plan.isActive = true;
+        await plan.save();
+    }
     const start = new Date(startDate);
     const end = computeEndDate(start, plan.durationValue, plan.durationUnit);
     const status = await computeMembershipStatus(end);
@@ -91,6 +95,20 @@ const createMembership = async (req, res) => {
         createdBy: req.user._id,
         notes,
     });
+    // Ensure student record and user account are marked active & approved
+    let studentUpdated = false;
+    if (student.registrationStatus === 'pending') {
+        student.registrationStatus = 'approved';
+        studentUpdated = true;
+    }
+    if (student.status !== 'active') {
+        student.status = 'active';
+        studentUpdated = true;
+    }
+    if (studentUpdated) {
+        await student.save();
+    }
+    await User_1.User.findOneAndUpdate({ studentId: student._id }, { status: 'active' });
     await AuditLog_1.AuditLog.create({
         adminId: req.user._id,
         adminName: req.user.name,
@@ -138,6 +156,9 @@ const renewMembership = async (req, res) => {
     // Mark old membership as expired
     existing.status = 'expired';
     await existing.save();
+    // Ensure student record and user account are active
+    await Student_1.Student.findByIdAndUpdate(existing.studentId, { status: 'active', registrationStatus: 'approved' });
+    await User_1.User.findOneAndUpdate({ studentId: existing.studentId }, { status: 'active' });
     await AuditLog_1.AuditLog.create({
         adminId: req.user._id,
         adminName: req.user.name,

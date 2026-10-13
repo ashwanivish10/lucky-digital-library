@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSeatMap = exports.publicRegister = exports.approveRegistration = exports.updateStudentStatus = exports.updateStudent = exports.createStudent = exports.getStudent = exports.listStudents = void 0;
+exports.customEnroll = exports.getSeatMap = exports.publicRegister = exports.approveRegistration = exports.updateStudentStatus = exports.updateStudent = exports.createStudent = exports.getStudent = exports.listStudents = void 0;
 const zod_1 = require("zod");
 const Student_1 = require("../models/Student");
 const Membership_1 = require("../models/Membership");
@@ -13,6 +13,8 @@ const AuditLog_1 = require("../models/AuditLog");
 const errorHandler_1 = require("../middleware/errorHandler");
 const codeGenerator_1 = require("../utils/codeGenerator");
 const argon2_1 = __importDefault(require("argon2"));
+const date_fns_1 = require("date-fns");
+const paymentController_1 = require("./paymentController");
 const seatSchedule_1 = require("../utils/seatSchedule");
 // ---- Validation schemas ----
 const createStudentSchema = zod_1.z.object({
@@ -481,4 +483,178 @@ const getSeatMap = async (req, res) => {
     });
 };
 exports.getSeatMap = getSeatMap;
+const customEnrollSchema = zod_1.z.object({
+    name: zod_1.z.string().min(2, 'Name must be at least 2 characters').max(100),
+    phone: zod_1.z.string().min(10, 'Phone must be at least 10 digits').max(15),
+    shiftTimings: zod_1.z.string().optional(),
+    seatNumber: zod_1.z.union([zod_1.z.string(), zod_1.z.number()]).optional().transform((val) => val !== undefined && val !== null ? String(val) : undefined),
+    startDate: zod_1.z.string(),
+    endDate: zod_1.z.string(),
+    totalFee: zod_1.z.number().min(0, 'Total fee cannot be negative'),
+    amountReceivedToday: zod_1.z.number().min(0, 'Amount received cannot be negative'),
+    paymentMethod: zod_1.z.enum(['cash', 'upi', 'bank_transfer', 'card', 'other']).default('cash'),
+    transactionReference: zod_1.z.string().optional(),
+    notes: zod_1.z.string().optional(),
+});
+const customEnroll = async (req, res) => {
+    const parse = customEnrollSchema.safeParse(req.body);
+    if (!parse.success) {
+        res.status(400).json({ success: false, message: parse.error.errors[0].message });
+        return;
+    }
+    const data = parse.data;
+    const cleanPhone = data.phone.replace(/\D/g, '');
+    if (cleanPhone.length < 10) {
+        res.status(400).json({ success: false, message: 'Please provide a valid 10-digit phone number' });
+        return;
+    }
+    const start = new Date(data.startDate);
+    const end = new Date(data.endDate);
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        res.status(400).json({ success: false, message: 'Valid start and end dates are required' });
+        return;
+    }
+    if (end < start) {
+        res.status(400).json({ success: false, message: 'End date cannot be earlier than start date' });
+        return;
+    }
+    let normalizedSeat = undefined;
+    if (data.seatNumber && data.seatNumber.trim()) {
+        const norm = (0, seatSchedule_1.normalizeSeatNumber)(data.seatNumber.trim());
+        if (!norm) {
+            res.status(400).json({ success: false, message: 'Choose a valid seat number between 1 and 58' });
+            return;
+        }
+        normalizedSeat = norm;
+    }
+    // 1. Find or create Student
+    let student = await Student_1.Student.findOne({ phone: cleanPhone });
+    if (!student) {
+        const studentCode = await (0, codeGenerator_1.generateStudentCode)();
+        student = await Student_1.Student.create({
+            studentCode,
+            name: data.name.trim(),
+            phone: cleanPhone,
+            joiningDate: start,
+            seatNumber: normalizedSeat,
+            seatDays: [...seatSchedule_1.WEEK_DAYS],
+            shiftTimings: data.shiftTimings?.trim() || undefined,
+            registrationStatus: 'approved',
+            status: 'active',
+            notes: data.notes?.trim() || undefined,
+        });
+    }
+    else {
+        student.name = data.name.trim();
+        if (normalizedSeat)
+            student.seatNumber = normalizedSeat;
+        if (data.shiftTimings)
+            student.shiftTimings = data.shiftTimings.trim();
+        student.registrationStatus = 'approved';
+        student.status = 'active';
+        if (data.notes) {
+            student.notes = student.notes ? `${student.notes} | ${data.notes.trim()}` : data.notes.trim();
+        }
+        await student.save();
+    }
+    // 2. Setup Student User credentials (Phone as password, requiresPasswordChange = true)
+    let user = await User_1.User.findOne({
+        $or: [{ phone: cleanPhone }, { studentId: student._id }],
+    });
+    if (!user) {
+        const passwordHash = await argon2_1.default.hash(cleanPhone);
+        user = await User_1.User.create({
+            name: student.name,
+            phone: cleanPhone,
+            passwordHash,
+            role: 'student',
+            studentId: student._id,
+            status: 'active',
+            requiresPasswordChange: true,
+        });
+    }
+    else {
+        user.name = student.name;
+        user.phone = cleanPhone;
+        user.studentId = student._id;
+        user.status = 'active';
+        if (user.requiresPasswordChange) {
+            user.passwordHash = await argon2_1.default.hash(cleanPhone);
+        }
+        await user.save();
+    }
+    if (!student.userId) {
+        student.userId = user._id;
+        await student.save();
+    }
+    // 3. Create Custom Membership
+    const durationDays = Math.max(1, Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)));
+    const membership = await Membership_1.Membership.create({
+        studentId: student._id,
+        planNameSnapshot: data.shiftTimings ? `Walk-in (${data.shiftTimings})` : 'Custom Walk-in Plan',
+        baseFeeSnapshot: Math.round(data.totalFee * 100),
+        registrationFeeSnapshot: 0,
+        durationValueSnapshot: durationDays,
+        durationUnitSnapshot: 'days',
+        discountAmount: 0,
+        additionalCharges: 0,
+        startDate: start,
+        endDate: end,
+        status: 'active',
+        createdBy: req.user._id,
+        notes: data.notes || 'Walk-in custom enrollment',
+    });
+    // 4. Record Payment if amount > 0
+    let payment = null;
+    if (data.amountReceivedToday > 0) {
+        const receiptNumber = await (0, paymentController_1.generateReceiptNumber)();
+        payment = await Payment_1.Payment.create({
+            receiptNumber,
+            studentId: student._id,
+            membershipId: membership._id,
+            amountReceived: Math.round(data.amountReceivedToday * 100),
+            paymentMethod: data.paymentMethod,
+            paymentDate: new Date(),
+            transactionReference: data.transactionReference,
+            feeCategory: 'Membership Fee',
+            periodLabel: (0, date_fns_1.format)(start, 'MMMM yyyy'),
+            recordedBy: req.user._id,
+            status: 'completed',
+            notes: `Custom Walk-in Enrollment (${data.paymentMethod.toUpperCase()})`,
+        });
+    }
+    // 5. Audit log
+    await AuditLog_1.AuditLog.create({
+        adminId: req.user._id,
+        adminName: req.user.name,
+        action: 'CUSTOM_ENROLL_STUDENT',
+        entityType: 'Student',
+        entityId: student._id,
+        newValue: {
+            studentCode: student.studentCode,
+            name: student.name,
+            phone: cleanPhone,
+            seatNumber: normalizedSeat,
+            totalFee: data.totalFee,
+            amountReceivedToday: data.amountReceivedToday,
+            membershipId: membership._id,
+            paymentId: payment?._id,
+            receiptNumber: payment?.receiptNumber,
+        },
+        ipAddress: req.ip,
+        timestamp: new Date(),
+    });
+    res.status(201).json({
+        success: true,
+        message: 'Student enrolled successfully!',
+        data: {
+            student,
+            membership,
+            payment,
+            paymentId: payment?._id,
+            receiptNumber: payment?.receiptNumber,
+        },
+    });
+};
+exports.customEnroll = customEnroll;
 //# sourceMappingURL=studentController.js.map

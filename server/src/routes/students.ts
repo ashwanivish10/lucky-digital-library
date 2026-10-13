@@ -8,6 +8,7 @@ import {
   approveRegistration,
   publicRegister,
   getSeatMap,
+  customEnroll,
 } from '../controllers/studentController';
 import { requireAdmin, requireAuth } from '../middleware/auth';
 
@@ -20,6 +21,7 @@ router.post('/register', publicRegister);
 // Admin
 router.get('/', requireAdmin, listStudents);
 router.post('/', requireAdmin, createStudent);
+router.post('/custom-enroll', requireAdmin, customEnroll);
 
 // Admin or own student
 router.get('/:id', requireAuth, getStudent);

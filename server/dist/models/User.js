@@ -37,13 +37,15 @@ exports.User = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const userSchema = new mongoose_1.Schema({
     name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    phone: { type: String, trim: true },
+    email: { type: String, lowercase: true, trim: true, sparse: true },
+    phone: { type: String, trim: true, index: true },
     passwordHash: { type: String, required: true },
     role: { type: String, enum: ['admin', 'student'], default: 'student' },
     status: { type: String, enum: ['active', 'inactive', 'suspended'], default: 'active' },
     studentId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Student' },
+    requiresPasswordChange: { type: Boolean, default: false },
 }, { timestamps: true });
-userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ email: 1 }, { unique: true, sparse: true });
+userSchema.index({ phone: 1 });
 exports.User = mongoose_1.default.model('User', userSchema);
 //# sourceMappingURL=User.js.map

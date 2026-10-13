@@ -14,6 +14,7 @@ export interface IStudent extends Document {
     seatDays: string[];
     seatStartTime?: string;
     seatEndTime?: string;
+    shiftTimings?: string;
     notes?: string;
     registrationStatus: RegistrationStatus;
     status: StudentStatus;

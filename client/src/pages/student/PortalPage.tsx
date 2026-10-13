@@ -157,12 +157,16 @@ export const PortalPage: React.FC = () => {
                 <Armchair className="w-4 h-4 text-[#13b8c8]" />
                 {student?.seatNumber ? `Seat ${student.seatNumber}` : 'Flex / Open Desk'}
               </div>
-              {student?.seatNumber && student?.seatDays?.length > 0 && (
+              {student?.shiftTimings ? (
+                <div className="mt-1 max-w-52 text-[10px] font-semibold text-[#087d99]">
+                  {student.shiftTimings}
+                </div>
+              ) : student?.seatNumber && student?.seatDays?.length > 0 ? (
                 <div className="mt-1.5 max-w-52 text-[10px] leading-relaxed text-[#65788c]">
                   {student.seatDays.map((day: string) => day.slice(0, 3)).join(', ')}
                   {' · '}{student.seatStartTime}–{student.seatEndTime}
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </div>

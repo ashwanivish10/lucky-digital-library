@@ -10,6 +10,7 @@ router.post('/register', studentController_1.publicRegister);
 // Admin
 router.get('/', auth_1.requireAdmin, studentController_1.listStudents);
 router.post('/', auth_1.requireAdmin, studentController_1.createStudent);
+router.post('/custom-enroll', auth_1.requireAdmin, studentController_1.customEnroll);
 // Admin or own student
 router.get('/:id', auth_1.requireAuth, studentController_1.getStudent);
 router.patch('/:id', auth_1.requireAdmin, studentController_1.updateStudent);

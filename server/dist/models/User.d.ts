@@ -9,6 +9,7 @@ export interface IUser extends Document {
     role: UserRole;
     status: UserStatus;
     studentId?: mongoose.Types.ObjectId;
+    requiresPasswordChange?: boolean;
     createdAt: Date;
     updatedAt: Date;
 }

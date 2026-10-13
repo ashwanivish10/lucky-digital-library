@@ -17,6 +17,7 @@ import RegisterPage from './pages/public/RegisterPage';
 
 // Auth
 import LoginPage from './pages/auth/LoginPage';
+import SetPasswordPage from './pages/auth/SetPasswordPage';
 
 // Student portal
 import PortalPage from './pages/student/PortalPage';
@@ -46,6 +47,14 @@ function RequireStudent({ children }: { children: React.ReactNode }) {
   if (isLoading) return <PageLoader />;
   if (!user) return <Navigate to="/login" replace />;
   if (user.role === 'admin') return <Navigate to="/admin" replace />;
+  if (user.requiresPasswordChange) return <Navigate to="/set-password" replace />;
+  return <>{children}</>;
+}
+
+function RequireAuth({ children }: { children: React.ReactNode }) {
+  const { user, isLoading } = useAuth();
+  if (isLoading) return <PageLoader />;
+  if (!user) return <Navigate to="/login" replace />;
   return <>{children}</>;
 }
 
@@ -87,6 +96,9 @@ function AppRoutes() {
 
       {/* Auth */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/set-password" element={
+        <RequireAuth><SetPasswordPage /></RequireAuth>
+      } />
 
       {/* Student portal */}
       <Route path="/portal" element={

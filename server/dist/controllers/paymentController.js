@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFeeReport = exports.createAdjustment = exports.getReceipt = exports.recordPayment = exports.listPayments = void 0;
+exports.generateReceiptNumber = generateReceiptNumber;
 const zod_1 = require("zod");
 const date_fns_1 = require("date-fns");
 const Payment_1 = require("../models/Payment");

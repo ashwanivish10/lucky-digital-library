@@ -16,6 +16,7 @@ export interface IStudent extends Document {
   seatDays: string[];
   seatStartTime?: string;
   seatEndTime?: string;
+  shiftTimings?: string;
   notes?: string;
   registrationStatus: RegistrationStatus;
   status: StudentStatus;
@@ -38,6 +39,7 @@ const studentSchema = new Schema<IStudent>(
     seatDays: { type: [String], default: [] },
     seatStartTime: { type: String, trim: true },
     seatEndTime: { type: String, trim: true },
+    shiftTimings: { type: String, trim: true },
     notes: { type: String },
     registrationStatus: {
       type: String,

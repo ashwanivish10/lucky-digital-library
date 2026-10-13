@@ -39,18 +39,21 @@ export default api;
 // ---- Typed API helpers ----
 
 export const authApi = {
-  login: (email: string, password: string) =>
-    api.post('/auth/login', { email, password }),
+  login: (identifier: string, password: string) =>
+    api.post('/auth/login', { identifier, email: identifier, password }),
   logout: () => api.post('/auth/logout'),
   me: () => api.get('/auth/me'),
   changePassword: (currentPassword: string, newPassword: string) =>
     api.post('/auth/change-password', { currentPassword, newPassword }),
+  setFirstPassword: (newPassword: string) =>
+    api.post('/auth/set-first-password', { newPassword }),
 };
 
 export const studentsApi = {
   list: (params?: Record<string, unknown>) => api.get('/students', { params }),
   get: (id: string) => api.get(`/students/${id}`),
   create: (data: Record<string, unknown>) => api.post('/students', data),
+  customEnroll: (data: Record<string, unknown>) => api.post('/students/custom-enroll', data),
   update: (id: string, data: Record<string, unknown>) => api.patch(`/students/${id}`, data),
   updateStatus: (id: string, status: string, reason?: string) =>
     api.patch(`/students/${id}/status`, { status, reason }),

@@ -18,10 +18,12 @@ import {
   User as UserIcon,
   Bell,
   ExternalLink,
+  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { getInitials } from '../lib/utils';
 import { messagesApi } from '../lib/api';
+import { CustomEnrollModal } from '../components/admin/CustomEnrollModal';
 
 export const AdminLayout: React.FC = () => {
   const { user, isAdmin, logout } = useAuth();
@@ -32,6 +34,7 @@ export const AdminLayout: React.FC = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [customEnrollOpen, setCustomEnrollOpen] = useState(false);
 
   // Automatically close mobile sidebar when route changes
   useEffect(() => {
@@ -292,6 +295,18 @@ export const AdminLayout: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Quick Walk-in Enroll Button */}
+            <button
+              type="button"
+              onClick={() => setCustomEnrollOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#7ef9ff]/30 bg-gradient-to-r from-[#071521] via-[#0d2235] to-[#14324c] px-3 py-1.5 text-xs font-bold text-[#7ef9ff] shadow-sm hover:border-[#7ef9ff]/60 hover:text-white transition-all"
+              title="Instant walk-in student enrollment with custom dates, fee & receipt"
+            >
+              <Sparkles size={14} className="text-[#7ef9ff]" />
+              <span className="hidden sm:inline">Walk-in Enroll</span>
+              <span className="sm:hidden">Enroll</span>
+            </button>
+
             {/* Messages Quick Access */}
             <button
               type="button"
@@ -381,6 +396,12 @@ export const AdminLayout: React.FC = () => {
           <Outlet />
         </main>
       </div>
+
+      {/* Global Quick Walk-in Modal for Admin */}
+      <CustomEnrollModal
+        isOpen={customEnrollOpen}
+        onClose={() => setCustomEnrollOpen(false)}
+      />
     </div>
   );
 };

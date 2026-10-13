@@ -9,7 +9,7 @@ export type MembershipStatus =
 
 export interface IMembership extends Document {
   studentId: mongoose.Types.ObjectId;
-  planId: mongoose.Types.ObjectId;
+  planId?: mongoose.Types.ObjectId;
   // Snapshot of plan details at time of creation — never changes
   planNameSnapshot: string;
   baseFeeSnapshot: number; // paise
@@ -37,7 +37,7 @@ export interface IMembership extends Document {
 const membershipSchema = new Schema<IMembership>(
   {
     studentId: { type: Schema.Types.ObjectId, ref: 'Student', required: true },
-    planId: { type: Schema.Types.ObjectId, ref: 'MembershipPlan', required: true },
+    planId: { type: Schema.Types.ObjectId, ref: 'MembershipPlan', required: false },
     planNameSnapshot: { type: String, required: true },
     baseFeeSnapshot: { type: Number, required: true }, // paise
     registrationFeeSnapshot: { type: Number, default: 0 }, // paise

@@ -2,7 +2,7 @@ import mongoose, { Document } from 'mongoose';
 export type MembershipStatus = 'active' | 'expiring_soon' | 'expired' | 'suspended' | 'inactive';
 export interface IMembership extends Document {
     studentId: mongoose.Types.ObjectId;
-    planId: mongoose.Types.ObjectId;
+    planId?: mongoose.Types.ObjectId;
     planNameSnapshot: string;
     baseFeeSnapshot: number;
     registrationFeeSnapshot: number;

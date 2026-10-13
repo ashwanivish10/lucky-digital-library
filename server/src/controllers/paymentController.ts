@@ -24,7 +24,7 @@ const recordPaymentSchema = z.object({
   idempotencyKey: z.string().optional(),
 });
 
-async function generateReceiptNumber(): Promise<string> {
+export async function generateReceiptNumber(): Promise<string> {
   const settings = await SiteSettings.findOneAndUpdate(
     {},
     { $inc: { receiptCounter: 1 } },

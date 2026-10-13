@@ -200,13 +200,30 @@ export const StudentDetailPage: React.FC = () => {
     setDiscountReason('');
     setMembershipNotes('');
     setMembershipStartDate(new Date().toISOString().split('T')[0]);
+    if (!selectedPlanId && plans.length > 0) {
+      setSelectedPlanId(plans[0]._id);
+    }
+    if (mode === 'renew' && membershipId) {
+      const target = memberships.find((m) => m._id === membershipId);
+      if (target) {
+        if (target.planId?._id) setSelectedPlanId(target.planId._id);
+        const end = new Date(target.endDate);
+        const today = new Date();
+        const start = end > today ? end : today;
+        setMembershipStartDate(start.toISOString().split('T')[0]);
+      }
+    }
     setMembershipModalOpen(true);
   };
 
   // Submit Membership (Create or Renew)
   const handleMembershipSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!id || !selectedPlanId) return;
+    if (!id) return;
+    if (!selectedPlanId) {
+      toast.error('Please select a membership plan');
+      return;
+    }
     setSubmittingMembership(true);
     try {
       if (membershipModalMode === 'create') {
@@ -218,7 +235,7 @@ export const StudentDetailPage: React.FC = () => {
           discountReason,
           notes: membershipNotes,
         });
-        toast.success('New membership added');
+        toast.success('New membership added successfully');
       } else if (selectedMembershipId) {
         await membershipsApi.renew(selectedMembershipId, {
           planId: selectedPlanId,
@@ -231,9 +248,9 @@ export const StudentDetailPage: React.FC = () => {
       }
       setMembershipModalOpen(false);
       fetchStudentData();
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error(err);
-      toast.error('Failed to save membership');
+      toast.error(err.response?.data?.message || 'Failed to save membership');
     } finally {
       setSubmittingMembership(false);
     }
@@ -866,18 +883,32 @@ export const StudentDetailPage: React.FC = () => {
             <form onSubmit={handleMembershipSubmit} className="space-y-4 text-sm">
               <div>
                 <label className="form-label text-xs">Select Plan</label>
-                <select
-                  required
-                  value={selectedPlanId}
-                  onChange={(e) => setSelectedPlanId(e.target.value)}
-                  className="form-select text-xs"
-                >
-                  {plans.map((p) => (
-                    <option key={p._id} value={p._id}>
-                      {p.name} — {formatINR(p.baseFee)} ({p.durationValue} {p.durationUnit})
-                    </option>
-                  ))}
-                </select>
+                {plans.length === 0 ? (
+                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
+                    No membership plans found.{' '}
+                    <button
+                      type="button"
+                      onClick={() => navigate('/admin/memberships')}
+                      className="font-bold underline text-[#087d99]"
+                    >
+                      Configure plans here
+                    </button>
+                  </div>
+                ) : (
+                  <select
+                    required
+                    value={selectedPlanId}
+                    onChange={(e) => setSelectedPlanId(e.target.value)}
+                    className="form-select text-xs"
+                  >
+                    {plans.map((p) => (
+                      <option key={p._id} value={p._id}>
+                        {p.name} — {formatINR(p.baseFee)} ({p.durationValue} {p.durationUnit})
+                        {!p.isActive ? ' (Draft)' : ''}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </div>
 
               <div>

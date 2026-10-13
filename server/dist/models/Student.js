@@ -48,6 +48,7 @@ const studentSchema = new mongoose_1.Schema({
     seatDays: { type: [String], default: [] },
     seatStartTime: { type: String, trim: true },
     seatEndTime: { type: String, trim: true },
+    shiftTimings: { type: String, trim: true },
     notes: { type: String },
     registrationStatus: {
         type: String,

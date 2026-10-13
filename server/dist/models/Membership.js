@@ -37,7 +37,7 @@ exports.Membership = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const membershipSchema = new mongoose_1.Schema({
     studentId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Student', required: true },
-    planId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'MembershipPlan', required: true },
+    planId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'MembershipPlan', required: false },
     planNameSnapshot: { type: String, required: true },
     baseFeeSnapshot: { type: Number, required: true }, // paise
     registrationFeeSnapshot: { type: Number, default: 0 }, // paise

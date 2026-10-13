@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { authApi } from '../lib/api';
 
-interface StudentProfile {
+export interface StudentProfile {
   _id: string;
   studentCode: string;
   name: string;
@@ -11,13 +11,20 @@ interface StudentProfile {
   seatNumber?: string;
 }
 
-interface User {
+export interface User {
   id: string;
   name: string;
-  email: string;
+  email?: string;
+  phone?: string;
   role: 'admin' | 'student';
   studentId?: string;
+  requiresPasswordChange?: boolean;
   studentProfile?: StudentProfile;
+}
+
+export interface LoginResult {
+  requiresPasswordChange: boolean;
+  user: User;
 }
 
 interface AuthContextType {
@@ -25,8 +32,9 @@ interface AuthContextType {
   isLoading: boolean;
   isAdmin: boolean;
   isStudent: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (identifier: string, password: string) => Promise<LoginResult>;
   logout: () => Promise<void>;
+  updateUser: (updates: Partial<User>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -58,12 +66,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const res = await authApi.login(email, password);
-    const { user: u, token } = res.data;
-    setUser(u);
-    localStorage.setItem('user', JSON.stringify(u));
+  const login = async (identifier: string, password: string): Promise<LoginResult> => {
+    const res = await authApi.login(identifier, password);
+    const { user: u, token, requiresPasswordChange } = res.data;
+    const userWithFlag: User = {
+      ...u,
+      requiresPasswordChange: Boolean(requiresPasswordChange ?? u?.requiresPasswordChange),
+    };
+    setUser(userWithFlag);
+    localStorage.setItem('user', JSON.stringify(userWithFlag));
     if (token) localStorage.setItem('token', token);
+    return {
+      requiresPasswordChange: Boolean(userWithFlag.requiresPasswordChange),
+      user: userWithFlag,
+    };
+  };
+
+  const updateUser = (updates: Partial<User>) => {
+    setUser((prev) => {
+      if (!prev) return null;
+      const updated = { ...prev, ...updates };
+      localStorage.setItem('user', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const logout = async () => {
@@ -82,6 +107,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isStudent: user?.role === 'student',
         login,
         logout,
+        updateUser,
       }}
     >
       {children}
