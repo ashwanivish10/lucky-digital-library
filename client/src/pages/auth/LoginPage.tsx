@@ -169,15 +169,15 @@ export const LoginPage: React.FC = () => {
               <label className="form-label mb-2 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#294055]">
                 Email Address
               </label>
-              <div className="relative">
-                <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-[#7b90a3]" />
+              <div className="relative flex items-center">
+                <Mail className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="student@example.com"
-                  className="form-input rounded-xl border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-4 text-sm focus:border-[#25b8d0] focus:ring-4 focus:ring-[#25b8d0]/10"
+                  className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-4 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10"
                 />
               </div>
             </div>
@@ -195,20 +195,20 @@ export const LoginPage: React.FC = () => {
                   Forgot password?
                 </button>
               </div>
-              <div className="relative">
-                <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-[#7b90a3]" />
+              <div className="relative flex items-center">
+                <Lock className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="form-input rounded-xl border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-10 text-sm focus:border-[#25b8d0] focus:ring-4 focus:ring-[#25b8d0]/10"
+                  className="w-full rounded-xl border border-[#d7e3ec] bg-[#f8fbfd] py-3 pl-10 pr-11 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] transition-all focus:border-[#25b8d0] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#25b8d0]/10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-3 text-[#7b90a3] transition-colors hover:text-[#087d99]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center p-1 text-[#7b90a3] transition-colors hover:text-[#087d99]"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
