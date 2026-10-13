@@ -13,11 +13,9 @@ import {
   Users,
   X,
   Clock,
-  Sparkles,
 } from 'lucide-react';
 import { studentsApi } from '../../lib/api';
 import { formatDate, getStatusBadgeClass, getStatusLabel } from '../../lib/utils';
-import { CustomEnrollModal } from '../../components/admin/CustomEnrollModal';
 import toast from 'react-hot-toast';
 
 interface StudentItem {
@@ -56,7 +54,6 @@ export const StudentsPage: React.FC = () => {
   // Archive modal state
   const [studentToArchive, setStudentToArchive] = useState<StudentItem | null>(null);
   const [archiving, setArchiving] = useState(false);
-  const [isCustomEnrollOpen, setIsCustomEnrollOpen] = useState(false);
 
   // Fetch students
   const fetchStudents = useCallback(async () => {
@@ -131,21 +128,13 @@ export const StudentsPage: React.FC = () => {
             Manage registrations, credentials, active seats, and membership lifecycle ({totalStudents} enrolled).
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setIsCustomEnrollOpen(true)}
+        <div className="flex items-center gap-3">
+          <Link
+            to="/admin/students/add"
             className="btn btn-primary inline-flex items-center gap-2 text-sm shadow-sm"
           >
             <UserPlus size={16} />
-            <span>Add Student (Enroll)</span>
-          </button>
-          <Link
-            to="/admin/students/add"
-            className="btn btn-secondary inline-flex items-center gap-2 text-sm shadow-sm"
-          >
-            <Sparkles size={16} />
-            <span>Full-Page Enroll</span>
+            <span>Add Student</span>
           </Link>
         </div>
       </div>
@@ -480,13 +469,6 @@ export const StudentsPage: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Quick Custom Walk-in Enroll Modal */}
-      <CustomEnrollModal
-        isOpen={isCustomEnrollOpen}
-        onClose={() => setIsCustomEnrollOpen(false)}
-        onSuccess={fetchStudents}
-      />
     </div>
   );
 };

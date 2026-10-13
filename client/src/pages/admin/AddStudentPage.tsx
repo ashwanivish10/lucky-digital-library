@@ -6,13 +6,14 @@ import {
   Phone,
   Clock,
   Calendar,
-  IndianRupee,
   CreditCard,
   Printer,
   Sparkles,
   CheckCircle2,
   AlertCircle,
   Armchair,
+  Check,
+  Zap,
 } from 'lucide-react';
 import { studentsApi, paymentsApi } from '../../lib/api';
 import { downloadBlob } from '../../lib/utils';
@@ -43,11 +44,11 @@ export const AddStudentPage: React.FC = () => {
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  // Timing selection by self (NO PRESETS)
+  // Timing selection by self (Time From & Time To)
   const [timeFrom, setTimeFrom] = useState('08:00');
   const [timeTo, setTimeTo] = useState('16:00');
   const [seatNumber, setSeatNumber] = useState('');
-  const [showSeatMap, setShowSeatMap] = useState(true); // Open by default on full page for quick seat pick
+  const [showSeatMap, setShowSeatMap] = useState(false);
   const [startDate, setStartDate] = useState(todayStr);
   const [endDate, setEndDate] = useState(getFutureDate(1, 0));
   const [totalFee, setTotalFee] = useState<number | string>(1500);
@@ -57,12 +58,21 @@ export const AddStudentPage: React.FC = () => {
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const cleanDigits = phone.replace(/\D/g, '');
   const parsedTotalFee = Number(totalFee) || 0;
   const parsedReceivedToday = Number(amountReceivedToday) || 0;
   const balanceDue = Math.max(0, parsedTotalFee - parsedReceivedToday);
 
   const calculatedShift =
     timeFrom && timeTo ? `${formatTo12Hr(timeFrom)} to ${formatTo12Hr(timeTo)}` : '';
+
+  // Calculate duration days
+  const startD = new Date(startDate);
+  const endD = new Date(endDate);
+  const durationDays =
+    !isNaN(startD.getTime()) && !isNaN(endD.getTime()) && endD >= startD
+      ? Math.max(1, Math.ceil((endD.getTime() - startD.getTime()) / (1000 * 60 * 60 * 24)))
+      : 0;
 
   const applyDuration = (months: number, days = 0) => {
     const base = startDate ? new Date(startDate) : new Date();
@@ -72,16 +82,24 @@ export const AddStudentPage: React.FC = () => {
     setEndDate(d.toISOString().split('T')[0]);
   };
 
+  const setPresetTiming = (from: string, to: string) => {
+    setTimeFrom(from);
+    setTimeTo(to);
+  };
+
+  const handlePayFull = () => {
+    setAmountReceivedToday(parsedTotalFee);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!name.trim()) {
-      toast.error('Please enter the student name');
+      toast.error('Please enter the student full name');
       return;
     }
 
-    const cleanPhone = phone.replace(/\D/g, '');
-    if (cleanPhone.length < 10) {
+    if (cleanDigits.length < 10) {
       toast.error('Please enter a valid 10-digit mobile number');
       return;
     }
@@ -115,7 +133,7 @@ export const AddStudentPage: React.FC = () => {
     try {
       const payload = {
         name: name.trim(),
-        phone: cleanPhone,
+        phone: cleanDigits,
         shiftTimings: calculatedShift || undefined,
         seatStartTime: timeFrom || undefined,
         seatEndTime: timeTo || undefined,
@@ -136,18 +154,18 @@ export const AddStudentPage: React.FC = () => {
       if (paymentId) {
         try {
           const receiptRes = await paymentsApi.receipt(paymentId);
-          downloadBlob(receiptRes.data, `Receipt-${receiptNumber || 'WalkIn'}.pdf`);
+          downloadBlob(receiptRes.data, `Receipt-${receiptNumber || 'LDL'}.pdf`);
           const blobUrl = URL.createObjectURL(
             new Blob([receiptRes.data], { type: 'application/pdf' })
           );
           window.open(blobUrl, '_blank');
         } catch {
-          // continue
+          // ignore popup blocker
         }
       }
 
       toast.success(
-        `Enrolled ${name}! Phone number ${cleanPhone} is their default password.`,
+        `Enrolled ${name}! Phone number ${cleanDigits} is their initial password.`,
         { duration: 5000 }
       );
 
@@ -161,114 +179,137 @@ export const AddStudentPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-16 font-sans max-w-4xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in pb-16 font-sans max-w-3xl mx-auto px-2 sm:px-4">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <Link
-            to="/admin/students"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087d99] hover:text-[#075a70] mb-2"
-          >
-            <ArrowLeft size={14} />
-            <span>Back to Students Directory</span>
-          </Link>
-          <h2 className="page-title text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] flex items-center gap-2.5">
-            <Sparkles className="text-[#13b8c8] h-7 w-7" />
-            <span>Student Enrollment</span>
-          </h2>
-          <p className="text-sm text-[#65788c] mt-0.5">
-            1-step seat allocation, custom time from/to, duration billing & receipt generation
-          </p>
+      <div className="flex flex-col gap-1.5 pt-1">
+        <Link
+          to="/admin/students"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087d99] hover:text-[#075a70] w-fit"
+        >
+          <ArrowLeft size={14} />
+          <span>Back to Students Directory</span>
+        </Link>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] flex items-center gap-2">
+              <Sparkles className="text-[#13b8c8] h-6 w-6 sm:h-7 sm:w-7" />
+              <span>Student Enrollment</span>
+            </h2>
+            <p className="text-xs sm:text-sm text-[#65788c] mt-0.5">
+              Instant registration, floor seat selection, custom timings & receipt
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Main Enrollment Card Form */}
-      <form onSubmit={handleSubmit} className="card bg-white p-6 sm:p-8 rounded-2xl border border-[#dce8f0] shadow-sm space-y-6">
+      <form onSubmit={handleSubmit} className="card bg-white p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-[#dce8f0] shadow-sm space-y-5 sm:space-y-6">
+        
         {/* Section 1: Student Details */}
-        <div className="rounded-xl border border-[#dce8f0] bg-[#f8fbfd] p-5 space-y-4">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
-            <User size={15} />
-            <span>Section 1: Student Details</span>
+        <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-3.5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
+                1
+              </span>
+              <span>Student Details</span>
+            </div>
+
+            {cleanDigits.length === 10 && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                <Check size={12} className="text-emerald-600" />
+                Valid Phone
+              </span>
+            )}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#294055] mb-1">
-                Student Full Name <span className="text-red-500">*</span>
+                Full Name <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
-                <User className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
+                <User className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
                 <input
                   type="text"
                   required
+                  autoComplete="name"
+                  autoCapitalize="words"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Rahul Kumar"
-                  className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-10 pr-3.5 text-base sm:text-sm text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                 />
               </div>
             </div>
 
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#294055] mb-1">
-                Phone Number <span className="text-red-500">*</span>
+                Phone Number <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
-                <Phone className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
+                <Phone className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
                 <input
                   type="tel"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  autoComplete="tel"
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="e.g. 9876543210"
                   maxLength={15}
-                  className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-10 pr-3.5 text-base sm:text-sm font-semibold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                 />
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 rounded-lg border border-[#cbe4ed] bg-[#eef8fb] px-3.5 py-2.5 text-xs text-[#096a82]">
+          <div className="flex items-center gap-2 rounded-xl border border-[#cbe4ed] bg-[#eef8fb] p-3 text-xs text-[#096a82]">
             <CheckCircle2 size={16} className="shrink-0 text-[#13b8c8]" />
             <span>
-              <strong>Automatic Password:</strong> The mobile number automatically acts as their initial password. On first login, the student will be required to set their personal secure password.
+              <strong>Zero-friction credentials:</strong> Student's phone number is automatically set as their initial login password. On their first login, they will be required to set a new password.
             </span>
           </div>
         </div>
 
         {/* Section 2: Seat & Custom Timing Duration */}
-        <div className="rounded-xl border border-[#dce8f0] bg-[#f8fbfd] p-5 space-y-4">
+        <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
-              <Clock size={15} />
-              <span>Section 2: Seat & Timing Selection</span>
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
+                2
+              </span>
+              <span>Seat & Timing Selection</span>
             </div>
+
             <button
               type="button"
               onClick={() => setShowSeatMap(!showSeatMap)}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087d99] hover:text-[#075a70] bg-white border border-[#cbe4ed] px-3 py-1 rounded-lg shadow-2xs hover:bg-[#eef8fb] transition-all"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087d99] hover:text-[#075a70] bg-white border border-[#cbe4ed] px-3 py-1.5 rounded-xl shadow-xs hover:bg-[#eef8fb] transition-all"
             >
               <Armchair size={14} className="text-[#13b8c8]" />
-              <span>{showSeatMap ? 'Hide Seat Map' : 'Show Floor Seat Map (1–58)'}</span>
+              <span>{showSeatMap ? 'Hide Map' : 'Floor Map (1–58)'}</span>
             </button>
           </div>
 
-          {/* Direct Seat input and quick selector button */}
+          {/* Seat input / selected badge */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-[#294055] mb-1">
-                Assigned Seat (1–58)
+                Seat Number (1–58)
               </label>
               <div className="relative">
-                <Armchair className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
+                <Armchair className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
                 <input
                   type="number"
+                  inputMode="numeric"
                   min={1}
                   max={58}
                   value={seatNumber}
                   onChange={(e) => setSeatNumber(e.target.value)}
-                  placeholder="e.g. 14 (Optional)"
-                  className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                  placeholder="e.g. 14"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                 />
               </div>
             </div>
@@ -276,31 +317,37 @@ export const AddStudentPage: React.FC = () => {
             <div className="sm:col-span-2 flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setShowSeatMap(true)}
-                className="flex-1 py-2 px-3 rounded-lg border border-[#dce8f0] bg-white text-xs font-semibold text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-all text-left flex items-center justify-between"
+                onClick={() => setShowSeatMap(!showSeatMap)}
+                className={`flex-1 py-2.5 px-3.5 rounded-xl border text-xs font-bold transition-all text-left flex items-center justify-between ${
+                  seatNumber
+                    ? 'border-[#087d99] bg-[#071521] text-[#7ef9ff]'
+                    : 'border-[#dce8f0] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd]'
+                }`}
               >
-                <span>
-                  {seatNumber ? `Selected: Seat ${seatNumber}` : 'Click to pick seat on map (1–58)'}
+                <div className="flex items-center gap-1.5">
+                  <Armchair size={15} className={seatNumber ? 'text-[#7ef9ff]' : 'text-[#13b8c8]'} />
+                  <span>{seatNumber ? `Assigned Desk: Seat ${seatNumber}` : 'Tap to Pick Seat on Floor Map'}</span>
+                </div>
+                <span className="text-[11px] underline">
+                  {showSeatMap ? 'Close' : 'Choose &rarr;'}
                 </span>
-                <span className="text-[#087d99] font-bold text-[11px]">View Map &rarr;</span>
               </button>
 
               {seatNumber && (
                 <button
                   type="button"
                   onClick={() => setSeatNumber('')}
-                  className="py-2 px-3 rounded-lg border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 text-xs font-bold"
-                  title="Clear seat selection"
+                  className="py-2.5 px-3 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 text-xs font-bold transition-colors"
                 >
-                  Clear Seat
+                  Clear
                 </button>
               )}
             </div>
           </div>
 
-          {/* Visual Interactive Floor Map */}
+          {/* Interactive Floor Map */}
           {showSeatMap && (
-            <div className="pt-1">
+            <div className="pt-1 animate-fade-in">
               <SeatSelector
                 selectedSeat={seatNumber}
                 onSelectSeat={(num) => setSeatNumber(num)}
@@ -308,52 +355,88 @@ export const AddStudentPage: React.FC = () => {
             </div>
           )}
 
-          {/* Timing Selection by Self: Time From & Time To (NO PRESETS) */}
+          {/* Timing Selection by Self: Time From & Time To (NO PRESETS REQUIRED) */}
           <div className="border-t border-[#e2edf3] pt-4 space-y-2.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#294055]">
-              Timing Selection (Time From & Time To) <span className="text-red-500">*</span>
-            </label>
+            <div className="flex flex-wrap items-center justify-between gap-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#294055]">
+                Custom Shift Timings <span className="text-rose-500">*</span>
+              </label>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* 1-tap quick timing buttons for speed without restriction */}
+              <div className="flex items-center gap-1 text-[11px] overflow-x-auto no-scrollbar py-0.5">
+                <span className="text-[#65788c] font-medium hidden xs:inline">Quick fill:</span>
+                <button
+                  type="button"
+                  onClick={() => setPresetTiming('08:00', '16:00')}
+                  className="px-2 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap"
+                >
+                  8 AM – 4 PM
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPresetTiming('08:00', '20:00')}
+                  className="px-2 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap"
+                >
+                  8 AM – 8 PM
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPresetTiming('06:00', '14:00')}
+                  className="px-2 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap"
+                >
+                  6 AM – 2 PM
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPresetTiming('14:00', '22:00')}
+                  className="px-2 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap"
+                >
+                  2 PM – 10 PM
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               <div>
-                <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
+                <span className="block text-[11px] font-bold text-[#65788c] mb-1">
                   Time From (Start Time)
                 </span>
                 <div className="relative">
-                  <Clock className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
+                  <Clock className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
                   <input
                     type="time"
                     required
                     value={timeFrom}
                     onChange={(e) => setTimeFrom(e.target.value)}
-                    className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-semibold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
 
               <div>
-                <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
+                <span className="block text-[11px] font-bold text-[#65788c] mb-1">
                   Time To (End Time)
                 </span>
                 <div className="relative">
-                  <Clock className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
+                  <Clock className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
                   <input
                     type="time"
                     required
                     value={timeTo}
                     onChange={(e) => setTimeTo(e.target.value)}
-                    className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-semibold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
             </div>
 
             {calculatedShift && (
-              <div className="flex items-center justify-between rounded-lg bg-[#e7faff] border border-[#cbe4ed] px-3.5 py-2 text-xs text-[#087d99]">
-                <span className="font-medium">
-                  Calculated Shift: <strong>{calculatedShift}</strong>
+              <div className="flex items-center justify-between rounded-xl bg-[#e7faff] border border-[#cbe4ed] px-3.5 py-2 text-xs text-[#087d99]">
+                <span className="font-semibold flex items-center gap-1.5">
+                  <Clock size={13} className="text-[#13b8c8]" />
+                  Shift: <strong>{calculatedShift}</strong>
                 </span>
-                <span className="font-semibold text-[11px]">
+                <span className="font-bold text-[11px] bg-white/80 px-2 py-0.5 rounded-md border border-[#cbe4ed]">
                   {timeFrom} &rarr; {timeTo}
                 </span>
               </div>
@@ -361,91 +444,155 @@ export const AddStudentPage: React.FC = () => {
           </div>
 
           {/* Custom Duration Dates */}
-          <div className="border-t border-[#e2edf3] pt-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+          <div className="border-t border-[#e2edf3] pt-4 space-y-2.5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <label className="text-xs font-bold uppercase tracking-wider text-[#294055]">
-                Duration Period (Start & End Date) <span className="text-red-500">*</span>
+                Membership Tenure (Start & End Date) <span className="text-rose-500">*</span>
               </label>
-              <div className="flex items-center gap-1.5 text-[11px]">
-                <span className="text-[#65788c] font-medium">Quick duration:</span>
+
+              {/* 1-tap quick duration chips */}
+              <div className="flex items-center gap-1 text-[11px]">
+                <span className="text-[#65788c] font-medium hidden xs:inline">Quick pick:</span>
                 <button
                   type="button"
                   onClick={() => applyDuration(0, 15)}
-                  className="px-2 py-0.5 rounded border border-[#cfdce6] bg-white text-[#0b1d2e] hover:bg-[#eaf5f9] hover:border-[#13b8c8] transition-colors"
+                  className="px-2.5 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors"
                 >
                   15 Days
                 </button>
                 <button
                   type="button"
                   onClick={() => applyDuration(1)}
-                  className="px-2 py-0.5 rounded border border-[#cfdce6] bg-white text-[#0b1d2e] hover:bg-[#eaf5f9] hover:border-[#13b8c8] transition-colors font-semibold"
+                  className="px-2.5 py-0.5 rounded-md border border-[#087d99] bg-[#e7faff] text-[#087d99] font-bold shadow-2xs"
                 >
                   1 Month
                 </button>
                 <button
                   type="button"
-                  onClick={() => applyDuration(3)}
-                  className="px-2 py-0.5 rounded border border-[#cfdce6] bg-white text-[#0b1d2e] hover:bg-[#eaf5f9] hover:border-[#13b8c8] transition-colors"
+                  onClick={() => applyDuration(2)}
+                  className="px-2.5 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors"
                 >
-                  3 Months
+                  2 Mos
+                </button>
+                <button
+                  type="button"
+                  onClick={() => applyDuration(3)}
+                  className="px-2.5 py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors"
+                >
+                  3 Mos
                 </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               <div>
-                <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
+                <span className="block text-[11px] font-bold text-[#65788c] mb-1">
                   Start Date
                 </span>
                 <div className="relative">
-                  <Calendar className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
+                  <Calendar className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
                   <input
                     type="date"
                     required
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
 
               <div>
-                <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
+                <span className="block text-[11px] font-bold text-[#65788c] mb-1">
                   End Date
                 </span>
                 <div className="relative">
-                  <Calendar className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
+                  <Calendar className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7b90a3]" />
                   <input
                     type="date"
                     required
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
             </div>
+
+            {durationDays > 0 && (
+              <div className="text-[11px] text-[#65788c] flex items-center gap-1.5 pt-0.5">
+                <Calendar size={13} className="text-[#13b8c8]" />
+                <span>
+                  Total Tenure: <strong className="text-[#0b1d2e]">{durationDays} Days</strong>
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Section 3: Custom Billing & Payment */}
-        <div className="rounded-xl border border-[#dce8f0] bg-[#f8fbfd] p-5 space-y-4">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
-            <IndianRupee size={15} />
-            <span>Section 3: Custom Billing & Payment</span>
+        <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
+                3
+              </span>
+              <span>Billing & Instant Payment</span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#294055] mb-1">
-                Total Decided Fee (₹) <span className="text-red-500">*</span>
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#294055]">
+                  Agreed Fee (₹) <span className="text-rose-500">*</span>
+                </label>
+                <div className="flex items-center gap-1 text-[10px]">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTotalFee(1000);
+                      if (!amountReceivedToday || Number(amountReceivedToday) === parsedTotalFee) {
+                        setAmountReceivedToday(1000);
+                      }
+                    }}
+                    className="px-1.5 py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8]"
+                  >
+                    ₹1k
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTotalFee(1500);
+                      if (!amountReceivedToday || Number(amountReceivedToday) === parsedTotalFee) {
+                        setAmountReceivedToday(1500);
+                      }
+                    }}
+                    className="px-1.5 py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8]"
+                  >
+                    ₹1.5k
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTotalFee(2000);
+                      if (!amountReceivedToday || Number(amountReceivedToday) === parsedTotalFee) {
+                        setAmountReceivedToday(2000);
+                      }
+                    }}
+                    className="px-1.5 py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8]"
+                  >
+                    ₹2k
+                  </button>
+                </div>
+              </div>
+
               <div className="relative">
                 <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 font-bold text-[#7b90a3]">
                   ₹
                 </span>
                 <input
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   required
                   value={totalFee}
@@ -457,27 +604,47 @@ export const AddStudentPage: React.FC = () => {
                     }
                   }}
                   placeholder="e.g. 1500"
-                  className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-8 pr-3 text-sm font-semibold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-8 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#294055] mb-1">
-                Amount Received Today (₹) <span className="text-red-500">*</span>
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-xs font-bold uppercase tracking-wider text-[#294055]">
+                  Amount Paid Today (₹) <span className="text-rose-500">*</span>
+                </label>
+                <div className="flex items-center gap-1 text-[10px]">
+                  <button
+                    type="button"
+                    onClick={handlePayFull}
+                    className="px-2 py-0.5 rounded font-bold bg-[#e7faff] border border-[#cbe4ed] text-[#087d99] hover:bg-[#d8f6fd]"
+                  >
+                    Full Pay
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAmountReceivedToday(Math.round(parsedTotalFee / 2))}
+                    className="px-1.5 py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8]"
+                  >
+                    50%
+                  </button>
+                </div>
+              </div>
+
               <div className="relative">
                 <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 font-bold text-[#7b90a3]">
                   ₹
                 </span>
                 <input
                   type="number"
+                  inputMode="numeric"
                   min={0}
                   required
                   value={amountReceivedToday}
                   onChange={(e) => setAmountReceivedToday(e.target.value)}
                   placeholder="e.g. 1000"
-                  className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-8 pr-3 text-sm font-semibold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-8 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                 />
               </div>
             </div>
@@ -485,7 +652,7 @@ export const AddStudentPage: React.FC = () => {
 
           {/* Automatic Outstanding Balance Alert */}
           <div
-            className={`flex items-center justify-between rounded-lg px-4 py-2.5 text-xs font-medium border ${
+            className={`flex items-center justify-between rounded-xl px-4 py-2.5 text-xs font-medium border ${
               balanceDue > 0
                 ? 'border-amber-300 bg-amber-50 text-amber-900'
                 : 'border-emerald-300 bg-emerald-50 text-emerald-900'
@@ -493,25 +660,25 @@ export const AddStudentPage: React.FC = () => {
           >
             <div className="flex items-center gap-2">
               {balanceDue > 0 ? (
-                <AlertCircle size={16} className="text-amber-600" />
+                <AlertCircle size={16} className="text-amber-600 shrink-0" />
               ) : (
-                <CheckCircle2 size={16} className="text-emerald-600" />
+                <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
               )}
               <span>
                 {balanceDue > 0 ? (
                   <>
-                    <strong>Outstanding Balance:</strong> ₹{balanceDue.toLocaleString('en-IN')}{' '}
-                    will be automatically tracked as pending dues.
+                    <strong>Balance Due:</strong> ₹{balanceDue.toLocaleString('en-IN')}{' '}
+                    will be tracked as pending dues.
                   </>
                 ) : (
                   <>
-                    <strong>Full Payment:</strong> ₹0 Due balance. Membership is fully paid.
+                    <strong>Paid in Full:</strong> ₹0 Due balance.
                   </>
                 )}
               </span>
             </div>
-            <span className="font-bold text-sm">
-              {balanceDue > 0 ? `Due: ₹${balanceDue}` : 'Paid in Full'}
+            <span className="font-black text-sm">
+              {balanceDue > 0 ? `Due: ₹${balanceDue}` : '✓ Fully Paid'}
             </span>
           </div>
 
@@ -524,89 +691,108 @@ export const AddStudentPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setPaymentMethod('cash')}
-                className={`flex items-center justify-center gap-2 rounded-lg border py-2.5 px-4 text-xs font-bold transition-all ${
+                className={`flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-xs font-bold transition-all ${
                   paymentMethod === 'cash'
-                    ? 'border-[#087d99] bg-[#087d99] text-white shadow-sm'
+                    ? 'border-[#087d99] bg-[#087d99] text-white shadow-sm ring-2 ring-[#087d99]/20'
                     : 'border-[#cfdce6] bg-white text-[#294055] hover:bg-[#f1f7fa]'
                 }`}
               >
-                <IndianRupee size={15} />
+                <span className="font-bold text-sm">₹</span>
                 <span>Cash Payment</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setPaymentMethod('upi')}
-                className={`flex items-center justify-center gap-2 rounded-lg border py-2.5 px-4 text-xs font-bold transition-all ${
+                className={`flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-xs font-bold transition-all ${
                   paymentMethod === 'upi'
-                    ? 'border-[#087d99] bg-[#087d99] text-white shadow-sm'
+                    ? 'border-[#087d99] bg-[#087d99] text-white shadow-sm ring-2 ring-[#087d99]/20'
                     : 'border-[#cfdce6] bg-white text-[#294055] hover:bg-[#f1f7fa]'
                 }`}
               >
                 <CreditCard size={15} />
-                <span>UPI / QR Transfer</span>
+                <span>UPI / QR Scan</span>
               </button>
             </div>
           </div>
 
           {/* Optional UPI Ref / Notes */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {paymentMethod === 'upi' && (
               <div>
-                <label className="block text-xs font-medium text-[#65788c] mb-1">
-                  UPI Reference / UTR (Optional)
+                <label className="block text-xs font-semibold text-[#65788c] mb-1">
+                  UPI Ref / UTR (Optional)
                 </label>
                 <input
                   type="text"
                   value={transactionReference}
                   onChange={(e) => setTransactionReference(e.target.value)}
                   placeholder="e.g. 4028472910"
-                  className="w-full rounded-lg border border-[#cfdce6] bg-white py-1.5 px-3 text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-2 px-3 text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none"
                 />
               </div>
             )}
 
             <div className={paymentMethod === 'upi' ? '' : 'sm:col-span-2'}>
-              <label className="block text-xs font-medium text-[#65788c] mb-1">
-                Internal Admin Note (Optional)
+              <label className="block text-xs font-semibold text-[#65788c] mb-1">
+                Admin Notes (Optional)
               </label>
               <input
                 type="text"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="e.g. Walk-in student, exam preparation"
-                className="w-full rounded-lg border border-[#cfdce6] bg-white py-1.5 px-3 text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none"
+                placeholder="e.g. Walk-in student, UPSC aspirant"
+                className="w-full rounded-xl border border-[#cfdce6] bg-white py-2 px-3 text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none"
               />
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#e2edf3]">
-          <Link
-            to="/admin/students"
-            className="rounded-xl border border-[#cfdce6] bg-white px-5 py-2.5 text-xs font-bold text-[#65788c] hover:bg-[#f1f7fa] hover:text-[#0b1d2e] transition-colors"
-          >
-            Cancel
-          </Link>
+        {/* Action Buttons: Sticky Bottom Bar on Mobile for maximum convenience */}
+        <div className="sticky bottom-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#dce8f0] px-4 py-3 -mx-4 -mb-4 sm:static sm:p-0 sm:m-0 sm:border-t sm:border-[#e2edf3] sm:pt-4 sm:bg-transparent">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            {/* Live mobile summary */}
+            <div className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-4 text-xs font-semibold text-[#65788c]">
+              <span>
+                Total: <strong className="text-[#0b1d2e]">₹{parsedTotalFee}</strong>
+              </span>
+              <span>
+                Paid: <strong className="text-emerald-700">₹{parsedReceivedToday}</strong>
+              </span>
+              {balanceDue > 0 && (
+                <span>
+                  Due: <strong className="text-amber-700">₹{balanceDue}</strong>
+                </span>
+              )}
+            </div>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="btn btn-primary inline-flex items-center gap-2 rounded-xl py-3 px-7 text-sm font-bold shadow-md hover:shadow-lg disabled:opacity-50"
-          >
-            {isSubmitting ? (
-              <>
-                <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                <span>Processing Enrollment...</span>
-              </>
-            ) : (
-              <>
-                <Printer size={16} />
-                <span>Save & Print Receipt</span>
-              </>
-            )}
-          </button>
+            <div className="w-full sm:w-auto flex items-center justify-end gap-2.5">
+              <Link
+                to="/admin/students"
+                className="hidden sm:inline-flex rounded-xl border border-[#cfdce6] bg-white px-5 py-2.5 text-xs font-bold text-[#65788c] hover:bg-[#f1f7fa] hover:text-[#0b1d2e] transition-colors"
+              >
+                Cancel
+              </Link>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl py-3 px-7 text-sm font-bold shadow-md hover:shadow-lg disabled:opacity-50"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                    <span>Processing Enrollment...</span>
+                  </>
+                ) : (
+                  <>
+                    <Printer size={16} />
+                    <span>Save & Print Receipt</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     </div>
