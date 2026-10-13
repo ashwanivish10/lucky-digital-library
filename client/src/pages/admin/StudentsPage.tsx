@@ -12,6 +12,7 @@ import {
   AlertCircle,
   Users,
   X,
+  Clock,
 } from 'lucide-react';
 import { studentsApi } from '../../lib/api';
 import { formatDate, getStatusBadgeClass, getStatusLabel } from '../../lib/utils';
@@ -27,6 +28,9 @@ interface StudentItem {
   status: string;
   registrationStatus: string;
   seatNumber?: string;
+  seatDays?: string[];
+  seatStartTime?: string;
+  seatEndTime?: string;
   activeMembership?: {
     _id: string;
     planNameSnapshot: string;
@@ -229,6 +233,7 @@ export const StudentsPage: React.FC = () => {
               <th className="py-3 px-4">Account Status</th>
               <th className="py-3 px-4">Membership</th>
               <th className="py-3 px-4">Seat</th>
+              <th className="py-3 px-4">Timing / Shift</th>
               <th className="py-3 px-4 text-right">Actions</th>
             </tr>
           </thead>
@@ -237,7 +242,7 @@ export const StudentsPage: React.FC = () => {
               // Skeletons
               Array.from({ length: 6 }).map((_, i) => (
                 <tr key={i}>
-                  <td colSpan={8} className="py-4 px-4">
+                  <td colSpan={9} className="py-4 px-4">
                     <div className="h-5 w-full bg-[#edf4f8] animate-pulse rounded"></div>
                   </td>
                 </tr>
@@ -245,7 +250,7 @@ export const StudentsPage: React.FC = () => {
             ) : students.length === 0 ? (
               // Empty state
               <tr>
-                <td colSpan={8} className="py-12 px-4 text-center">
+                <td colSpan={9} className="py-12 px-4 text-center">
                   <div className="flex flex-col items-center justify-center text-[#65788c]">
                     <div className="w-14 h-14 rounded-full bg-[#13b8c8]/10 flex items-center justify-center text-[#13b8c8] mb-3">
                       <Users size={28} />
@@ -336,6 +341,27 @@ export const StudentsPage: React.FC = () => {
                         </span>
                       ) : (
                         <span className="text-[#65788c]">—</span>
+                      )}
+                    </td>
+
+                    {/* Timing / Shift */}
+                    <td className="py-3.5 px-4 text-xs">
+                      {student.seatStartTime && student.seatEndTime ? (
+                        <div>
+                          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#e7faff] text-[#075a70] border border-[#13b8c8]/30 font-semibold font-mono text-[11px]">
+                            <Clock className="w-3 h-3 text-[#13b8c8]" />
+                            <span>{student.seatStartTime} – {student.seatEndTime}</span>
+                          </span>
+                          {student.seatDays && student.seatDays.length > 0 && (
+                            <div className="text-[10px] text-[#65788c] mt-0.5 font-medium">
+                              {student.seatDays.length === 7
+                                ? 'All 7 Days (24×7)'
+                                : student.seatDays.map((d: string) => d.slice(0, 3)).join(', ')}
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-[#65788c] text-xs font-medium">Full Day (24×7)</span>
                       )}
                     </td>
 
