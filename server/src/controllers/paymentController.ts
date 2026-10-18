@@ -156,16 +156,24 @@ export const getReceipt = async (req: AuthRequest, res: Response): Promise<void>
     }
   }
 
-  const settings = await SiteSettings.findOne();
-  const pdfBuffer = await generateReceiptPdf(payment, settings);
+  try {
+    const settings = await SiteSettings.findOne();
+    const pdfBuffer = await generateReceiptPdf(payment, settings);
 
-  res.set({
-    'Content-Type': 'application/pdf',
-    'Content-Disposition': `attachment; filename="receipt-${payment.receiptNumber}.pdf"`,
-    'Content-Length': pdfBuffer.length,
-  });
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="receipt-${payment.receiptNumber}.pdf"`,
+      'Content-Length': pdfBuffer.length,
+    });
 
-  res.send(pdfBuffer);
+    res.send(pdfBuffer);
+  } catch (error) {
+    console.error('[RECEIPT] PDF generation failed:', error);
+    res.status(503).json({
+      success: false,
+      message: 'Could not generate the receipt. Chrome was not available for PDF printing.',
+    });
+  }
 };
 
 export const createAdjustment = async (req: AuthRequest, res: Response): Promise<void> => {

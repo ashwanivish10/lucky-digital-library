@@ -80,7 +80,7 @@ export const FacilitiesPage: React.FC = () => {
   return (
     <div className="bg-[#f4f9fc] min-h-screen text-[#0b1d2e]">
       {/* Minimal Hero */}
-      <section className="bg-[#0b1d2e] text-white pt-36 pb-20 relative overflow-hidden border-b border-[#13b8c8]/20">
+      <section className="bg-[#0b1d2e] text-white pt-12 pb-14 sm:pt-20 sm:pb-20 relative overflow-hidden border-b border-[#13b8c8]/20">
         <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#13b8c8_1px,transparent_1px),linear-gradient(to_bottom,#13b8c8_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
         <div className="max-w-3xl mx-auto px-6 relative z-10 text-center">
           <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-[#7ef9ff] mb-4">

@@ -1,5 +1,5 @@
 import { SiteSettings, ITestimonial } from '../models/SiteSettings';
-import puppeteer from 'puppeteer';
+import { launchBrowser } from '../utils/browser';
 
 // Verified Google reviews from Lucky Digital Library community & scholars
 const DEFAULT_GOOGLE_REVIEWS: ITestimonial[] = [
@@ -68,10 +68,7 @@ async function scrapeReviewsFromGoogleMaps(mapUrl: string): Promise<ITestimonial
   const scraped: ITestimonial[] = [];
 
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--lang=en-US,en'],
-    });
+    browser = await launchBrowser(['--lang=en-US,en']);
 
     const page = await browser.newPage();
     await page.setViewport({ width: 1400, height: 1000 });

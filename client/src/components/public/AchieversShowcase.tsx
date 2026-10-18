@@ -199,20 +199,10 @@ export const AchieversShowcase: React.FC = () => {
                   duration: 0.65,
                   ease: [0.25, 1, 0.5, 1],
                 }}
-                drag={offset === 0 ? 'x' : false}
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.25}
-                onDragEnd={(_, info) => {
-                  if (info.offset.x > 50) {
-                    handlePrev();
-                  } else if (info.offset.x < -50) {
-                    handleNext();
-                  }
-                }}
                 onClick={() => {
                   if (offset === 1) handleNext();
                 }}
-                className={`absolute w-[92%] sm:w-[94%] h-[300px] sm:h-[335px] rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing select-none bg-[#091522] ${
+                className={`absolute h-[300px] w-[92%] touch-pan-y select-none overflow-hidden rounded-2xl bg-[#091522] sm:h-[335px] sm:w-[94%] ${
                   offset === 0
                     ? 'border-2 border-[#13b8c8]/50 shadow-[0_20px_50px_rgba(2,10,20,0.75)]'
                     : offset === 1

@@ -13,7 +13,6 @@ import {
   RefreshCw,
   UserPlus,
   PlusCircle,
-  Layers,
 } from 'lucide-react';
 import {
   BarChart,
@@ -198,20 +197,6 @@ export const DashboardPage: React.FC = () => {
           >
             <PlusCircle size={14} className="text-[#087d99]" />
             Record Payment
-          </Link>
-          <Link
-            to="/admin/approvals"
-            className="dashboard-action inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] px-3 py-2.5 text-xs font-semibold text-[#294055] transition-colors hover:border-[#25b8d0] hover:bg-[#e9faff] hover:text-[#087d99] min-h-[44px]"
-          >
-            <Clock size={14} className="text-[#5dc4ff]" />
-            Review Approvals
-          </Link>
-          <Link
-            to="/admin/plans"
-            className="dashboard-action inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] px-3 py-2.5 text-xs font-semibold text-[#294055] transition-colors hover:border-[#25b8d0] hover:bg-[#e9faff] hover:text-[#087d99] min-h-[44px]"
-          >
-            <Layers size={14} className="text-[#73849d]" />
-            Membership Plans
           </Link>
         </div>
       </div>

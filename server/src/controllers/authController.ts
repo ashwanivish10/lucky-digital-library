@@ -14,10 +14,13 @@ const loginSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
+const isProduction = config.nodeEnv === 'production';
+
 const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: config.nodeEnv === 'production',
-  sameSite: 'lax' as const,
+  secure: isProduction,
+  // The live site and API are on different hosts, so the cookie must be sent cross-site.
+  sameSite: (isProduction ? 'none' : 'lax') as 'none' | 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
 };
 
@@ -172,7 +175,9 @@ export const me = async (req: AuthRequest, res: Response): Promise<void> => {
       id: req.user._id,
       name: req.user.name,
       email: req.user.email,
+      phone: req.user.phone,
       role: req.user.role,
+      requiresPasswordChange: Boolean(req.user.requiresPasswordChange),
       studentId: req.user.studentId,
       studentProfile,
     },

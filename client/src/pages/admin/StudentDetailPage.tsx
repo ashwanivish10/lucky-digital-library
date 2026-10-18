@@ -15,6 +15,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { studentsApi, membershipsApi, paymentsApi, plansApi } from '../../lib/api';
+import FormSteps from '../../components/admin/FormSteps';
 import {
   formatINR,
   formatDate,
@@ -23,6 +24,7 @@ import {
   getPaymentMethodLabel,
   downloadBlob,
 } from '../../lib/utils';
+import ColumnPicker, { useColumnVisibility } from '../../components/admin/ColumnPicker';
 import toast from 'react-hot-toast';
 import { WEEK_DAYS } from '../../types/public';
 
@@ -85,6 +87,16 @@ interface PlanOption {
   isActive: boolean;
 }
 
+const RECEIPT_COLUMNS = [
+  { id: 'receipt', label: 'Receipt No' },
+  { id: 'amount', label: 'Amount' },
+  { id: 'method', label: 'Method' },
+  { id: 'date', label: 'Date' },
+  { id: 'category', label: 'Category' },
+  { id: 'period', label: 'Period' },
+  { id: 'actions', label: 'Receipt' },
+];
+
 export const StudentDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -94,6 +106,7 @@ export const StudentDetailPage: React.FC = () => {
   const [student, setStudent] = useState<StudentData | null>(null);
   const [memberships, setMemberships] = useState<MembershipData[]>([]);
   const [payments, setPayments] = useState<PaymentData[]>([]);
+  const receiptColumns = useColumnVisibility('ldl.columns.student-receipts', RECEIPT_COLUMNS);
   const [outstanding, setOutstanding] = useState<number>(0); // in paise
 
   // Edit Student Modal state
@@ -630,12 +643,19 @@ export const StudentDetailPage: React.FC = () => {
         <div className="space-y-6 animate-fade-in">
           <div className="flex items-center justify-between">
             <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">Payment Receipts</h3>
-            <Link
-              to={`/admin/payments/record?studentId=${student._id}`}
-              className="btn btn-primary text-xs py-2 px-3.5 shadow-sm"
-            >
-              <PlusCircle size={15} /> Record Payment
-            </Link>
+            <div className="flex items-center gap-2">
+              <ColumnPicker
+                columns={receiptColumns.columns}
+                visible={receiptColumns.visible}
+                onToggle={receiptColumns.toggle}
+              />
+              <Link
+                to={`/admin/payments/record?studentId=${student._id}`}
+                className="btn btn-primary text-xs py-2 px-3.5 shadow-sm"
+              >
+                <PlusCircle size={15} /> Record Payment
+              </Link>
+            </div>
           </div>
 
           {payments.length === 0 ? (
@@ -694,36 +714,50 @@ export const StudentDetailPage: React.FC = () => {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-[#0b1d2e] text-[#f4f9fc] text-xs uppercase tracking-wider">
-                        <th className="py-3 px-4">Receipt No</th>
-                        <th className="py-3 px-4">Amount</th>
-                        <th className="py-3 px-4">Method</th>
-                        <th className="py-3 px-4">Date</th>
-                        <th className="py-3 px-4">Category</th>
-                        <th className="py-3 px-4">Period</th>
-                        <th className="py-3 px-4 text-right">Receipt</th>
+                        {RECEIPT_COLUMNS.filter((column) => receiptColumns.visible(column.id)).map((column) => (
+                          <th
+                            key={column.id}
+                            className={`py-3 px-4 ${column.id === 'actions' ? 'text-right' : ''}`}
+                          >
+                            {column.label}
+                          </th>
+                        ))}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[#e7faff] text-xs">
                       {payments.map((p) => (
                         <tr key={p._id} className="hover:bg-[#f8fbfd]">
+                          {receiptColumns.visible('receipt') && (
                           <td className="py-3.5 px-4 font-mono font-semibold text-[#0b1d2e]">
                             {p.receiptNumber}
                           </td>
+                          )}
+                          {receiptColumns.visible('amount') && (
                           <td className="py-3.5 px-4 font-bold text-[#2D6A4F] text-sm">
                             {formatINR(p.amountReceived)}
                           </td>
+                          )}
+                          {receiptColumns.visible('method') && (
                           <td className="py-3.5 px-4 capitalize">
                             {getPaymentMethodLabel(p.paymentMethod)}
                           </td>
+                          )}
+                          {receiptColumns.visible('date') && (
                           <td className="py-3.5 px-4 text-slate-600">
                             {formatDate(p.paymentDate)}
                           </td>
+                          )}
+                          {receiptColumns.visible('category') && (
                           <td className="py-3.5 px-4 font-medium text-slate-700">
                             {p.feeCategory}
                           </td>
+                          )}
+                          {receiptColumns.visible('period') && (
                           <td className="py-3.5 px-4 text-slate-500">
                             {p.periodLabel || '—'}
                           </td>
+                          )}
+                          {receiptColumns.visible('actions') && (
                           <td className="py-3.5 px-4 text-right">
                             <button
                               type="button"
@@ -734,6 +768,7 @@ export const StudentDetailPage: React.FC = () => {
                               <Download size={13} /> PDF
                             </button>
                           </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
@@ -750,7 +785,25 @@ export const StudentDetailPage: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-[#dce8f0] space-y-4 max-h-[90vh] overflow-y-auto animate-fade-in">
             <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">Edit Student Profile</h3>
-            <form onSubmit={handleEditSubmit} className="space-y-4 text-sm">
+            <form noValidate onSubmit={handleEditSubmit} className="text-sm">
+              <FormSteps
+                steps={['Profile', 'Seat', 'Notes']}
+                footer={
+              <div className="flex justify-end gap-3 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setEditModalOpen(false)}
+                  className="btn btn-secondary text-xs py-2 px-4"
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary text-xs py-2 px-4">
+                  Save Changes
+                </button>
+              </div>
+                }
+              >
+              <div className="space-y-4">
               <div>
                 <label className="form-label text-xs">Full Name</label>
                 <input
@@ -783,7 +836,9 @@ export const StudentDetailPage: React.FC = () => {
                   />
                 </div>
               </div>
+              </div>
 
+              <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="form-label text-xs">Assigned Seat</label>
@@ -864,7 +919,9 @@ export const StudentDetailPage: React.FC = () => {
                   The server checks opening hours and prevents overlapping assignments on the same seat.
                 </p>
               </fieldset>
+              </div>
 
+              <div className="space-y-4">
               <div>
                 <label className="form-label text-xs">Address</label>
                 <textarea
@@ -894,19 +951,8 @@ export const StudentDetailPage: React.FC = () => {
                   className="form-textarea text-xs"
                 />
               </div>
-
-              <div className="flex justify-end gap-3 pt-3">
-                <button
-                  type="button"
-                  onClick={() => setEditModalOpen(false)}
-                  className="btn btn-secondary text-xs py-2 px-4"
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary text-xs py-2 px-4">
-                  Save Changes
-                </button>
               </div>
+              </FormSteps>
             </form>
           </div>
         </div>

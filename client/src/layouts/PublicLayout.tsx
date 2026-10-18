@@ -28,7 +28,7 @@ export const PublicLayout: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f4f9fc] text-[#0b1d2e] selection:bg-[#13b8c8] selection:text-[#0b1d2e] relative overflow-x-hidden w-full max-w-full">
+    <div className="relative flex min-h-dvh w-full max-w-full flex-col overflow-x-clip bg-[#f4f9fc] text-[#0b1d2e] selection:bg-[#13b8c8] selection:text-[#0b1d2e]">
       <Navbar settings={settings} />
       <main className="flex-1 w-full relative z-10 has-mobile-bottom-nav pb-16 md:pb-0">
         <Outlet context={{ settings }} />

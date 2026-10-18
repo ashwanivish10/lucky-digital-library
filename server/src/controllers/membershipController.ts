@@ -75,12 +75,6 @@ export const createMembership = async (req: AuthRequest, res: Response): Promise
   if (!student) throw createError('Student not found', 404);
   if (!plan) throw createError('Membership plan not found', 404);
 
-  // If the plan was marked inactive, activate it so student's membership is active
-  if (!plan.isActive) {
-    plan.isActive = true;
-    await plan.save();
-  }
-
   const start = new Date(startDate);
   const end = computeEndDate(start, plan.durationValue, plan.durationUnit);
   const status = await computeMembershipStatus(end);
@@ -194,15 +188,23 @@ export const updateMembership = async (req: AuthRequest, res: Response): Promise
   const membership = await Membership.findById(id);
   if (!membership) throw createError('Membership not found', 404);
 
-  const allowedFields = ['status', 'notes', 'discountAmount', 'discountReason', 'additionalCharges'];
-  for (const field of allowedFields) {
-    if (req.body[field] !== undefined) {
-      (membership as any)[field] = req.body[field];
-    }
+  if (req.body.notes !== undefined) membership.notes = req.body.notes;
+  if (req.body.discountReason !== undefined) membership.discountReason = req.body.discountReason;
+  // Admin forms send rupees. Stored snapshots stay in paise.
+  if (req.body.discountAmount !== undefined) {
+    membership.discountAmount = Math.round(Number(req.body.discountAmount) * 100);
+  }
+  if (req.body.additionalCharges !== undefined) {
+    membership.additionalCharges = Math.round(Number(req.body.additionalCharges) * 100);
   }
 
-  // Recompute status if dates changed
-  membership.status = await computeMembershipStatus(membership.endDate);
+  const requestedStatus = req.body.status;
+  const held = membership.status === 'suspended' || membership.status === 'inactive';
+  if (requestedStatus === 'suspended' || requestedStatus === 'inactive') {
+    membership.status = requestedStatus;
+  } else if (!held || requestedStatus === 'active') {
+    membership.status = await computeMembershipStatus(membership.endDate);
+  }
   await membership.save();
 
   res.json({ success: true, data: membership });

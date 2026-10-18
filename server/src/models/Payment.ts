@@ -49,7 +49,6 @@ const paymentSchema = new Schema<IPayment>(
   { timestamps: true }
 );
 
-paymentSchema.index({ receiptNumber: 1 }, { unique: true });
 paymentSchema.index({ studentId: 1, paymentDate: -1 });
 paymentSchema.index({ membershipId: 1 });
 paymentSchema.index({ paymentDate: -1 });

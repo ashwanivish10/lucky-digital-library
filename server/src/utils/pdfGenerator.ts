@@ -1,5 +1,5 @@
-import puppeteer from 'puppeteer';
 import { format } from 'date-fns';
+import { launchBrowser } from './browser';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function generateReceiptPdf(payment: any, settings: any): Promise<Buffer> {
@@ -103,10 +103,7 @@ export async function generateReceiptPdf(payment: any, settings: any): Promise<B
 </body>
 </html>`;
 
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
+  const browser = await launchBrowser();
 
   try {
     const page = await browser.newPage();

@@ -354,8 +354,8 @@ export const SeatMap: React.FC<SeatMapProps> = ({
       {availabilityError && !showControls && <p role="alert" className="my-2 text-center text-xs text-rose-300">{availabilityError}</p>}
 
       {viewMode === 'twocol' ? (
-        <div className="relative overflow-hidden rounded-[24px] border border-[#7ef9ff]/20 bg-[#040d18] p-2 shadow-inner sm:p-3">
-          <div className="mx-auto grid max-w-3xl grid-cols-11 items-stretch gap-1.5 sm:gap-3">
+        <div className="relative overflow-x-auto rounded-[24px] border border-[#7ef9ff]/20 bg-[#040d18] p-2 shadow-inner sm:p-3">
+          <div className="mx-auto grid min-w-[36rem] max-w-3xl grid-cols-11 items-stretch gap-1.5 sm:gap-3">
             {/* WEST WING (31–58): Left wall. Starts from Back Wall (31) down to Door (58) */}
             <div className="col-span-5 flex flex-col justify-between">
               <div className="mb-1 flex items-center justify-between border-b border-white/10 pb-1 text-[10px]">
@@ -431,8 +431,8 @@ export const SeatMap: React.FC<SeatMapProps> = ({
         </div>
       ) : (
         /* MATRIX VIEW */
-        <div className="rounded-[24px] border border-[#7ef9ff]/20 bg-[#040d18] p-2 sm:p-3">
-          <div className="mx-auto grid max-w-4xl grid-cols-11 items-center gap-2">
+        <div className="overflow-x-auto rounded-[24px] border border-[#7ef9ff]/20 bg-[#040d18] p-2 sm:p-3">
+          <div className="mx-auto grid min-w-[36rem] max-w-4xl grid-cols-11 items-center gap-2">
             {/* West Wing Grid (31–58) */}
             <div className="col-span-5">
               <span className="mb-1 block text-[10px] font-bold text-[#8fe7ff]">West Wing (31–58) · From Back Wall</span>

@@ -6,13 +6,14 @@ import {
   Download,
   Filter,
   Search,
-  ChevronLeft,
-  ChevronRight,
   TrendingUp,
   Receipt,
   X,
 } from 'lucide-react';
 import { paymentsApi } from '../../lib/api';
+import TablePagination from '../../components/admin/TablePagination';
+import ColumnPicker, { useColumnVisibility } from '../../components/admin/ColumnPicker';
+import FilterDialog from '../../components/admin/FilterDialog';
 import {
   formatINR,
   formatDate,
@@ -39,6 +40,16 @@ interface PaymentItem {
   status: string;
 }
 
+const PAYMENT_COLUMNS = [
+  { id: 'receipt', label: 'Receipt No' },
+  { id: 'student', label: 'Student' },
+  { id: 'amount', label: 'Amount' },
+  { id: 'method', label: 'Method' },
+  { id: 'date', label: 'Date' },
+  { id: 'category', label: 'Category / Period' },
+  { id: 'actions', label: 'Actions' },
+];
+
 export const PaymentsPage: React.FC = () => {
   const [payments, setPayments] = useState<PaymentItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -47,9 +58,14 @@ export const PaymentsPage: React.FC = () => {
   const [fromFilter, setFromFilter] = useState('');
   const [toFilter, setToFilter] = useState('');
   const [methodFilter, setMethodFilter] = useState('');
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [draftFrom, setDraftFrom] = useState('');
+  const [draftTo, setDraftTo] = useState('');
+  const [draftMethod, setDraftMethod] = useState('');
   const [studentSearch, setStudentSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const columns = useColumnVisibility('ldl.columns.payments', PAYMENT_COLUMNS);
   const [totalCount, setTotalCount] = useState(0);
 
   // Fetch payments
@@ -58,7 +74,7 @@ export const PaymentsPage: React.FC = () => {
     try {
       const params: Record<string, unknown> = {
         page,
-        limit: 20,
+        limit: pageSize,
       };
       if (fromFilter) params.from = fromFilter;
       if (toFilter) params.to = toFilter;
@@ -67,7 +83,6 @@ export const PaymentsPage: React.FC = () => {
       const res = await paymentsApi.list(params);
       if (res.data.success) {
         setPayments(res.data.data);
-        setTotalPages(res.data.pagination.pages || 1);
         setTotalCount(res.data.pagination.total || 0);
       }
     } catch (err) {
@@ -76,7 +91,7 @@ export const PaymentsPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [page, fromFilter, toFilter, methodFilter]);
+  }, [page, pageSize, fromFilter, toFilter, methodFilter]);
 
   useEffect(() => {
     fetchPayments();
@@ -135,9 +150,10 @@ export const PaymentsPage: React.FC = () => {
 
       {/* Filter Toolbar */}
       <div className="card bg-white p-4 rounded-lg border border-[#dce8f0] shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-3 flex-1">
+        <div className="flex flex-1 flex-wrap items-center gap-3">
+          <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto">
           {/* Student/Receipt search */}
-          <div className="relative min-w-[240px] flex items-center bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-3 py-2 focus-within:border-[#13b8c8] transition-colors">
+          <div className="relative flex min-w-0 flex-1 items-center rounded-md border border-[#dce8f0] bg-[#f4f9fc] px-3 py-2 transition-colors focus-within:border-[#13b8c8] sm:w-auto sm:min-w-[240px]">
             <Search size={15} className="text-[#65788c] mr-2 flex-shrink-0" />
             <input
               type="text"
@@ -156,9 +172,67 @@ export const PaymentsPage: React.FC = () => {
               </button>
             )}
           </div>
+          <FilterDialog
+            open={filtersOpen}
+            activeCount={[fromFilter, toFilter, methodFilter].filter(Boolean).length}
+            onOpen={() => {
+              setDraftFrom(fromFilter);
+              setDraftTo(toFilter);
+              setDraftMethod(methodFilter);
+              setFiltersOpen(true);
+            }}
+            onClose={() => setFiltersOpen(false)}
+            onClear={() => {
+              setDraftFrom('');
+              setDraftTo('');
+              setDraftMethod('');
+            }}
+            onApply={() => {
+              setFromFilter(draftFrom);
+              setToFilter(draftTo);
+              setMethodFilter(draftMethod);
+              setPage(1);
+              setFiltersOpen(false);
+            }}
+          >
+            <label className="block text-xs font-semibold text-[#294055]">
+              From
+              <input
+                type="date"
+                value={draftFrom}
+                onChange={(e) => setDraftFrom(e.target.value)}
+                className="mt-1 w-full rounded-xl border border-[#dce8f0] bg-[#f4f9fc] px-3 py-3 text-sm text-[#0b1d2e]"
+              />
+            </label>
+            <label className="block text-xs font-semibold text-[#294055]">
+              To
+              <input
+                type="date"
+                value={draftTo}
+                onChange={(e) => setDraftTo(e.target.value)}
+                className="mt-1 w-full rounded-xl border border-[#dce8f0] bg-[#f4f9fc] px-3 py-3 text-sm text-[#0b1d2e]"
+              />
+            </label>
+            <label className="block text-xs font-semibold text-[#294055]">
+              Payment method
+              <select
+                value={draftMethod}
+                onChange={(e) => setDraftMethod(e.target.value)}
+                className="mt-1 w-full rounded-xl border border-[#dce8f0] bg-[#f4f9fc] px-3 py-3 text-sm text-[#0b1d2e]"
+              >
+                <option value="">All Payment Methods</option>
+                <option value="upi">UPI</option>
+                <option value="cash">Cash</option>
+                <option value="bank_transfer">Bank Transfer</option>
+                <option value="card">Card</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+          </FilterDialog>
+          </div>
 
           {/* Date from */}
-          <div className="flex items-center gap-1.5 text-xs text-[#65788c] bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5">
+          <div className="hidden items-center gap-1.5 text-xs text-[#65788c] bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5 md:flex">
             <span className="font-medium text-[#0b1d2e]">From:</span>
             <input
               type="date"
@@ -172,7 +246,7 @@ export const PaymentsPage: React.FC = () => {
           </div>
 
           {/* Date to */}
-          <div className="flex items-center gap-1.5 text-xs text-[#65788c] bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5">
+          <div className="hidden items-center gap-1.5 text-xs text-[#65788c] bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5 md:flex">
             <span className="font-medium text-[#0b1d2e]">To:</span>
             <input
               type="date"
@@ -186,7 +260,7 @@ export const PaymentsPage: React.FC = () => {
           </div>
 
           {/* Payment Method */}
-          <div className="bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5 flex items-center gap-1.5">
+          <div className="hidden bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5 md:flex items-center gap-1.5">
             <Filter size={13} className="text-[#65788c]" />
             <select
               value={methodFilter}
@@ -215,11 +289,12 @@ export const PaymentsPage: React.FC = () => {
                 setStudentSearch('');
                 setPage(1);
               }}
-              className="text-xs text-[#8B1A1A] hover:underline px-2 py-1 font-semibold transition-colors"
+              className="hidden text-xs text-[#8B1A1A] hover:underline px-2 py-1 font-semibold transition-colors md:inline"
             >
               Reset filters
             </button>
           )}
+          <ColumnPicker columns={columns.columns} visible={columns.visible} onToggle={columns.toggle} />
         </div>
       </div>
 
@@ -350,32 +425,33 @@ export const PaymentsPage: React.FC = () => {
       </div>
 
       {/* Payments Table */}
-      <div className="table-container shadow-sm border border-[#dce8f0] rounded-2xl md:rounded-lg overflow-hidden bg-white">
-        <div className="hidden md:block">
+      <div className="overflow-hidden rounded-2xl border border-[#dce8f0] bg-white shadow-sm">
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full text-left border-collapse">
           <thead>
             <tr>
-              <th className="py-3 px-4">Receipt No</th>
-              <th className="py-3 px-4">Student</th>
-              <th className="py-3 px-4">Amount</th>
-              <th className="py-3 px-4">Method</th>
-              <th className="py-3 px-4">Date</th>
-              <th className="py-3 px-4">Category / Period</th>
-              <th className="py-3 px-4 text-right">Actions</th>
+              {PAYMENT_COLUMNS.filter((column) => columns.visible(column.id)).map((column) => (
+                <th
+                  key={column.id}
+                  className={`py-3 px-4 ${column.id === 'actions' ? 'text-right' : ''}`}
+                >
+                  {column.label}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-[#dce8f0]/70 text-xs text-[#0b1d2e]">
             {loading ? (
               Array.from({ length: 6 }).map((_, i) => (
                 <tr key={i}>
-                  <td colSpan={7} className="py-4 px-4">
+                  <td colSpan={columns.shownCount} className="py-4 px-4">
                     <div className="h-5 w-full bg-[#edf4f8] animate-pulse rounded"></div>
                   </td>
                 </tr>
               ))
             ) : filteredPayments.length === 0 ? (
               <tr>
-                <td colSpan={7} className="py-12 px-4 text-center">
+                <td colSpan={columns.shownCount} className="py-12 px-4 text-center">
                   <div className="flex flex-col items-center justify-center text-[#65788c]">
                     <div className="w-14 h-14 rounded-full bg-[#13b8c8]/10 flex items-center justify-center text-[#13b8c8] mb-3">
                       <CreditCard size={28} />
@@ -390,12 +466,13 @@ export const PaymentsPage: React.FC = () => {
             ) : (
               filteredPayments.map((p) => (
                 <tr key={p._id} className="hover:bg-[#f4f9fc]/60 transition-colors">
-                  {/* Receipt */}
+                  {columns.visible('receipt') && (
                   <td className="py-3.5 px-4 font-mono font-bold text-[#0b1d2e] text-xs">
                     {p.receiptNumber}
                   </td>
+                  )}
 
-                  {/* Student */}
+                  {columns.visible('student') && (
                   <td className="py-3.5 px-4">
                     {p.studentId ? (
                       <Link
@@ -411,33 +488,38 @@ export const PaymentsPage: React.FC = () => {
                       <span className="text-[#65788c] italic">Unknown</span>
                     )}
                   </td>
+                  )}
 
-                  {/* Amount */}
+                  {columns.visible('amount') && (
                   <td className="py-3.5 px-4 font-[family-name:var(--font-ui)] font-bold text-[#1A5C3B] text-sm">
                     {formatINR(p.amountReceived)}
                   </td>
+                  )}
 
-                  {/* Method */}
+                  {columns.visible('method') && (
                   <td className="py-3.5 px-4">
                     <span className="px-2.5 py-1 rounded bg-[#edf4f8] border border-[#dce8f0] text-[#0b1d2e] font-medium text-[10px] uppercase font-eyebrow tracking-wider">
                       {getPaymentMethodLabel(p.paymentMethod)}
                     </span>
                   </td>
+                  )}
 
-                  {/* Date */}
+                  {columns.visible('date') && (
                   <td className="py-3.5 px-4 text-[#65788c]">
                     {formatDate(p.paymentDate)}
                   </td>
+                  )}
 
-                  {/* Category & Period */}
+                  {columns.visible('category') && (
                   <td className="py-3.5 px-4">
                     <div className="font-semibold text-[#0b1d2e]">{p.feeCategory}</div>
                     {p.periodLabel && (
                       <div className="text-[11px] text-[#65788c]">{p.periodLabel}</div>
                     )}
                   </td>
+                  )}
 
-                  {/* Actions */}
+                  {columns.visible('actions') && (
                   <td className="py-3.5 px-4 text-right">
                     <button
                       type="button"
@@ -449,6 +531,7 @@ export const PaymentsPage: React.FC = () => {
                       <span>Receipt</span>
                     </button>
                   </td>
+                  )}
                 </tr>
               ))
             )}
@@ -456,32 +539,18 @@ export const PaymentsPage: React.FC = () => {
         </table>
         </div>
 
-        {/* Pagination Bar */}
-        <div className="p-3.5 border-t-0 md:border-t border-[#dce8f0] bg-[#f4f9fc] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65788c]">
-          <div>
-            Showing Page <span className="font-semibold text-[#0b1d2e]">{page}</span> of{' '}
-            <span className="font-semibold text-[#0b1d2e]">{totalPages}</span> (Total {totalCount} transactions)
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              disabled={page <= 1 || loading}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none min-h-[44px] md:min-h-0 flex items-center justify-center"
-            >
-              <ChevronLeft size={13} /> Previous
-            </button>
-            <button
-              type="button"
-              disabled={page >= totalPages || loading}
-              onClick={() => setPage((p) => p + 1)}
-              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none min-h-[44px] md:min-h-0 flex items-center justify-center"
-            >
-              Next <ChevronRight size={13} />
-            </button>
-          </div>
-        </div>
+        <TablePagination
+          page={page}
+          pageSize={pageSize}
+          total={totalCount}
+          shown={filteredPayments.length}
+          loading={loading}
+          onPageChange={setPage}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setPage(1);
+          }}
+        />
       </div>
     </div>
   );

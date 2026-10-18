@@ -3,13 +3,24 @@ import { motion } from 'framer-motion';
 import { UserCheck, Check, X, Phone, Mail, Clock } from 'lucide-react';
 import { studentsApi, plansApi, membershipsApi } from '../../lib/api';
 import { formatDate, formatINR } from '../../lib/utils';
+import ColumnPicker, { useColumnVisibility } from '../../components/admin/ColumnPicker';
 import { IMembershipPlan } from '../../types/public';
 import toast from 'react-hot-toast';
+
+const APPROVAL_COLUMNS = [
+  { id: 'code', label: 'Provisional ID' },
+  { id: 'applicant', label: 'Applicant' },
+  { id: 'contact', label: 'Contact' },
+  { id: 'applied', label: 'Applied Date' },
+  { id: 'note', label: 'Aspirant Note' },
+  { id: 'actions', label: 'Actions' },
+];
 
 export const ApprovalsPage: React.FC = () => {
   const [students, setStudents] = useState<any[]>([]);
   const [plans, setPlans] = useState<IMembershipPlan[]>([]);
   const [loading, setLoading] = useState(true);
+  const columns = useColumnVisibility('ldl.columns.approvals', APPROVAL_COLUMNS);
 
   // Approval modal state
   const [selectedStudent, setSelectedStudent] = useState<any | null>(null);
@@ -142,6 +153,7 @@ export const ApprovalsPage: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <ColumnPicker columns={columns.columns} visible={columns.visible} onToggle={columns.toggle} />
           <span className="badge badge-pending">
             {students.length} Pending Application{students.length === 1 ? '' : 's'}
           </span>
@@ -238,26 +250,33 @@ export const ApprovalsPage: React.FC = () => {
               <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-[#0b1d2e] text-white text-[11px] font-semibold uppercase tracking-wider">
-                  <th className="py-3.5 px-4">Provisional ID</th>
-                  <th className="py-3.5 px-4">Applicant</th>
-                  <th className="py-3.5 px-4">Contact</th>
-                  <th className="py-3.5 px-4">Applied Date</th>
-                  <th className="py-3.5 px-4">Aspirant Note</th>
-                  <th className="py-3.5 px-4 text-right">Actions</th>
+                  {APPROVAL_COLUMNS.filter((column) => columns.visible(column.id)).map((column) => (
+                    <th
+                      key={column.id}
+                      className={`py-3.5 px-4 ${column.id === 'actions' ? 'text-right' : ''}`}
+                    >
+                      {column.label}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#e7faff] text-sm">
                 {students.map((student) => (
                   <tr key={student._id} className="hover:bg-[#f4f9fc]/50 transition-colors">
+                    {columns.visible('code') && (
                     <td className="py-4 px-4 font-mono font-bold text-[#0b1d2e]">
                       {student.studentCode}
                     </td>
+                    )}
+                    {columns.visible('applicant') && (
                     <td className="py-4 px-4">
                       <div className="font-semibold text-[#0b1d2e]">{student.name}</div>
                       {student.address && (
                         <div className="text-[11px] text-[#64748B] truncate max-w-xs">{student.address}</div>
                       )}
                     </td>
+                    )}
+                    {columns.visible('contact') && (
                     <td className="py-4 px-4 text-xs text-[#475569]">
                       <div className="flex items-center gap-1.5 font-medium">
                         <Phone className="w-3.5 h-3.5 text-[#13b8c8]" />
@@ -270,12 +289,18 @@ export const ApprovalsPage: React.FC = () => {
                         </div>
                       )}
                     </td>
+                    )}
+                    {columns.visible('applied') && (
                     <td className="py-4 px-4 text-xs text-[#64748B]">
                       {formatDate(student.createdAt || student.joiningDate)}
                     </td>
+                    )}
+                    {columns.visible('note') && (
                     <td className="py-4 px-4 text-xs text-[#334155] max-w-xs">
                       <span className="italic">{student.notes || '—'}</span>
                     </td>
+                    )}
+                    {columns.visible('actions') && (
                     <td className="py-4 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
@@ -294,6 +319,7 @@ export const ApprovalsPage: React.FC = () => {
                         </button>
                       </div>
                     </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

@@ -17,6 +17,8 @@ import {
   Filter,
 } from 'lucide-react';
 import { messagesApi } from '../../lib/api';
+import FilterDialog from '../../components/admin/FilterDialog';
+import TablePagination from '../../components/admin/TablePagination';
 import { IContactMessage, MessageStatus } from '../../types/public';
 import { formatDate } from '../../lib/utils';
 import toast from 'react-hot-toast';
@@ -27,8 +29,10 @@ export const MessagesPage: React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [draftStatus, setDraftStatus] = useState('all');
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
   const [unreadCount, setUnreadCount] = useState(0);
 
@@ -48,7 +52,7 @@ export const MessagesPage: React.FC = () => {
     try {
       const params: Record<string, unknown> = {
         page,
-        limit: 25,
+        limit: pageSize,
       };
       if (statusFilter !== 'all') params.status = statusFilter;
       if (searchTerm.trim()) params.search = searchTerm.trim();
@@ -57,7 +61,6 @@ export const MessagesPage: React.FC = () => {
       const data = res.data?.data;
       if (data) {
         setMessages(data.messages || []);
-        setTotalPages(data.totalPages || 1);
         setTotalCount(data.total || 0);
         setUnreadCount(data.unreadCount || 0);
       }
@@ -68,7 +71,7 @@ export const MessagesPage: React.FC = () => {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [page, statusFilter, searchTerm]);
+  }, [page, pageSize, statusFilter, searchTerm]);
 
   useEffect(() => {
     fetchMessages();
@@ -290,7 +293,7 @@ export const MessagesPage: React.FC = () => {
       {/* Filter and Search Bar */}
       <div className="bg-white p-4 rounded-2xl border border-[#dce8f0] shadow-xs flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
         {/* Status Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+        <div className="hidden items-center gap-1.5 overflow-x-auto pb-1 md:flex md:pb-0 scrollbar-none">
           {[
             { id: 'all', label: 'All Inquiries' },
             { id: 'unread', label: `Unread (${unreadCount})` },
@@ -317,7 +320,8 @@ export const MessagesPage: React.FC = () => {
         </div>
 
         {/* Search */}
-        <div className="relative min-w-[260px]">
+        <div className="flex w-full min-w-0 items-center gap-2 md:w-auto">
+        <div className="relative w-full min-w-0 md:w-64 md:shrink-0">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#65788c]" />
           <input
             type="text"
@@ -341,6 +345,42 @@ export const MessagesPage: React.FC = () => {
               <X size={14} />
             </button>
           )}
+        </div>
+        <FilterDialog
+          open={filtersOpen}
+          title="Message status"
+          activeCount={statusFilter === 'all' ? 0 : 1}
+          onOpen={() => {
+            setDraftStatus(statusFilter);
+            setFiltersOpen(true);
+          }}
+          onClose={() => setFiltersOpen(false)}
+          onClear={() => setDraftStatus('all')}
+          onApply={() => {
+            setStatusFilter(draftStatus);
+            setPage(1);
+            setFiltersOpen(false);
+          }}
+        >
+          {[
+            { id: 'all', label: 'All Inquiries' },
+            { id: 'unread', label: `Unread (${unreadCount})` },
+            { id: 'read', label: 'Read' },
+            { id: 'replied', label: 'Replied' },
+            { id: 'archived', label: 'Archived' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setDraftStatus(tab.id)}
+              className={`w-full rounded-xl px-3 py-3 text-left text-sm font-semibold ${
+                draftStatus === tab.id ? 'bg-[#0b1d2e] text-white' : 'bg-[#f4f9fc] text-[#294055]'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </FilterDialog>
         </div>
       </div>
 
@@ -568,32 +608,21 @@ export const MessagesPage: React.FC = () => {
         )}
       </div>
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between bg-white px-4 py-3 rounded-2xl border border-[#dce8f0] shadow-xs text-xs">
-          <span className="text-[#65788c]">
-            Page {page} of {totalPages} ({totalCount} total)
-          </span>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-              className="btn btn-secondary py-1 px-3 text-xs disabled:opacity-40 min-h-[44px] md:min-h-0 flex items-center justify-center"
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-              className="btn btn-secondary py-1 px-3 text-xs disabled:opacity-40 min-h-[44px] md:min-h-0 flex items-center justify-center"
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )}
+      <div className="overflow-hidden rounded-2xl border border-[#dce8f0] bg-white">
+        <TablePagination
+          className="border-t-0"
+          page={page}
+          pageSize={pageSize}
+          total={totalCount}
+          shown={messages.length}
+          loading={loading}
+          onPageChange={setPage}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setPage(1);
+          }}
+        />
+      </div>
 
       {/* Detail / Admin Notes Modal */}
       {selectedMessage && (

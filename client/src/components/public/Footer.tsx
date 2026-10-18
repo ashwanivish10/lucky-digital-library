@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Heart, Star } from 'lucide-react';
 import { ISiteSettings } from '../../types/public';
 
@@ -25,6 +26,13 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
         </p>
           <span className="text-[#7ef9ff] flex flex-wrap items-center justify-center gap-x-2 gap-y-1 font-[family-name:var(--font-ui)] text-2xl font-black leading-tight tracking-[-0.05em] sm:text-3xl md:text-5xl">Lucky Digital Library</span>
 
+        <nav className="flex max-w-lg flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-white/60 sm:text-sm" aria-label="Footer">
+          <Link to="/about" className="hover:text-[#7ef9ff]">About</Link>
+          <Link to="/facilities" className="hover:text-[#7ef9ff]">Facilities</Link>
+          <Link to="/membership" className="hover:text-[#7ef9ff]">Membership</Link>
+          <Link to="/rules" className="hover:text-[#7ef9ff]">Rules</Link>
+          <Link to="/contact" className="hover:text-[#7ef9ff]">Contact</Link>
+        </nav>
         <a
           href={mapLink}
           target="_blank"

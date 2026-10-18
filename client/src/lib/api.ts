@@ -21,14 +21,15 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor — handle 401 globally
+// Only the session check may end a login. A public page can receive a 401
+// without meaning the student signed out.
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const url = String(error.config?.url || '');
+    if (error.response?.status === 401 && url.includes('/auth/me')) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      // Don't redirect here — let AuthContext handle it
     }
     return Promise.reject(error);
   }
