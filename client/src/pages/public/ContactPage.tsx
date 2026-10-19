@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
 import { settingsApi } from '../../lib/api';
+import FormSteps from '../../components/admin/FormSteps';
 import toast from 'react-hot-toast';
 
 export const ContactPage: React.FC = () => {
@@ -35,7 +36,7 @@ export const ContactPage: React.FC = () => {
   return (
     <div className="bg-[#f4f9fc] min-h-screen text-[#0b1d2e]">
       {/* Hero */}
-      <section className="bg-[#0b1d2e] text-white pt-36 pb-20 relative overflow-hidden border-b border-[#13b8c8]/20">
+      <section className="bg-[#0b1d2e] text-white pt-12 pb-14 sm:pt-20 sm:pb-20 relative overflow-hidden border-b border-[#13b8c8]/20">
         <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#13b8c8_1px,transparent_1px),linear-gradient(to_bottom,#13b8c8_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
         <div className="max-w-2xl mx-auto px-6 relative z-10 text-center">
           <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-[#7ef9ff] mb-4">
@@ -54,7 +55,34 @@ export const ContactPage: React.FC = () => {
       {/* Centered Send Us a Message Form Card */}
       <section className="py-14 sm:py-20 pb-24 sm:pb-20 max-w-2xl mx-auto px-4 sm:px-6">
         <div className="bg-white rounded-2xl p-5 sm:p-10 border border-[#dce8f0] shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form noValidate onSubmit={handleSubmit} className="space-y-5">
+            <FormSteps
+              steps={['Your details', 'Message']}
+              canContinue={(index) => {
+                if (index === 0 && !form.name.trim()) {
+                  toast.error('Please enter your name.');
+                  return false;
+                }
+                return true;
+              }}
+              footer={
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="btn btn-primary w-full py-3.5 min-h-[48px] justify-center text-sm font-bold shadow-md rounded-xl"
+            >
+              {isSubmitting ? (
+                <span>Sending Message...</span>
+              ) : (
+                <>
+                  <Send className="w-4 h-4 mr-2" />
+                  <span>Send Message</span>
+                </>
+              )}
+            </button>
+              }
+            >
+            <div className="space-y-5">
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-[#0b1d2e] mb-2 font-[family-name:var(--font-ui)]">
@@ -111,8 +139,9 @@ export const ContactPage: React.FC = () => {
                 />
               </div>
             </div>
+            </div>
 
-            <div>
+            <div className="space-y-5">
               <label className="block text-xs font-semibold uppercase tracking-wider text-[#0b1d2e] mb-2 font-[family-name:var(--font-ui)]">
                 Message / Question *
               </label>
@@ -125,21 +154,7 @@ export const ContactPage: React.FC = () => {
                 className="w-full px-4 py-3 min-h-[120px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
               />
             </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="btn btn-primary w-full py-3.5 min-h-[48px] justify-center text-sm font-bold shadow-md rounded-xl"
-            >
-              {isSubmitting ? (
-                <span>Sending Message...</span>
-              ) : (
-                <>
-                  <Send className="w-4 h-4 mr-2" />
-                  <span>Send Message</span>
-                </>
-              )}
-            </button>
+            </FormSteps>
           </form>
         </div>
       </section>

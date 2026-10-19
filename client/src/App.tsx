@@ -13,6 +13,7 @@ import AboutPage from './pages/public/AboutPage';
 import FacilitiesPage from './pages/public/FacilitiesPage';
 import MembershipPage from './pages/public/MembershipPage';
 import ContactPage from './pages/public/ContactPage';
+import RulesPage from './pages/public/RulesPage';
 import RegisterPage from './pages/public/RegisterPage';
 
 // Auth
@@ -89,7 +90,7 @@ function AppRoutes() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/facilities" element={<FacilitiesPage />} />
         <Route path="/membership" element={<MembershipPage />} />
-        <Route path="/rules" element={<Navigate to="/" replace />} />
+        <Route path="/rules" element={<RulesPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Route>
@@ -120,7 +121,7 @@ function AppRoutes() {
         <Route path="payments/reports" element={<PaymentsPage />} />
         <Route path="memberships" element={<PlansPage />} />
         <Route path="messages" element={<MessagesPage />} />
-        <Route path="plans" element={<Navigate to="/admin/messages" replace />} />
+        <Route path="plans" element={<Navigate to="/admin/memberships" replace />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>
 

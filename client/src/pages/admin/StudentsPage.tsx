@@ -6,8 +6,6 @@ import {
   Eye,
   Edit2,
   Archive,
-  ChevronLeft,
-  ChevronRight,
   Filter,
   AlertCircle,
   Users,
@@ -15,7 +13,10 @@ import {
   Clock,
 } from 'lucide-react';
 import { studentsApi } from '../../lib/api';
-import { formatDate, getStatusBadgeClass, getStatusLabel } from '../../lib/utils';
+import TablePagination from '../../components/admin/TablePagination';
+import ColumnPicker, { useColumnVisibility } from '../../components/admin/ColumnPicker';
+import FilterDialog from '../../components/admin/FilterDialog';
+import { formatDate, formatINR, getStatusBadgeClass, getStatusLabel } from '../../lib/utils';
 import toast from 'react-hot-toast';
 
 interface StudentItem {
@@ -37,7 +38,44 @@ interface StudentItem {
     status: string;
     endDate: string;
   } | null;
+  outstanding?: number;
 }
+
+function FeeDue({ student }: { student: StudentItem }) {
+  const due = student.outstanding || 0;
+  if (due > 0) {
+    return (
+      <Link
+        to={`/admin/payments/record?studentId=${student._id}`}
+        className="inline-flex whitespace-nowrap items-center rounded-lg bg-rose-50 px-2.5 py-1 text-xs font-bold text-[#b42336] ring-1 ring-inset ring-rose-200"
+        title="Collect the remaining fee"
+      >
+        {formatINR(due)} due
+      </Link>
+    );
+  }
+  if (student.activeMembership) {
+    return (
+      <span className="inline-flex whitespace-nowrap items-center rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-[#1B5E3C] ring-1 ring-inset ring-emerald-200">
+        Paid
+      </span>
+    );
+  }
+  return <span className="text-xs text-[#65788c]">—</span>;
+}
+
+const STUDENT_COLUMNS = [
+  { id: 'code', label: 'Student ID' },
+  { id: 'name', label: 'Name' },
+  { id: 'phone', label: 'Phone' },
+  { id: 'joining', label: 'Joining Date' },
+  { id: 'status', label: 'Status' },
+  { id: 'membership', label: 'Membership' },
+  { id: 'fee', label: 'Fee due' },
+  { id: 'seat', label: 'Seat' },
+  { id: 'shift', label: 'Shift' },
+  { id: 'actions', label: 'Actions' },
+];
 
 export const StudentsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,8 +85,14 @@ export const StudentsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
   const [statusFilter, setStatusFilter] = useState(searchParams.get('status') || '');
   const [regFilter, setRegFilter] = useState(searchParams.get('registrationStatus') || '');
+  const [feeFilter, setFeeFilter] = useState(searchParams.get('feeStatus') || '');
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [draftStatus, setDraftStatus] = useState(statusFilter);
+  const [draftFee, setDraftFee] = useState(feeFilter);
+  const [draftReg, setDraftReg] = useState(regFilter);
   const [page, setPage] = useState(parseInt(searchParams.get('page') || '1', 10));
-  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const columns = useColumnVisibility('ldl.columns.students', STUDENT_COLUMNS);
   const [totalStudents, setTotalStudents] = useState(0);
 
   // Archive modal state
@@ -61,16 +105,16 @@ export const StudentsPage: React.FC = () => {
     try {
       const params: Record<string, unknown> = {
         page,
-        limit: 15,
+        limit: pageSize,
       };
       if (searchTerm.trim()) params.search = searchTerm.trim();
       if (statusFilter) params.status = statusFilter;
       if (regFilter) params.registrationStatus = regFilter;
+      if (feeFilter) params.feeStatus = feeFilter;
 
       const res = await studentsApi.list(params);
       if (res.data.success) {
         setStudents(res.data.data);
-        setTotalPages(res.data.pagination.pages || 1);
         setTotalStudents(res.data.pagination.total || 0);
       }
     } catch (err) {
@@ -79,7 +123,7 @@ export const StudentsPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [page, searchTerm, statusFilter, regFilter]);
+  }, [page, pageSize, searchTerm, statusFilter, regFilter, feeFilter]);
 
   // Debounce search input by 400ms
   useEffect(() => {
@@ -88,7 +132,7 @@ export const StudentsPage: React.FC = () => {
     }, 400);
 
     return () => clearTimeout(handler);
-  }, [searchTerm, statusFilter, regFilter, page, fetchStudents]);
+  }, [searchTerm, statusFilter, regFilter, feeFilter, page, fetchStudents]);
 
   // Sync state into URL params
   useEffect(() => {
@@ -96,9 +140,10 @@ export const StudentsPage: React.FC = () => {
     if (searchTerm) newParams.search = searchTerm;
     if (statusFilter) newParams.status = statusFilter;
     if (regFilter) newParams.registrationStatus = regFilter;
+    if (feeFilter) newParams.feeStatus = feeFilter;
     if (page > 1) newParams.page = String(page);
     setSearchParams(newParams, { replace: true });
-  }, [searchTerm, statusFilter, regFilter, page, setSearchParams]);
+  }, [searchTerm, statusFilter, regFilter, feeFilter, page, setSearchParams]);
 
   const handleArchiveConfirm = async () => {
     if (!studentToArchive) return;
@@ -141,8 +186,9 @@ export const StudentsPage: React.FC = () => {
 
       {/* Filter and Search Bar Card */}
       <div className="card bg-white p-4 rounded-lg border border-[#dce8f0] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex min-w-0 flex-1 items-center gap-2">
         {/* Debounced Search */}
-        <div className="relative flex-1 max-w-md flex items-center bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-3 py-2 focus-within:border-[#13b8c8] transition-colors">
+        <div className="relative max-w-md flex-1 flex items-center bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-3 py-2 focus-within:border-[#13b8c8] transition-colors">
           <Search size={16} className="text-[#65788c] flex-shrink-0 mr-2" />
           <input
             type="text"
@@ -167,9 +213,73 @@ export const StudentsPage: React.FC = () => {
             </button>
           )}
         </div>
+        <FilterDialog
+          open={filtersOpen}
+          activeCount={[statusFilter, feeFilter, regFilter].filter(Boolean).length}
+          onOpen={() => {
+            setDraftStatus(statusFilter);
+            setDraftFee(feeFilter);
+            setDraftReg(regFilter);
+            setFiltersOpen(true);
+          }}
+          onClose={() => setFiltersOpen(false)}
+          onClear={() => {
+            setDraftStatus('');
+            setDraftFee('');
+            setDraftReg('');
+          }}
+          onApply={() => {
+            setStatusFilter(draftStatus);
+            setFeeFilter(draftFee);
+            setRegFilter(draftReg);
+            setPage(1);
+            setFiltersOpen(false);
+          }}
+        >
+          <label className="block text-xs font-semibold text-[#294055]">
+            Status
+            <select
+              value={draftStatus}
+              onChange={(e) => setDraftStatus(e.target.value)}
+              className="mt-1 w-full rounded-xl border border-[#dce8f0] bg-[#f4f9fc] px-3 py-3 text-sm text-[#0b1d2e]"
+            >
+              <option value="">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="suspended">Suspended</option>
+              <option value="archived">Archived</option>
+            </select>
+          </label>
+          <label className="block text-xs font-semibold text-[#294055]">
+            Fees
+            <select
+              value={draftFee}
+              onChange={(e) => setDraftFee(e.target.value)}
+              className="mt-1 w-full rounded-xl border border-[#dce8f0] bg-[#f4f9fc] px-3 py-3 text-sm text-[#0b1d2e]"
+            >
+              <option value="">All fees</option>
+              <option value="due">Fee due</option>
+              <option value="clear">Paid in full</option>
+            </select>
+          </label>
+          <label className="block text-xs font-semibold text-[#294055]">
+            Registration
+            <select
+              value={draftReg}
+              onChange={(e) => setDraftReg(e.target.value)}
+              className="mt-1 w-full rounded-xl border border-[#dce8f0] bg-[#f4f9fc] px-3 py-3 text-sm text-[#0b1d2e]"
+            >
+              <option value="">All Registrations</option>
+              <option value="pending">Pending Approval</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </label>
+        </FilterDialog>
+        </div>
 
         {/* Filter Dropdowns */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="hidden flex-wrap items-center gap-3 md:flex">
           <div className="flex items-center gap-2 bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5">
             <Filter size={14} className="text-[#65788c]" />
             <select
@@ -190,6 +300,21 @@ export const StudentsPage: React.FC = () => {
 
           <div className="bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5">
             <select
+              value={feeFilter}
+              onChange={(e) => {
+                setFeeFilter(e.target.value);
+                setPage(1);
+              }}
+              className="text-xs bg-transparent text-[#0b1d2e] font-medium focus:outline-none cursor-pointer"
+            >
+              <option value="">All fees</option>
+              <option value="due">Fee due</option>
+              <option value="clear">Paid in full</option>
+            </select>
+          </div>
+
+          <div className="bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5">
+            <select
               value={regFilter}
               onChange={(e) => {
                 setRegFilter(e.target.value);
@@ -204,13 +329,14 @@ export const StudentsPage: React.FC = () => {
             </select>
           </div>
 
-          {(searchTerm || statusFilter || regFilter) && (
+          {(searchTerm || statusFilter || regFilter || feeFilter) && (
             <button
               type="button"
               onClick={() => {
                 setSearchTerm('');
                 setStatusFilter('');
                 setRegFilter('');
+                setFeeFilter('');
                 setPage(1);
               }}
               className="text-xs text-[#8B1A1A] hover:underline px-2 py-1 font-semibold transition-colors"
@@ -218,6 +344,7 @@ export const StudentsPage: React.FC = () => {
               Clear filters
             </button>
           )}
+          <ColumnPicker columns={columns.columns} visible={columns.visible} onToggle={columns.toggle} />
         </div>
       </div>
 
@@ -328,7 +455,7 @@ export const StudentsPage: React.FC = () => {
                         {student.seatDays && student.seatDays.length > 0 && (
                           <span className="text-[10px] text-[#65788c] mt-0.5 font-medium">
                             {student.seatDays.length === 7
-                              ? 'All 7 Days (24×7)'
+                              ? 'All 7 days'
                               : student.seatDays.map((d: string) => d.slice(0, 3)).join(', ')}
                           </span>
                         )}
@@ -357,6 +484,11 @@ export const StudentsPage: React.FC = () => {
                       Exp: <span className="font-medium text-[#0b1d2e]">{formatDate(activeMem.endDate)}</span>
                     </div>
                   )}
+                </div>
+
+                <div className="flex items-center justify-between gap-2 text-xs pt-2 border-t border-[#f0f5f9]">
+                  <span className="text-[#65788c] text-[11px]">Fee due</span>
+                  <FeeDue student={student} />
                 </div>
 
                 {/* Bottom row: Action buttons (View, Edit, Archive) as icon buttons with labels, min 44px touch targets */}
@@ -395,20 +527,19 @@ export const StudentsPage: React.FC = () => {
       </div>
 
       {/* Table Container */}
-      <div className="table-container shadow-sm border border-[#dce8f0] rounded-2xl md:rounded-lg overflow-hidden bg-white">
-        <div className="hidden md:block">
+      <div className="overflow-hidden rounded-2xl border border-[#dce8f0] bg-white shadow-sm">
+        <div className="student-directory hidden overflow-x-auto md:block">
           <table className="w-full text-left border-collapse">
           <thead>
             <tr>
-              <th className="py-3 px-4">Student ID</th>
-              <th className="py-3 px-4">Name</th>
-              <th className="py-3 px-4">Phone</th>
-              <th className="py-3 px-4">Joining Date</th>
-              <th className="py-3 px-4">Account Status</th>
-              <th className="py-3 px-4">Membership</th>
-              <th className="py-3 px-4">Seat</th>
-              <th className="py-3 px-4">Timing / Shift</th>
-              <th className="py-3 px-4 text-right">Actions</th>
+              {STUDENT_COLUMNS.filter((column) => columns.visible(column.id)).map((column) => (
+                <th
+                  key={column.id}
+                  className={`py-3 whitespace-nowrap ${column.id === 'actions' ? 'text-right' : ''}`}
+                >
+                  {column.label}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-[#dce8f0]/70 text-sm text-[#0b1d2e]">
@@ -416,7 +547,7 @@ export const StudentsPage: React.FC = () => {
               // Skeletons
               Array.from({ length: 6 }).map((_, i) => (
                 <tr key={i}>
-                  <td colSpan={9} className="py-4 px-4">
+                  <td colSpan={columns.shownCount} className="py-4 px-4">
                     <div className="h-5 w-full bg-[#edf4f8] animate-pulse rounded"></div>
                   </td>
                 </tr>
@@ -424,7 +555,7 @@ export const StudentsPage: React.FC = () => {
             ) : students.length === 0 ? (
               // Empty state
               <tr>
-                <td colSpan={9} className="py-12 px-4 text-center">
+                <td colSpan={columns.shownCount} className="py-12 px-4 text-center">
                   <div className="flex flex-col items-center justify-center text-[#65788c]">
                     <div className="w-14 h-14 rounded-full bg-[#13b8c8]/10 flex items-center justify-center text-[#13b8c8] mb-3">
                       <Users size={28} />
@@ -448,14 +579,18 @@ export const StudentsPage: React.FC = () => {
                 const activeMem = student.activeMembership;
 
                 return (
-                  <tr key={student._id} className="hover:bg-[#f4f9fc]/60 transition-colors">
-                    {/* Student Code */}
-                    <td className="py-3.5 px-4 font-mono font-medium text-xs text-[#0b1d2e]">
+                  <tr
+                    key={student._id}
+                    className={`transition-colors ${(student.outstanding || 0) > 0 ? 'is-due bg-rose-50/70 hover:bg-rose-50' : 'hover:bg-[#f4f9fc]/60'}`}
+                  >
+                    {columns.visible('code') && (
+                    <td className="py-3 whitespace-nowrap font-mono font-medium text-xs text-[#0b1d2e]">
                       {student.studentCode}
                     </td>
+                    )}
 
-                    {/* Name */}
-                    <td className="py-3.5 px-4 font-medium text-[#0b1d2e]">
+                    {columns.visible('name') && (
+                    <td className="py-3 font-medium text-[#0b1d2e]">
                       <div className="flex items-center gap-2">
                         <Link
                           to={`/admin/students/${student._id}`}
@@ -473,29 +608,33 @@ export const StudentsPage: React.FC = () => {
                         <div className="text-xs text-[#65788c] font-normal">{student.email}</div>
                       )}
                     </td>
+                    )}
 
-                    {/* Phone */}
-                    <td className="py-3.5 px-4 text-[#65788c] font-mono text-xs">
+                    {columns.visible('phone') && (
+                    <td className="py-3 whitespace-nowrap text-[#65788c] font-mono text-xs">
                       {student.phone}
                     </td>
+                    )}
 
-                    {/* Joining Date */}
-                    <td className="py-3.5 px-4 text-[#65788c] text-xs">
+                    {columns.visible('joining') && (
+                    <td className="py-3 whitespace-nowrap text-[#65788c] text-xs">
                       {formatDate(student.joiningDate)}
                     </td>
+                    )}
 
-                    {/* Account Status Badge */}
-                    <td className="py-3.5 px-4">
+                    {columns.visible('status') && (
+                    <td className="py-3">
                       <span className={`badge ${getStatusBadgeClass(student.status)} text-[10px]`}>
                         {getStatusLabel(student.status)}
                       </span>
                     </td>
+                    )}
 
-                    {/* Membership Status */}
-                    <td className="py-3.5 px-4">
+                    {columns.visible('membership') && (
+                    <td className="py-3">
                       {activeMem ? (
-                        <div>
-                          <span className={`badge ${getStatusBadgeClass(activeMem.status)} text-[10px]`}>
+                        <div className="max-w-[11rem]">
+                          <span className={`badge membership-chip ${getStatusBadgeClass(activeMem.status)} text-[10px]`}>
                             {activeMem.planNameSnapshot}
                           </span>
                           <div className="text-[11px] text-[#65788c] mt-0.5">
@@ -506,9 +645,16 @@ export const StudentsPage: React.FC = () => {
                         <span className="text-xs text-[#65788c] italic">No Active Plan</span>
                       )}
                     </td>
+                    )}
 
-                    {/* Seat */}
-                    <td className="py-3.5 px-4 text-xs font-semibold text-[#0b1d2e]">
+                    {columns.visible('fee') && (
+                    <td className="py-3 whitespace-nowrap">
+                      <FeeDue student={student} />
+                    </td>
+                    )}
+
+                    {columns.visible('seat') && (
+                    <td className="py-3 text-xs font-semibold text-[#0b1d2e]">
                       {student.seatNumber ? (
                         <span className="px-2 py-0.5 bg-[#edf4f8] border border-[#dce8f0] rounded text-[#0b1d2e] font-mono text-xs">
                           {student.seatNumber}
@@ -517,19 +663,20 @@ export const StudentsPage: React.FC = () => {
                         <span className="text-[#65788c]">—</span>
                       )}
                     </td>
+                    )}
 
-                    {/* Timing / Shift */}
-                    <td className="py-3.5 px-4 text-xs">
+                    {columns.visible('shift') && (
+                    <td className="py-3 text-xs">
                       {student.seatStartTime && student.seatEndTime ? (
                         <div>
-                          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#e7faff] text-[#075a70] border border-[#13b8c8]/30 font-semibold font-mono text-[11px]">
-                            <Clock className="w-3 h-3 text-[#13b8c8]" />
+                          <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap px-2 py-0.5 rounded-md bg-[#e7faff] text-[#075a70] border border-[#13b8c8]/30 font-semibold font-mono text-[11px]">
+                            <Clock className="w-3 h-3 shrink-0 text-[#13b8c8]" />
                             <span>{student.seatStartTime} – {student.seatEndTime}</span>
                           </span>
                           {student.seatDays && student.seatDays.length > 0 && (
-                            <div className="text-[10px] text-[#65788c] mt-0.5 font-medium">
+                            <div className="whitespace-nowrap text-[10px] text-[#65788c] mt-0.5 font-medium">
                               {student.seatDays.length === 7
-                                ? 'All 7 Days (24×7)'
+                                ? 'All 7 days'
                                 : student.seatDays.map((d: string) => d.slice(0, 3)).join(', ')}
                             </div>
                           )}
@@ -538,38 +685,40 @@ export const StudentsPage: React.FC = () => {
                         <span className="text-[#65788c] text-xs font-medium">Full Day (24×7)</span>
                       )}
                     </td>
+                    )}
 
-                    {/* Actions */}
-                    <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
+                    {columns.visible('actions') && (
+                    <td className="py-3 text-right">
+                      <div className="inline-flex items-center gap-0.5 rounded-lg border border-[#dce8f0] bg-white p-0.5">
                         <Link
                           to={`/admin/students/${student._id}`}
-                          className="p-1.5 text-[#65788c] hover:text-[#0b1d2e] hover:bg-[#edf4f8] rounded transition-colors"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#087d99] hover:bg-[#e7faff] transition-colors"
                           title="View Student"
                         >
-                          <Eye size={15} />
+                          <Eye size={16} />
                         </Link>
 
                         <Link
                           to={`/admin/students/${student._id}#profile`}
-                          className="p-1.5 text-[#65788c] hover:text-[#13b8c8] hover:bg-[#edf4f8] rounded transition-colors"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#294055] hover:bg-[#f4f9fc] transition-colors"
                           title="Edit Student"
                         >
-                          <Edit2 size={15} />
+                          <Edit2 size={16} />
                         </Link>
 
                         {student.status !== 'archived' && (
                           <button
                             type="button"
                             onClick={() => setStudentToArchive(student)}
-                            className="p-1.5 text-[#65788c] hover:text-[#8B1A1A] hover:bg-rose-50 rounded transition-colors"
+                            className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#b42336] hover:bg-rose-50 transition-colors"
                             title="Archive Student"
                           >
-                            <Archive size={15} />
+                            <Archive size={16} />
                           </button>
                         )}
                       </div>
                     </td>
+                    )}
                   </tr>
                 );
               })
@@ -578,32 +727,18 @@ export const StudentsPage: React.FC = () => {
         </table>
         </div>
 
-        {/* Pagination Bar */}
-        <div className="p-3.5 border-t-0 md:border-t border-[#dce8f0] bg-[#f4f9fc] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65788c]">
-          <div>
-            Showing Page <span className="font-semibold text-[#0b1d2e]">{page}</span> of{' '}
-            <span className="font-semibold text-[#0b1d2e]">{totalPages}</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              disabled={page <= 1 || loading}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none min-h-[44px] md:min-h-0 flex items-center justify-center"
-            >
-              <ChevronLeft size={13} /> Previous
-            </button>
-            <button
-              type="button"
-              disabled={page >= totalPages || loading}
-              onClick={() => setPage((p) => p + 1)}
-              className="btn btn-secondary py-1 px-3 text-xs bg-white border-[#dce8f0] disabled:opacity-40 disabled:pointer-events-none min-h-[44px] md:min-h-0 flex items-center justify-center"
-            >
-              Next <ChevronRight size={13} />
-            </button>
-          </div>
-        </div>
+        <TablePagination
+          page={page}
+          pageSize={pageSize}
+          total={totalStudents}
+          shown={students.length}
+          loading={loading}
+          onPageChange={setPage}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setPage(1);
+          }}
+        />
       </div>
 
       {/* Confirmation Modal for Archiving */}

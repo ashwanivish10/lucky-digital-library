@@ -19,8 +19,19 @@ import messageRoutes from './routes/messages';
 
 const app = express();
 
+// Render and other hosts sit behind a proxy. This lets rate limits see the real visitor.
+app.set('trust proxy', 1);
+
+if (config.nodeEnv === 'production' && (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32)) {
+  throw new Error('Set JWT_SECRET to a random string of at least 32 characters before starting in production.');
+}
+
 // Security
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+  contentSecurityPolicy: false,
+  // The public site and admin run on another origin and must be allowed to read API responses.
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
 
 // --- CORS Configuration (supports local dev and Vercel deployments) ---
 const allowedOrigins = [
@@ -35,7 +46,8 @@ app.use(cors({
     // Allow non-browser requests (mobile apps, curl, server-to-server)
     if (!origin) return callback(null, true);
     // Allow configured origins or any Vercel preview domain
-    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+    const ngrokHost = /^https:\/\/[a-z0-9-]+\.(ngrok-free\.app|ngrok-free\.dev|ngrok\.io|ngrok\.app|ngrok\.dev)$/i;
+    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app') || ngrokHost.test(origin)) {
       return callback(null, true);
     }
     return callback(new Error(`CORS blocked for origin: ${origin}`));
@@ -44,9 +56,6 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
-
-// Preflight handler
-app.options('*', cors());
 
 // Rate limiting
 const authLimiter = rateLimit({

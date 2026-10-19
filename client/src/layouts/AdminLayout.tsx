@@ -3,12 +3,9 @@ import { NavLink, Link, Outlet, useNavigate, useLocation } from 'react-router-do
 import {
   LayoutDashboard,
   Users,
-  UserCheck,
   UserPlus,
   CreditCard,
   PlusCircle,
-  BarChart3,
-  Award,
   Settings,
   MessageSquare,
   Menu,
@@ -118,7 +115,6 @@ export const AdminLayout: React.FC = () => {
       title: 'Students',
       items: [
         { label: 'All Students', path: '/admin/students', icon: Users, end: true },
-        { label: 'Pending Approvals', path: '/admin/approvals', icon: UserCheck },
         { label: 'Add Student', path: '/admin/students/add', icon: UserPlus },
       ],
     },
@@ -127,13 +123,11 @@ export const AdminLayout: React.FC = () => {
       items: [
         { label: 'Payments', path: '/admin/payments', icon: CreditCard, end: true },
         { label: 'Record Payment', path: '/admin/payments/record', icon: PlusCircle },
-        { label: 'Reports', path: '/admin/payments/reports', icon: BarChart3 },
       ],
     },
     {
       title: 'Library',
       items: [
-        { label: 'Memberships', path: '/admin/memberships', icon: Award },
         { label: 'Messages', path: '/admin/messages', icon: MessageSquare, badge: unreadCount },
         { label: 'Settings', path: '/admin/settings', icon: Settings },
       ],
@@ -141,7 +135,7 @@ export const AdminLayout: React.FC = () => {
   ];
 
   return (
-    <div className="relative flex min-h-screen bg-[#f4f9fc] font-sans">
+    <div className="admin-shell relative flex min-h-screen bg-[#f4f9fc] font-sans">
       {/* Mobile Backdrop */}
       {mobileSidebarOpen && (
         <div
@@ -263,20 +257,10 @@ export const AdminLayout: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex h-screen min-w-0 flex-1 flex-col overflow-hidden bg-[#f4f9fc]">
+      <div className="flex min-h-dvh min-w-0 flex-1 flex-col bg-[#f4f9fc] md:h-screen md:overflow-hidden">
         {/* TopBar */}
-        <header className="sticky top-0 z-30 flex h-16 flex-shrink-0 items-center justify-between border-b border-[#dce8f0] bg-white px-4 shadow-[0_2px_8px_rgba(7,21,33,0.04)] md:px-8">
-          <div className="flex items-center gap-3">
-            {/* Hamburger on Mobile */}
-            <button
-              type="button"
-              className="inline-flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl p-2 text-[#294055] transition-colors hover:bg-[#f1f7fa] md:hidden"
-              onClick={() => setMobileSidebarOpen(true)}
-              aria-label="Open mobile menu"
-            >
-              <Menu size={22} />
-            </button>
-
+        <header className="sticky top-0 z-30 flex h-16 min-w-0 flex-shrink-0 items-center justify-between gap-2 border-b border-[#dce8f0] bg-white px-3 shadow-[0_2px_8px_rgba(7,21,33,0.04)] sm:px-4 md:px-8">
+          <div className="flex min-w-0 flex-1 items-center gap-2">
             {/* Collapse toggle on Desktop */}
             <button
               type="button"
@@ -287,16 +271,16 @@ export const AdminLayout: React.FC = () => {
               <Menu size={18} />
             </button>
 
-            <h1 className="font-[family-name:var(--font-ui)] text-base font-black tracking-[-0.04em] text-[#0b1d2e] sm:text-lg md:text-xl truncate max-w-[160px] xs:max-w-none">
+            <h1 className="min-w-0 flex-1 truncate font-[family-name:var(--font-ui)] text-base font-black tracking-[-0.04em] text-[#0b1d2e] sm:text-lg md:text-xl">
               {getPageTitle()}
             </h1>
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-3">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2">
             {/* Add Student Link Button */}
             <Link
               to="/admin/students/add"
-              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-[#7ef9ff]/30 bg-gradient-to-r from-[#071521] via-[#0d2235] to-[#14324c] px-3.5 py-2 text-xs font-bold text-[#7ef9ff] shadow-sm hover:border-[#7ef9ff]/60 hover:text-white transition-all"
+              className="hidden min-h-[44px] items-center gap-1.5 rounded-xl border border-[#7ef9ff]/30 bg-gradient-to-r from-[#071521] via-[#0d2235] to-[#14324c] px-3.5 py-2 text-xs font-bold text-[#7ef9ff] shadow-sm transition-all hover:border-[#7ef9ff]/60 hover:text-white sm:inline-flex"
               title="Enroll student with seat selection, custom timing, fee & receipt"
             >
               <Sparkles size={14} className="text-[#7ef9ff]" />
@@ -392,7 +376,7 @@ export const AdminLayout: React.FC = () => {
         </header>
 
         {/* Content Outlet */}
-        <main className="flex-1 overflow-y-auto bg-[#f4f9fc] p-3 sm:p-4 md:p-8 pb-20 md:pb-8 w-full max-w-full">
+        <main className="w-full max-w-full flex-1 bg-[#f4f9fc] p-4 pb-28 sm:p-5 md:overflow-y-auto md:p-8 md:pb-8">
           <Outlet />
         </main>
 
@@ -501,17 +485,30 @@ export const AdminLayout: React.FC = () => {
             )}
           </NavLink>
 
-          <button
-            type="button"
-            onClick={() => setMobileSidebarOpen(true)}
-            className="mobile-bottom-nav-item flex-1"
-            aria-label="Open More Admin Options"
+          <NavLink
+            to="/admin/settings"
+            className={({ isActive }) =>
+              `mobile-bottom-nav-item flex-1 ${isActive ? 'active' : ''}`
+            }
           >
-            <Menu size={22} className="text-[#65788c] stroke-[1.8]" />
-            <span className="text-[11px] mt-0.5 tracking-tight font-medium text-[#65788c]">
-              Menu
-            </span>
-          </button>
+            {({ isActive }) => (
+              <>
+                <Settings
+                  size={22}
+                  className={`transition-transform duration-200 ${
+                    isActive ? 'text-[#087d99] stroke-[2.4] scale-110' : 'text-[#65788c] stroke-[1.8]'
+                  }`}
+                />
+                <span
+                  className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
+                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                  }`}
+                >
+                  Settings
+                </span>
+              </>
+            )}
+          </NavLink>
         </nav>
       </div>
     </div>

@@ -41,7 +41,7 @@ export const AboutPage: React.FC = () => {
   return (
     <div className="bg-[#f4f9fc] min-h-screen text-[#0b1d2e]">
       {/* Hero: Solid navy bg (#0b1d2e) with grid overlay, centered content */}
-      <section className="bg-[#0b1d2e] text-white pt-36 pb-20 relative overflow-hidden border-b border-[#13b8c8]/20">
+      <section className="bg-[#0b1d2e] text-white pt-12 pb-14 sm:pt-20 sm:pb-20 relative overflow-hidden border-b border-[#13b8c8]/20">
         <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#13b8c8_1px,transparent_1px),linear-gradient(to_bottom,#13b8c8_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
         <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
           <span className="section-eyebrow text-[#13b8c8] mb-3">Our Heritage & Ethos</span>

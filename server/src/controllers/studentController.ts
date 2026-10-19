@@ -10,6 +10,7 @@ import { AuditLog } from '../models/AuditLog';
 import { AuthRequest } from '../middleware/auth';
 import { createError } from '../middleware/errorHandler';
 import { generateStudentCode } from '../utils/codeGenerator';
+import { membershipAmountDue } from '../utils/fees';
 import argon2 from 'argon2';
 import { format } from 'date-fns';
 import { generateReceiptNumber } from './paymentController';
@@ -54,6 +55,50 @@ const publicRegistrationSchema = z.object({
 
 // ---- Controllers ----
 
+async function attachOutstanding<T extends { _id: mongoose.Types.ObjectId }>(students: T[]) {
+  const studentIds = students.map((student) => student._id);
+  const memberships = await Membership.find({
+    studentId: { $in: studentIds },
+    status: { $in: ['active', 'expiring_soon'] },
+  })
+    .sort({ endDate: -1 })
+    .lean();
+
+  const membershipMap = new Map<string, (typeof memberships)[0]>();
+  memberships.forEach((membership) => {
+    const key = membership.studentId.toString();
+    if (!membershipMap.has(key)) membershipMap.set(key, membership);
+  });
+
+  const membershipIds = [...membershipMap.values()].map((membership) => membership._id);
+  const payments = membershipIds.length
+    ? await Payment.find({
+        membershipId: { $in: membershipIds },
+        status: 'completed',
+      })
+        .select('membershipId amountReceived')
+        .lean()
+    : [];
+
+  const paidByMembership = new Map<string, number>();
+  payments.forEach((payment) => {
+    const key = payment.membershipId.toString();
+    paidByMembership.set(key, (paidByMembership.get(key) || 0) + payment.amountReceived);
+  });
+
+  return students.map((student) => {
+    const activeMembership = membershipMap.get(student._id.toString()) || null;
+    const paid = activeMembership
+      ? paidByMembership.get(activeMembership._id.toString()) || 0
+      : 0;
+    const outstanding = activeMembership
+      ? membershipAmountDue(activeMembership) - paid
+      : 0;
+
+    return { ...student, activeMembership, outstanding };
+  });
+}
+
 export const listStudents = async (req: AuthRequest, res: Response): Promise<void> => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 20;
@@ -61,6 +106,7 @@ export const listStudents = async (req: AuthRequest, res: Response): Promise<voi
   const search = req.query.search as string;
   const status = req.query.status as string;
   const registrationStatus = req.query.registrationStatus as string;
+  const feeStatus = req.query.feeStatus as string;
 
   const filter: Record<string, unknown> = {};
   if (search) {
@@ -69,30 +115,26 @@ export const listStudents = async (req: AuthRequest, res: Response): Promise<voi
   if (status) filter.status = status;
   if (registrationStatus) filter.registrationStatus = registrationStatus;
 
+  if (feeStatus === 'due' || feeStatus === 'clear') {
+    const students = await Student.find(filter).sort({ createdAt: -1 }).lean();
+    const enriched = await attachOutstanding(students);
+    const filtered = enriched.filter((student) =>
+      feeStatus === 'due' ? student.outstanding > 0 : student.outstanding <= 0
+    );
+    const total = filtered.length;
+    res.json({
+      success: true,
+      data: filtered.slice(skip, skip + limit),
+      pagination: { page, limit, total, pages: Math.ceil(total / limit) || 1 },
+    });
+    return;
+  }
+
   const [students, total] = await Promise.all([
     Student.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
     Student.countDocuments(filter),
   ]);
-
-  // Attach active membership to each student
-  const studentIds = students.map((s) => s._id);
-  const memberships = await Membership.find({
-    studentId: { $in: studentIds },
-    status: { $in: ['active', 'expiring_soon'] },
-  })
-    .sort({ endDate: -1 })
-    .lean();
-
-  const membershipMap = new Map<string, typeof memberships[0]>();
-  memberships.forEach((m) => {
-    const key = m.studentId.toString();
-    if (!membershipMap.has(key)) membershipMap.set(key, m);
-  });
-
-  const enriched = students.map((s) => ({
-    ...s,
-    activeMembership: membershipMap.get(s._id.toString()) || null,
-  }));
+  const enriched = await attachOutstanding(students);
 
   res.json({
     success: true,
@@ -128,10 +170,7 @@ export const getStudent = async (req: AuthRequest, res: Response): Promise<void>
 
   let outstanding = 0;
   if (activeMembership) {
-    const netDue =
-      activeMembership.baseFeeSnapshot -
-      activeMembership.discountAmount +
-      activeMembership.additionalCharges;
+    const netDue = membershipAmountDue(activeMembership);
     const paid = payments
       .filter((p) => p.membershipId.toString() === activeMembership._id.toString())
       .reduce((sum, p) => sum + p.amountReceived, 0);

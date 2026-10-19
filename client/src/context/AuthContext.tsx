@@ -55,13 +55,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Verify with server
     authApi.me()
       .then((res) => {
-        setUser(res.data.user);
-        localStorage.setItem('user', JSON.stringify(res.data.user));
+        const nextUser = {
+          ...res.data.user,
+          requiresPasswordChange: Boolean(res.data.user?.requiresPasswordChange),
+        };
+        setUser(nextUser);
+        localStorage.setItem('user', JSON.stringify(nextUser));
       })
-      .catch(() => {
-        setUser(null);
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
+      .catch((err) => {
+        if (err?.response?.status === 401) {
+          setUser(null);
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+        }
       })
       .finally(() => setIsLoading(false));
   }, []);

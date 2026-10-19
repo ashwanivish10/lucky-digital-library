@@ -56,7 +56,6 @@ const studentSchema = new Schema<IStudent>(
   { timestamps: true }
 );
 
-studentSchema.index({ studentCode: 1 }, { unique: true });
 studentSchema.index({ name: 'text', phone: 'text', email: 'text' });
 
 export const Student = mongoose.model<IStudent>('Student', studentSchema);

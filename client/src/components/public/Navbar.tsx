@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { User, ArrowRight } from 'lucide-react';
+import { User, ArrowRight, Menu, X } from 'lucide-react';
 import { ISiteSettings } from '../../types/public';
 import NoticeTicker from './NoticeTicker';
+import { useAuth } from '../../context/AuthContext';
 
 interface NavbarProps {
   settings?: ISiteSettings | null;
@@ -10,7 +11,11 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ settings }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
+  const accountPath = user?.role === 'admin' ? '/admin' : user ? '/portal' : '/login';
+  const accountLabel = user?.role === 'admin' ? 'Admin' : user ? 'My Portal' : 'Student Login';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,11 +28,16 @@ export const Navbar: React.FC<NavbarProps> = ({ settings }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
   const navLinks = [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
     { label: 'Facilities', path: '/facilities' },
     { label: 'Membership', path: '/membership' },
+    { label: 'Rules', path: '/rules' },
     { label: 'Contact', path: '/contact' },
   ];
 
@@ -73,11 +83,11 @@ export const Navbar: React.FC<NavbarProps> = ({ settings }) => {
 
           <div className="hidden shrink-0 items-center gap-2 md:flex">
             <Link
-              to="/login"
+              to={accountPath}
               className="inline-flex items-center gap-2 rounded-full border border-[#d7e3ec] bg-white px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] text-[#294055] transition-all hover:border-[#69cddd] hover:bg-[#f2fcff] hover:text-[#087d99] min-h-[44px]"
             >
               <User className="h-3.5 w-3.5 text-[#087d99]" />
-              <span>Student Login</span>
+              <span>{accountLabel}</span>
             </Link>
             <Link
               to="/contact"
@@ -89,14 +99,15 @@ export const Navbar: React.FC<NavbarProps> = ({ settings }) => {
           </div>
 
           <div className="flex shrink-0 items-center gap-2 md:hidden">
-            <Link
-              to="/login"
-              className="inline-flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl border border-[#dce8f0] bg-white text-[#294055] shadow-xs transition-colors hover:border-[#69cddd] hover:bg-[#f2fcff] hover:text-[#087d99] active:scale-95"
-              aria-label="Student Login"
-              title="Student Login"
+            <button
+              type="button"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#dce8f0] bg-white text-[#294055]"
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              onClick={() => setMenuOpen((open) => !open)}
             >
-              <User className="h-4 w-4 text-[#087d99]" />
-            </Link>
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
             <Link
               to="/contact"
               className="btn btn-primary inline-flex min-h-[48px] min-w-[48px] items-center justify-center gap-1 rounded-xl px-3 py-2 text-xs font-bold active:scale-95"
@@ -107,6 +118,27 @@ export const Navbar: React.FC<NavbarProps> = ({ settings }) => {
             </Link>
           </div>
         </div>
+        {menuOpen && (
+          <nav className="grid gap-1 border-t border-[#e6eef3] px-4 py-3 md:hidden" aria-label="Mobile pages">
+            {navLinks.map((link) => {
+              const isActive = location.pathname === link.path;
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`rounded-xl px-3 py-3 text-sm font-semibold ${
+                    isActive ? 'bg-[#e5faff] text-[#087d99]' : 'text-[#294055]'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+            <Link to={accountPath} className="rounded-xl px-3 py-3 text-sm font-semibold text-[#087d99]">
+              {user ? `${accountLabel}${user.name ? ` · ${user.name}` : ''}` : accountLabel}
+            </Link>
+          </nav>
+        )}
       </div>
       </div>
     </header>

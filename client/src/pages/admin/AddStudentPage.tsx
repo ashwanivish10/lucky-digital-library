@@ -18,6 +18,7 @@ import {
 import { studentsApi, paymentsApi } from '../../lib/api';
 import { downloadBlob } from '../../lib/utils';
 import { SeatSelector } from '../../components/admin/SeatSelector';
+import FormSteps from '../../components/admin/FormSteps';
 import toast from 'react-hot-toast';
 
 function formatTo12Hr(timeStr: string): string {
@@ -203,9 +204,81 @@ export const AddStudentPage: React.FC = () => {
       </div>
 
       {/* Main Enrollment Card Form */}
-      <form onSubmit={handleSubmit} className="card bg-white p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-[#dce8f0] shadow-sm space-y-5 sm:space-y-6">
-        
-        {/* Section 1: Student Details */}
+      <form noValidate onSubmit={handleSubmit} className="card bg-white p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-[#dce8f0] shadow-sm">
+        <FormSteps
+          steps={['Student', 'Shift', 'Dates', 'Payment']}
+          canContinue={(index) => {
+            if (index === 0) {
+              if (!name.trim()) {
+                toast.error('Please enter the student full name');
+                return false;
+              }
+              if (cleanDigits.length < 10) {
+                toast.error('Please enter a valid 10-digit mobile number');
+                return false;
+              }
+            }
+            if (index === 1 && (!timeFrom || !timeTo)) {
+              toast.error('Please select both Time From and Time To');
+              return false;
+            }
+            if (index === 2) {
+              if (!startDate || !endDate) {
+                toast.error('Please specify both Start Date and End Date');
+                return false;
+              }
+              if (new Date(endDate) < new Date(startDate)) {
+                toast.error('End Date cannot be before Start Date');
+                return false;
+              }
+            }
+            return true;
+          }}
+          footer={
+            <div className="sticky bottom-[4.5rem] z-30 -mx-4 -mb-4 border-t border-[#dce8f0] bg-white/95 px-4 py-3 backdrop-blur-md md:static md:m-0 md:border-t md:border-[#e2edf3] md:bg-transparent md:p-0 md:pt-4">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-4 text-xs font-semibold text-[#65788c]">
+                  <span>
+                    Total: <strong className="text-[#0b1d2e]">₹{parsedTotalFee}</strong>
+                  </span>
+                  <span>
+                    Paid: <strong className="text-emerald-700">₹{parsedReceivedToday}</strong>
+                  </span>
+                  {balanceDue > 0 && (
+                    <span>
+                      Due: <strong className="text-amber-700">₹{balanceDue}</strong>
+                    </span>
+                  )}
+                </div>
+                <div className="w-full sm:w-auto flex items-center justify-end gap-2.5">
+                  <Link
+                    to="/admin/students"
+                    className="hidden sm:inline-flex rounded-xl border border-[#cfdce6] bg-white px-5 py-2.5 text-xs font-bold text-[#65788c] hover:bg-[#f1f7fa] hover:text-[#0b1d2e] transition-colors"
+                  >
+                    Cancel
+                  </Link>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="btn btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl py-3 px-7 text-sm font-bold shadow-md hover:shadow-lg disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                        <span>Processing Enrollment...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Printer size={16} />
+                        <span>Save & Print Receipt</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        >
         <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-3.5">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
@@ -346,7 +419,7 @@ export const AddStudentPage: React.FC = () => {
                     required
                     value={timeFrom}
                     onChange={(e) => setTimeFrom(e.target.value)}
-                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="shift-time w-full min-w-0 rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3 text-sm font-bold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
@@ -362,20 +435,20 @@ export const AddStudentPage: React.FC = () => {
                     required
                     value={timeTo}
                     onChange={(e) => setTimeTo(e.target.value)}
-                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="shift-time w-full min-w-0 rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3 text-sm font-bold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
             </div>
 
             {calculatedShift && (
-              <div className="flex items-center justify-between rounded-xl bg-[#e7faff] border border-[#cbe4ed] px-3.5 py-2 text-xs text-[#087d99]">
-                <span className="font-semibold flex items-center gap-1.5">
-                  <Clock size={13} className="text-[#13b8c8]" />
-                  Shift Slot: <strong>{calculatedShift}</strong>
+              <div className="flex flex-col items-start gap-1.5 rounded-xl border border-[#cbe4ed] bg-[#e7faff] px-3.5 py-2 text-xs text-[#087d99] sm:flex-row sm:items-center sm:justify-between">
+                <span className="flex min-w-0 items-start gap-1.5 font-semibold leading-snug">
+                  <Clock size={13} className="mt-0.5 shrink-0 text-[#13b8c8]" />
+                  <span>Shift slot: <strong>{calculatedShift}</strong></span>
                 </span>
-                <span className="font-bold text-[11px] bg-white/80 px-2 py-0.5 rounded-md border border-[#cbe4ed]">
-                  {timeFrom} &rarr; {timeTo}
+                <span className="shrink-0 rounded-md border border-[#cbe4ed] bg-white/80 px-2 py-0.5 text-[11px] font-bold">
+                  {timeFrom} → {timeTo}
                 </span>
               </div>
             )}
@@ -407,24 +480,24 @@ export const AddStudentPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowSeatMap(!showSeatMap)}
-                  className={`flex-1 py-2.5 px-3.5 rounded-xl border text-xs font-bold transition-all text-left flex items-center justify-between ${
+                  className={`flex min-w-0 flex-1 items-center justify-between gap-2 rounded-xl border px-3.5 py-2.5 text-left text-xs font-bold transition-all ${
                     seatNumber
                       ? 'border-[#087d99] bg-[#071521] text-[#7ef9ff]'
                       : 'border-[#dce8f0] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd]'
                   }`}
                 >
-                  <div className="flex items-center gap-1.5">
-                    <Armchair size={15} className={seatNumber ? 'text-[#7ef9ff]' : 'text-[#13b8c8]'} />
-                    <span>
+                  <div className="flex min-w-0 items-center gap-1.5">
+                    <Armchair size={15} className={`shrink-0 ${seatNumber ? 'text-[#7ef9ff]' : 'text-[#13b8c8]'}`} />
+                    <span className="min-w-0 leading-snug">
                       {seatNumber
                         ? `Assigned Desk: Seat ${seatNumber}`
                         : calculatedShift
-                        ? `Pick Seat for ${calculatedShift}`
-                        : 'Tap to Pick Seat on Floor Map'}
+                        ? `Pick seat for ${calculatedShift}`
+                        : 'Tap to pick a seat on the floor map'}
                     </span>
                   </div>
-                  <span className="text-[11px] underline">
-                    {showSeatMap ? 'Close' : 'Choose &rarr;'}
+                  <span className="shrink-0 whitespace-nowrap text-[11px] underline">
+                    {showSeatMap ? 'Close' : 'Choose'}
                   </span>
                 </button>
 
@@ -452,9 +525,16 @@ export const AddStudentPage: React.FC = () => {
               </div>
             )}
           </div>
+        </div>
 
-          {/* Custom Duration Dates */}
-          <div className="border-t border-[#e2edf3] pt-4 space-y-2.5">
+        <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
+              3
+            </span>
+            <span>Membership Dates</span>
+          </div>
+          <div className="space-y-2.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <label className="text-xs font-bold uppercase tracking-wider text-[#294055]">
                 Membership Tenure (Start & End Date) <span className="text-rose-500">*</span>
@@ -544,7 +624,7 @@ export const AddStudentPage: React.FC = () => {
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
               <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
-                3
+                4
               </span>
               <span>Billing & Instant Payment</span>
             </div>
@@ -757,53 +837,7 @@ export const AddStudentPage: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* Action Buttons: Sticky Bottom Bar on Mobile for maximum convenience */}
-        <div className="sticky bottom-[4.5rem] md:bottom-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#dce8f0] px-4 py-3 -mx-4 -mb-4 sm:static sm:p-0 sm:m-0 sm:border-t sm:border-[#e2edf3] sm:pt-4 sm:bg-transparent">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            {/* Live mobile summary */}
-            <div className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-4 text-xs font-semibold text-[#65788c]">
-              <span>
-                Total: <strong className="text-[#0b1d2e]">₹{parsedTotalFee}</strong>
-              </span>
-              <span>
-                Paid: <strong className="text-emerald-700">₹{parsedReceivedToday}</strong>
-              </span>
-              {balanceDue > 0 && (
-                <span>
-                  Due: <strong className="text-amber-700">₹{balanceDue}</strong>
-                </span>
-              )}
-            </div>
-
-            <div className="w-full sm:w-auto flex items-center justify-end gap-2.5">
-              <Link
-                to="/admin/students"
-                className="hidden sm:inline-flex rounded-xl border border-[#cfdce6] bg-white px-5 py-2.5 text-xs font-bold text-[#65788c] hover:bg-[#f1f7fa] hover:text-[#0b1d2e] transition-colors"
-              >
-                Cancel
-              </Link>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl py-3 px-7 text-sm font-bold shadow-md hover:shadow-lg disabled:opacity-50"
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                    <span>Processing Enrollment...</span>
-                  </>
-                ) : (
-                  <>
-                    <Printer size={16} />
-                    <span>Save & Print Receipt</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
+        </FormSteps>
       </form>
     </div>
   );

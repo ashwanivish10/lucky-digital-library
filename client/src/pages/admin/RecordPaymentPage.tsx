@@ -13,6 +13,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { studentsApi, paymentsApi } from '../../lib/api';
+import FormSteps from '../../components/admin/FormSteps';
 import { formatINR, formatDate, downloadBlob } from '../../lib/utils';
 import toast from 'react-hot-toast';
 
@@ -24,6 +25,7 @@ export const RecordPaymentPage: React.FC = () => {
   // Search & Student Selection
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [listOpen, setListOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<any | null>(null);
   const [studentDetails, setStudentDetails] = useState<any | null>(null);
@@ -56,26 +58,24 @@ export const RecordPaymentPage: React.FC = () => {
     setPeriodLabel(month);
   }, []);
 
-  // Search debouncing
   useEffect(() => {
-    if (!searchTerm.trim()) {
-      setSearchResults([]);
-      return;
-    }
+    if (!listOpen || selectedStudent) return;
     const timer = setTimeout(async () => {
       setIsSearching(true);
       try {
-        const res = await studentsApi.list({ search: searchTerm.trim(), limit: 8 });
+        const params: Record<string, unknown> = { limit: 10, page: 1 };
+        if (searchTerm.trim()) params.search = searchTerm.trim();
+        const res = await studentsApi.list(params);
         setSearchResults(res.data?.data || []);
       } catch {
-        // ignore
+        setSearchResults([]);
       } finally {
         setIsSearching(false);
       }
-    }, 300);
+    }, searchTerm.trim() ? 300 : 0);
 
     return () => clearTimeout(timer);
-  }, [searchTerm]);
+  }, [searchTerm, listOpen, selectedStudent]);
 
   const loadStudentDetails = async (id: string) => {
     try {
@@ -93,6 +93,7 @@ export const RecordPaymentPage: React.FC = () => {
       }
       setSearchResults([]);
       setSearchTerm('');
+      setListOpen(false);
     } catch {
       toast.error('Could not load student profile.');
     }
@@ -242,8 +243,41 @@ export const RecordPaymentPage: React.FC = () => {
           </div>
         </motion.div>
       ) : (
-        <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-5 sm:p-8 border border-[#dce8f0] shadow-sm space-y-6 sm:space-y-8">
-          {/* Section 1: Student Selection */}
+        <form noValidate onSubmit={handleSubmit} className="bg-white rounded-3xl p-5 sm:p-8 border border-[#dce8f0] shadow-sm">
+          <FormSteps
+            steps={['Student', 'Payment']}
+            canContinue={(index) => {
+              if (index === 0 && !selectedStudent) {
+                toast.error('Please select a student.');
+                return false;
+              }
+              return true;
+            }}
+            footer={
+              <div className="pt-2 border-t border-[#dce8f0] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                <div className="text-xs text-[#64748B] flex items-center justify-center sm:justify-start gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-[#2D6A4F] shrink-0" />
+                  <span>Generates audit-verified sequential receipt code</span>
+                </div>
+                <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/admin/payments')}
+                    className="btn btn-secondary w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-center"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !selectedStudent}
+                    className="btn btn-primary w-full sm:w-auto px-8 min-h-[48px] justify-center"
+                  >
+                    {isSubmitting ? 'Recording...' : 'Confirm & Generate Receipt'}
+                  </button>
+                </div>
+              </div>
+            }
+          >
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wider text-[#0b1d2e] mb-4 flex items-center gap-2">
               <User className="w-4 h-4 text-[#13b8c8]" />
@@ -288,37 +322,50 @@ export const RecordPaymentPage: React.FC = () => {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search student by name, student code, or phone number..."
+                    onClick={() => setListOpen(true)}
+                    onFocus={() => setListOpen(true)}
+                    onBlur={() => setTimeout(() => setListOpen(false), 180)}
+                    placeholder="Search or pick a student..."
                     className="w-full pl-10 pr-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/40 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
                   />
                 </div>
 
-                {/* Dropdown Results */}
-                {searchResults.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#dce8f0] rounded-2xl shadow-xl z-20 max-h-60 overflow-y-auto divide-y divide-[#e7faff]">
-                    {searchResults.map((s) => (
-                      <button
-                        type="button"
-                        key={s._id}
-                        onClick={() => loadStudentDetails(s._id)}
-                        className="w-full px-4 py-3 text-left hover:bg-[#f4f9fc] flex justify-between items-center transition-colors"
-                      >
-                        <div>
-                          <div className="font-semibold text-sm text-[#0b1d2e]">{s.name}</div>
-                          <div className="text-xs text-[#64748B] font-mono">{s.studentCode} &bull; {s.phone}</div>
-                        </div>
-                        <span className="text-xs font-semibold text-[#087d99] flex items-center gap-1">
-                          Select <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
-                      </button>
-                    ))}
+                {listOpen && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#dce8f0] rounded-2xl shadow-xl z-20 max-h-72 overflow-y-auto divide-y divide-[#e7faff]">
+                    <div className="px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-[#65788c]">
+                      {searchTerm.trim() ? 'Search results' : 'Recent students'}
+                    </div>
+                    {isSearching ? (
+                      <div className="px-4 py-3 text-sm text-[#65788c]">Loading students...</div>
+                    ) : searchResults.length === 0 ? (
+                      <div className="px-4 py-3 text-sm text-[#65788c]">No students found.</div>
+                    ) : (
+                      searchResults.map((s) => (
+                        <button
+                          type="button"
+                          key={s._id}
+                          onMouseDown={(event) => {
+                            event.preventDefault();
+                            loadStudentDetails(s._id);
+                          }}
+                          className="w-full px-4 py-3 text-left hover:bg-[#f4f9fc] flex justify-between items-center transition-colors"
+                        >
+                          <div>
+                            <div className="font-semibold text-sm text-[#0b1d2e]">{s.name}</div>
+                            <div className="text-xs text-[#64788c] font-mono">{s.studentCode} &bull; {s.phone}</div>
+                          </div>
+                          <span className="text-xs font-semibold text-[#087d99] flex items-center gap-1">
+                            Select <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </button>
+                      ))
+                    )}
                   </div>
                 )}
               </div>
             )}
           </div>
 
-          {/* Section 2: Payment Details */}
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wider text-[#0b1d2e] mb-4 flex items-center gap-2">
               <CreditCard className="w-4 h-4 text-[#13b8c8]" />
@@ -431,30 +478,7 @@ export const RecordPaymentPage: React.FC = () => {
               </div>
             </div>
           </div>
-
-          <div className="pt-6 border-t border-[#dce8f0] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-4">
-            <div className="text-xs text-[#64748B] flex items-center justify-center sm:justify-start gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#2D6A4F] shrink-0" />
-              <span>Generates audit-verified sequential receipt code</span>
-            </div>
-
-            <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
-              <button
-                type="button"
-                onClick={() => navigate('/admin/payments')}
-                className="btn btn-secondary w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-center"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={isSubmitting || !selectedStudent}
-                className="btn btn-primary w-full sm:w-auto px-8 min-h-[48px] justify-center"
-              >
-                {isSubmitting ? 'Recording...' : 'Confirm & Generate Receipt'}
-              </button>
-            </div>
-          </div>
+          </FormSteps>
         </form>
       )}
     </div>

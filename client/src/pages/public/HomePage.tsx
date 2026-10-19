@@ -134,7 +134,7 @@ export const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col w-full overflow-hidden bg-[#f4f9fc] text-[#0b1d2e]">
+    <div className="flex w-full flex-col overflow-x-clip bg-[#f4f9fc] text-[#0b1d2e]">
       {/* ========================================================= */}
       {/* 1. LUXURY EDITORIAL HERO SECTION                         */}
       {/* ========================================================= */}
@@ -197,18 +197,18 @@ export const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.24 }}
-                className="flex flex-wrap items-center gap-4 mb-8"
+                className="flex flex-col items-stretch gap-3 mb-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
               >
                 <Link
                   to="/membership"
-                  className="btn btn-primary px-8 py-4 text-xs uppercase tracking-[0.14em] font-black shadow-[0_18px_40px_rgba(93,196,255,0.28)] hover:shadow-[0_24px_50px_rgba(126,249,255,0.22)] transition-all flex items-center gap-2.5 rounded-full"
+                  className="btn btn-primary flex w-full items-center justify-center gap-2.5 rounded-full px-8 py-4 text-xs font-black uppercase tracking-[0.14em] shadow-[0_18px_40px_rgba(93,196,255,0.28)] transition-all hover:shadow-[0_24px_50px_rgba(126,249,255,0.22)] sm:w-auto"
                 >
                   <span>Explore Membership</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   to="/facilities"
-                  className="btn border border-white/15 bg-white/[0.04] text-white hover:border-[#7ef9ff] hover:bg-[#7ef9ff]/10 px-7 py-4 text-xs uppercase tracking-[0.14em] font-semibold transition-all flex items-center gap-2 rounded-full shadow-[0_10px_24px_rgba(7,14,26,0.2)]"
+                  className="btn flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-7 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-[0_10px_24px_rgba(7,14,26,0.2)] transition-all hover:border-[#7ef9ff] hover:bg-[#7ef9ff]/10 sm:w-auto"
                 >
                   <Armchair className="w-4 h-4 text-[#7ef9ff]" />
                   <span>View 58-Desk Layout</span>

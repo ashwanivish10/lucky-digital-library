@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Lock, Mail, Eye, EyeOff, ArrowRight, Shield, Clock, Award } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -11,8 +11,13 @@ export const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { login } = useAuth();
+  const { user, isLoading, login } = useAuth();
   const navigate = useNavigate();
+
+  if (!isLoading && user) {
+    if (user.requiresPasswordChange) return <Navigate to="/set-password" replace />;
+    return <Navigate to={user.role === 'admin' ? '/admin' : '/portal'} replace />;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

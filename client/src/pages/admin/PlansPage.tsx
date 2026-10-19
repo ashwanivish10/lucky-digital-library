@@ -170,80 +170,88 @@ export const PlansPage: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid items-stretch gap-5 md:grid-cols-2 xl:grid-cols-3">
           {plans.map((plan) => (
-            <motion.div
+            <motion.article
               key={plan._id}
-              whileHover={{ y: -3 }}
-              className={`luxury-card bg-white rounded-lg p-6 border shadow-sm flex flex-col justify-between transition-all ${
-                plan.isActive ? 'border-[#dce8f0] hover:border-[#13b8c8]' : 'border-gray-200 opacity-75'
+              whileHover={{ y: -2 }}
+              className={`flex h-full flex-col rounded-2xl border bg-white p-5 shadow-sm ${
+                plan.isActive ? 'border-[#dce8f0]' : 'border-[#e4ebf1] opacity-80'
               }`}
             >
-              <div>
-                <div className="flex justify-between items-start mb-3">
-                  <span className={`badge ${plan.isActive ? 'badge-active' : 'badge-inactive'} text-[10px]`}>
-                    {plan.isActive ? 'Live on Website' : 'Draft / Inactive'}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => openEditModal(plan)}
-                      className="p-1.5 rounded text-[#65788c] hover:text-[#0b1d2e] hover:bg-[#edf4f8] transition-colors"
-                      title="Edit Plan"
-                    >
-                      <Edit2 size={15} />
-                    </button>
-                  </div>
-                </div>
+              <div className="flex items-start justify-between gap-3">
+                <span className={`badge ${plan.isActive ? 'badge-active' : 'badge-inactive'} text-[10px]`}>
+                  {plan.isActive ? 'Live on Website' : 'Draft / Inactive'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => openEditModal(plan)}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#dce8f0] text-[#294055] hover:border-[#8ed8e4] hover:bg-[#f2fcff]"
+                  title="Edit Plan"
+                >
+                  <Edit2 size={14} />
+                </button>
+              </div>
 
-                <h3 className="text-xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mb-1">{plan.name}</h3>
-                <p className="text-xs text-[#65788c] font-eyebrow font-semibold uppercase tracking-wider mb-4">
-                  Duration: {plan.durationValue} {plan.durationUnit}
+              <h3 className="mt-4 text-xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+                {plan.name}
+              </h3>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-[#65788c]">
+                {plan.durationValue} {plan.durationValue === 1 ? plan.durationUnit.replace(/s$/, '') : plan.durationUnit}
+              </p>
+
+              <div className="mt-4 rounded-xl border border-[#d7eef3] bg-[#f4fbfd] px-4 py-3">
+                <div className="text-3xl font-[family-name:var(--font-ui)] font-bold tracking-tight text-[#0b1d2e]">
+                  {formatINR(plan.baseFee)}
+                </div>
+                <p className="mt-1 text-xs font-medium text-[#5c7286]">
+                  {plan.registrationFee > 0
+                    ? `+ ${formatINR(plan.registrationFee)} registration fee`
+                    : 'No registration fee'}
                 </p>
+              </div>
 
-                {/* Price block */}
-                <div className="p-4 bg-[#f4f9fc] rounded-md mb-5 border border-[#dce8f0]">
-                  <div className="text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
-                    {formatINR(plan.baseFee)}
-                  </div>
-                  {plan.registrationFee > 0 && (
-                    <div className="text-xs text-[#65788c] mt-1 font-medium">
-                      + Registration Fee: {formatINR(plan.registrationFee)}
-                    </div>
-                  )}
-                </div>
-
-                {/* Benefits */}
-                <div className="space-y-2 mb-6">
-                  <div className="text-[11px] font-eyebrow font-bold uppercase tracking-wider text-[#0b1d2e] mb-2">
-                    Included Benefits:
-                  </div>
-                  {plan.benefits.map((b, i) => (
-                    <div key={i} className="flex items-start gap-2 text-xs text-[#0b1d2e]">
-                      <CheckCircle2 size={14} className="text-[#1A5C3B] shrink-0 mt-0.5" />
-                      <span>{b}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {plan.terms && (
-                  <p className="text-[11px] text-[#65788c] italic pt-3 border-t border-[#dce8f0] mb-4">
-                    * {plan.terms}
-                  </p>
+              <div className="mt-4 flex-1">
+                <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-[#5c7286]">
+                  Included benefits
+                </p>
+                {plan.benefits.length === 0 ? (
+                  <p className="text-xs text-[#65788c]">No benefits listed.</p>
+                ) : (
+                  <ul className="space-y-2">
+                    {plan.benefits.map((benefit, index) => (
+                      <li key={index} className="flex items-start gap-2 text-sm leading-5 text-[#294055]">
+                        <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-[#1A5C3B]" />
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </div>
 
-              {/* Bottom footer */}
-              <div className="pt-4 border-t border-[#dce8f0] flex items-center justify-between text-xs">
-                <span className="text-[#65788c] font-mono text-[11px]">Display Order #{plan.displayOrder || 1}</span>
+              {plan.terms && (
+                <p className="mt-4 border-t border-[#e6eef3] pt-3 text-xs leading-5 text-[#5c7286]">
+                  {plan.terms}
+                </p>
+              )}
+
+              <div className="mt-5 flex items-center justify-between gap-3 border-t border-[#e6eef3] pt-4">
+                <span className="text-xs font-medium text-[#65788c]">
+                  Display order #{plan.displayOrder || 1}
+                </span>
                 <button
                   type="button"
                   onClick={() => handleToggleActive(plan)}
-                  className={`font-semibold text-xs transition-colors ${plan.isActive ? 'text-[#8B1A1A] hover:underline' : 'text-[#1A5C3B] hover:underline'}`}
+                  className={`rounded-lg px-3 py-1.5 text-xs font-semibold ${
+                    plan.isActive
+                      ? 'bg-rose-50 text-[#b42336] hover:bg-rose-100'
+                      : 'bg-emerald-50 text-[#1B5E3C] hover:bg-emerald-100'
+                  }`}
                 >
                   {plan.isActive ? 'Deactivate' : 'Publish Live'}
                 </button>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
       )}
