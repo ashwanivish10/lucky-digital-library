@@ -134,25 +134,25 @@ export const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-x-clip bg-[#f4f9fc] text-[#0b1d2e]">
+    <div className="flex w-full flex-col overflow-x-clip bg-[#fbfbfa] text-[#1c1917]">
       {/* ========================================================= */}
-      {/* 1. LUXURY EDITORIAL HERO SECTION                         */}
+      {/* 1. WARM IVORY & SANDSTONE EDITORIAL HERO SECTION            */}
       {/* ========================================================= */}
-      <section className="relative min-h-[92vh] bg-[radial-gradient(circle_at_top_right,_rgba(93,196,255,0.18),_transparent_26%),radial-gradient(circle_at_bottom_left,_rgba(127,140,255,0.18),_transparent_22%),linear-gradient(135deg,#040d18_0%,#071d2d_38%,#0a1830_100%)] text-white flex items-center overflow-hidden border-b border-white/10 py-16 sm:py-24">
-        {/* Modern SaaS glows */}
+      <section className="relative min-h-[90vh] bg-[radial-gradient(circle_at_top_right,_rgba(217,119,6,0.08),_transparent_32%),radial-gradient(circle_at_bottom_left,_rgba(120,53,15,0.06),_transparent_28%),linear-gradient(135deg,#fcfbf9_0%,#f5f3ef_50%,#eeeae4_100%)] text-[#1c1917] flex items-center overflow-hidden border-b border-[#e7e5e4] py-16 sm:py-24">
+        {/* Soft warmth glows */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute top-[-10%] right-[-8%] w-[720px] h-[720px] rounded-full blur-[160px] opacity-35"
-          style={{ background: 'radial-gradient(circle, rgba(93,196,255,0.9) 0%, transparent 60%)' }}
+          className="pointer-events-none absolute top-[-10%] right-[-8%] w-[680px] h-[680px] rounded-full blur-[140px] opacity-40"
+          style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.22) 0%, transparent 70%)' }}
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-[-18%] left-[-8%] w-[660px] h-[660px] rounded-full blur-[170px] opacity-25"
-          style={{ background: 'radial-gradient(circle, rgba(126,249,255,0.7) 0%, transparent 62%)' }}
+          className="pointer-events-none absolute bottom-[-15%] left-[-8%] w-[600px] h-[600px] rounded-full blur-[150px] opacity-30"
+          style={{ background: 'radial-gradient(circle, rgba(217,119,6,0.18) 0%, transparent 65%)' }}
         />
 
-        {/* Clean product grid */}
-        <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:4.5rem_4.5rem] pointer-events-none" />
+        {/* Clean editorial grid */}
+        <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,rgba(28,25,23,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(28,25,23,0.12)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
         <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
           <div className="grid items-center gap-12 lg:gap-16 lg:grid-cols-12">
@@ -163,9 +163,9 @@ export const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#dfeeff] font-[family-name:var(--font-ui)] text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(93,196,255,0.12)]"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#d6d3d1] text-[#78350f] font-[family-name:var(--font-ui)] text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] mb-6 shadow-xs"
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#7ef9ff]" />
+                <Sparkles className="w-3.5 h-3.5 text-[#d97706]" />
                 <span>Best Library In MauAima • Prayagraj</span>
               </motion.div>
 
@@ -174,11 +174,11 @@ export const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.08 }}
-                className="font-[family-name:var(--font-ui)] text-4xl sm:text-5xl lg:text-6xl xl:text-[5.4rem] font-black tracking-[-0.08em] text-white leading-[0.9] mb-6"
+                className="font-[family-name:var(--font-ui)] text-4xl sm:text-5xl lg:text-6xl xl:text-[5.2rem] font-black tracking-[-0.05em] text-[#1c1917] leading-[0.95] mb-6"
               >
                 Your study flow,
                 <br />
-                <span className="text-gold-gradient font-black">upgraded</span>.
+                <span className="text-gold-gradient font-black">elevated</span>.
               </motion.h1>
 
               {/* Sub-deck Description */}
@@ -186,7 +186,7 @@ export const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.16 }}
-                className="text-base sm:text-lg text-white/75 leading-relaxed max-w-2xl font-medium mb-8"
+                className="text-base sm:text-lg text-[#57534e] leading-relaxed max-w-2xl font-normal mb-8"
               >
                 {settings?.description ||
                   'Engineered exclusively for competitive aspirants and serious scholars. 58 dedicated ergonomic cabins, pin-drop silent atmosphere, dual-band optical fiber, and 24×7 round-the-clock access all 7 days in Prayagraj.'}
@@ -201,16 +201,16 @@ export const HomePage: React.FC = () => {
               >
                 <Link
                   to="/membership"
-                  className="btn btn-primary flex w-full items-center justify-center gap-2.5 rounded-full px-8 py-4 text-xs font-black uppercase tracking-[0.14em] shadow-[0_18px_40px_rgba(93,196,255,0.28)] transition-all hover:shadow-[0_24px_50px_rgba(126,249,255,0.22)] sm:w-auto"
+                  className="btn btn-primary flex w-full items-center justify-center gap-2.5 rounded-full px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] shadow-md transition-all sm:w-auto"
                 >
                   <span>Explore Membership</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   to="/facilities"
-                  className="btn flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-7 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-[0_10px_24px_rgba(7,14,26,0.2)] transition-all hover:border-[#7ef9ff] hover:bg-[#7ef9ff]/10 sm:w-auto"
+                  className="btn flex w-full items-center justify-center gap-2 rounded-full border border-[#d6d3d1] bg-white px-7 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#292524] shadow-xs transition-all hover:border-[#d97706] hover:bg-[#fef3c7]/30 sm:w-auto"
                 >
-                  <Armchair className="w-4 h-4 text-[#7ef9ff]" />
+                  <Armchair className="w-4 h-4 text-[#d97706]" />
                   <span>View 58-Desk Layout</span>
                 </Link>
               </motion.div>
@@ -220,16 +220,16 @@ export const HomePage: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.7, delay: 0.32 }}
-                className="flex items-center gap-3 text-xs text-white/70 flex-wrap"
+                className="flex items-center gap-3 text-xs text-[#78716c] flex-wrap"
               >
-                <div className="flex items-center text-[#7ef9ff]">
+                <div className="flex items-center text-[#d97706]">
                   {[1, 2, 3, 4, 5].map((i) => (
                     <Star key={i} className="w-3.5 h-3.5 fill-current" />
                   ))}
                 </div>
-                <span className="font-semibold text-white/90">4.9 / 5.0 Rating on Google Maps</span>
-                <span className="text-white/30 hidden sm:inline">•</span>
-                <span className="text-white/60 hidden sm:inline">200+ Enrolled Scholars</span>
+                <span className="font-semibold text-[#292524]">4.9 / 5.0 Rating on Google Maps</span>
+                <span className="text-[#d6d3d1] hidden sm:inline">•</span>
+                <span className="text-[#57534e] hidden sm:inline">200+ Enrolled Scholars</span>
               </motion.div>
             </div>
 
@@ -240,28 +240,28 @@ export const HomePage: React.FC = () => {
           </div>
 
           {/* Bottom Prestige Metrics Ribbon */}
-          <div className="mt-16 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 text-center md:grid-cols-4 md:divide-x md:divide-white/10 md:divide-y-0">
+          <div className="mt-16 grid grid-cols-2 gap-6 border-t border-[#e7e5e4] pt-10 text-center md:grid-cols-4 md:divide-x md:divide-[#e7e5e4] md:divide-y-0">
             <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">58 Desks</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a9d9ff]">
+              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">58 Desks</div>
+              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.2em] text-[#b45309]">
                 Acoustic Cabins
               </p>
             </div>
             <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">200+</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a9d9ff]">
+              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">200+</div>
+              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.2em] text-[#b45309]">
                 Enrolled Scholars
               </p>
             </div>
             <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">24×7</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a9d9ff]">
+              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">24×7</div>
+              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.2em] text-[#b45309]">
                 Open 24 Hours • All 7 Days
               </p>
             </div>
             <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">4.9 ★</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a9d9ff]">
+              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">4.9 ★</div>
+              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.2em] text-[#b45309]">
                 Google Rating
               </p>
             </div>
