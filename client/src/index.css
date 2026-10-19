@@ -756,38 +756,38 @@ a {
   font-family: var(--font-ui);
   font-weight: 800;
   letter-spacing: -0.045em;
-  color: #0b1d2e;
+  color: #1c1917;
   line-height: 1.15;
 }
 
 .admin-shell .card,
 .admin-shell .stat-card,
 .admin-shell .table-container {
-  border: 1px solid #dce8f0;
+  border: 1px solid #e7e5e4;
   border-radius: 1rem;
   background: #fff;
-  box-shadow: 0 8px 24px rgba(9, 31, 49, 0.045);
+  box-shadow: 0 8px 24px rgba(28, 25, 23, 0.045);
 }
 
 .admin-shell .card:hover,
 .admin-shell .stat-card:hover,
 .admin-shell .table-container:hover {
-  border-color: #c5e4ee;
-  box-shadow: 0 12px 28px rgba(9, 31, 49, 0.06);
+  border-color: #d6d3d1;
+  box-shadow: 0 12px 28px rgba(28, 25, 23, 0.06);
   transform: none;
 }
 
 .admin-shell .table-container th,
 .admin-shell table thead th {
-  background: #f7fbfd;
-  color: #5c7286;
+  background: #f5f3ef;
+  color: #78716c;
   font-weight: 700;
   letter-spacing: 0.08em;
 }
 
 .admin-shell .table-container tbody tr:hover,
 .admin-shell table tbody tr:hover {
-  background: #f4fbfd;
+  background: #fbfbfa;
 }
 
 .admin-shell .form-input,
@@ -804,8 +804,8 @@ a {
 .admin-shell input:focus,
 .admin-shell select:focus,
 .admin-shell textarea:focus {
-  border-color: #13b8c8;
-  box-shadow: 0 0 0 3px rgba(19, 184, 200, 0.16);
+  border-color: #d97706;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.16);
   outline: none;
 }
 
@@ -816,29 +816,29 @@ a {
 }
 
 .admin-shell .btn:focus-visible {
-  outline-color: #13b8c8;
+  outline-color: #d97706;
 }
 
 .admin-shell .btn-primary {
   font-weight: 800;
-  box-shadow: 0 8px 16px rgba(93, 196, 255, 0.2);
+  box-shadow: 0 8px 16px rgba(217, 119, 6, 0.2);
 }
 
 .admin-shell .btn-primary:hover {
   transform: none;
-  box-shadow: 0 10px 18px rgba(93, 196, 255, 0.26);
+  box-shadow: 0 10px 18px rgba(217, 119, 6, 0.26);
 }
 
 .admin-shell .btn-secondary {
   background: #fff;
-  border: 1px solid #d7e3ec;
-  color: #294055;
+  border: 1px solid #e7e5e4;
+  color: #292524;
 }
 
 .admin-shell .btn-secondary:hover {
-  background: #f2fcff;
-  border-color: #8ed8e4;
-  color: #087d99;
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #b45309;
 }
 
 .admin-shell .student-directory th,
