@@ -272,12 +272,12 @@ export const HomePage: React.FC = () => {
       {/* ========================================================= */}
       {/* 2. FACILITY HIGHLIGHTS                                     */}
       {/* ========================================================= */}
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(93,196,255,0.12),_transparent_25%),linear-gradient(180deg,#0b1624_0%,#091725_100%)] py-20 text-white">
-        <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:44px_44px]" />
+      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(217,119,6,0.06),_transparent_25%),linear-gradient(180deg,#f5f3ef_0%,#fbfbfa_100%)] py-20 text-[#1c1917]">
+        <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(28,25,23,0.06)_1px,transparent_1px),linear-gradient(to_right,rgba(28,25,23,0.06)_1px,transparent_1px)] [background-size:44px_44px]" />
         <div className="relative mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="mb-10 text-center">
-            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#7ef9ff]">Built for focus</p>
-            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">Everything serious students need</h2>
+            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#d97706]">Built for focus</p>
+            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">Everything serious students need</h2>
           </div>
 
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -286,14 +286,14 @@ export const HomePage: React.FC = () => {
                 key={idx}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.2 }}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-[0_18px_36px_rgba(2,8,17,0.24)] backdrop-blur-sm"
+                className="rounded-2xl border border-[#e7e5e4] bg-white p-6 shadow-[0_10px_25px_rgba(28,25,23,0.04)]"
               >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#7ef9ff]/10 text-[#7ef9ff] ring-1 ring-[#7ef9ff]/20">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#fef3c7] text-[#d97706] ring-1 ring-[#f59e0b]/30">
                   <DynamicIcon name={item.icon} className="h-5 w-5" />
                 </div>
-                <div className="mb-2 text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.22em] text-[#a9d9ff]">0{idx + 1}</div>
-                <h3 className="font-[family-name:var(--font-ui)] text-xl font-bold tracking-[-0.04em] text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/70">{item.description}</p>
+                <div className="mb-2 text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.22em] text-[#b45309]">0{idx + 1}</div>
+                <h3 className="font-[family-name:var(--font-ui)] text-xl font-bold tracking-[-0.03em] text-[#1c1917]">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[#78716c]">{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -308,14 +308,14 @@ export const HomePage: React.FC = () => {
       {/* ========================================================= */}
       {/* 3. INTERACTIVE 58-SEAT SANCTUARY PREVIEW                  */}
       {/* ========================================================= */}
-      <section className="border-y border-white/10 bg-[#091827] py-20 text-white">
+      <section className="border-y border-[#e7e5e4] bg-[#f5f3ef] py-20 text-[#1c1917]">
         <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="mb-8 text-center">
-            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#7ef9ff]">Seat map</p>
-            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">A quiet workspace you can actually use</h2>
+            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#d97706]">Seat map</p>
+            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">A quiet workspace you can actually use</h2>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-[#0b1828] p-4 shadow-[0_18px_38px_rgba(2,8,17,0.34)]">
+          <div className="rounded-2xl border border-[#e7e5e4] bg-white p-4 shadow-[0_12px_30px_rgba(28,25,23,0.06)]">
             <SeatMap interactive={true} showControls={true} compact={false} />
           </div>
         </div>
@@ -324,16 +324,16 @@ export const HomePage: React.FC = () => {
       {/* ========================================================= */}
       {/* 4. MEMBERSHIP PLANS                                       */}
       {/* ========================================================= */}
-      <section className="bg-[radial-gradient(circle_at_top,_rgba(126,249,255,0.08),_transparent_18%),linear-gradient(180deg,#f4f8ff_0%,#edf5ff_100%)] py-20">
+      <section className="bg-[radial-gradient(circle_at_top,_rgba(217,119,6,0.05),_transparent_20%),linear-gradient(180deg,#fbfbfa_0%,#f4f2ee_100%)] py-20">
         <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="mb-10 text-center">
-            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#0f6ea5]">Membership</p>
-            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-[#0d1d30] sm:text-4xl">Simple plans for every study goal</h2>
+            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#b45309]">Membership</p>
+            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">Simple plans for every study goal</h2>
           </div>
 
           {plans.length === 0 ? (
-            <div className="mx-auto max-w-lg rounded-2xl border border-[#d7e7f7] bg-white p-8 text-center shadow-[0_18px_38px_rgba(15,29,48,0.08)]">
-              <p className="text-sm leading-relaxed text-[#51657a]">Contact our reception to enquire about current membership options and seat availability.</p>
+            <div className="mx-auto max-w-lg rounded-2xl border border-[#e7e5e4] bg-white p-8 text-center shadow-sm">
+              <p className="text-sm leading-relaxed text-[#78716c]">Contact our reception to enquire about current membership options and seat availability.</p>
               <Link to="/contact" className="btn btn-primary mt-6 px-6 py-3 text-xs uppercase tracking-wider font-bold">Ask about plans</Link>
             </div>
           ) : (
@@ -344,31 +344,31 @@ export const HomePage: React.FC = () => {
                 return (
                   <div
                     key={plan._id}
-                    className={`relative flex flex-col justify-between rounded-3xl p-7 ${isFeatured ? 'border border-[#7ef9ff]/30 bg-[#091827] text-white shadow-[0_22px_48px_rgba(9,24,39,0.28)]' : 'border border-[#d7e7f7] bg-white text-[#0d1d30] shadow-[0_16px_36px_rgba(15,29,48,0.08)]'}`}
+                    className={`relative flex flex-col justify-between rounded-3xl p-7 ${isFeatured ? 'border-2 border-[#d97706] bg-[#1c1917] text-white shadow-xl' : 'border border-[#e7e5e4] bg-white text-[#1c1917] shadow-md'}`}
                   >
                     {isFeatured && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#7ef9ff] via-[#5dc4ff] to-[#7f8cff] px-3 py-1 text-[9px] font-[family-name:var(--font-ui)] font-bold uppercase tracking-[0.2em] text-[#071521]">
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#f59e0b] to-[#d97706] px-3.5 py-1 text-[9px] font-[family-name:var(--font-ui)] font-bold uppercase tracking-[0.2em] text-white shadow-sm">
                         Most chosen
                       </div>
                     )}
 
                     <div>
-                      <h3 className="font-[family-name:var(--font-ui)] text-2xl font-black tracking-[-0.05em]">{plan.name}</h3>
+                      <h3 className="font-[family-name:var(--font-ui)] text-2xl font-black tracking-[-0.04em]">{plan.name}</h3>
                       <div className="mt-5 flex items-baseline gap-2">
                         <span className="font-[family-name:var(--font-ui)] text-4xl font-black tracking-[-0.05em]">{formatINR(plan.baseFee)}</span>
-                        <span className={`text-[10px] uppercase tracking-[0.18em] ${isFeatured ? 'text-white/60' : 'text-[#5d7288]'}`}>
+                        <span className={`text-[10px] uppercase tracking-[0.18em] ${isFeatured ? 'text-white/70' : 'text-[#78716c]'}`}>
                           / {plan.durationValue} {plan.durationUnit}
                         </span>
                       </div>
 
                       {plan.registrationFee > 0 && (
-                        <p className={`mt-3 text-xs ${isFeatured ? 'text-white/70' : 'text-[#5d7288]'}`}>One-time registration fee: {formatINR(plan.registrationFee)}</p>
+                        <p className={`mt-3 text-xs ${isFeatured ? 'text-white/75' : 'text-[#78716c]'}`}>One-time registration fee: {formatINR(plan.registrationFee)}</p>
                       )}
 
                       <ul className="mt-6 space-y-3">
                         {plan.benefits.map((benefit, benefitIndex) => (
-                          <li key={benefitIndex} className={`flex items-start gap-2 text-sm ${isFeatured ? 'text-white/85' : 'text-[#1c2d3f]'}`}>
-                            <div className={`mt-0.5 flex h-4 w-4 items-center justify-center rounded-full ${isFeatured ? 'bg-[#7ef9ff]/15 text-[#7ef9ff]' : 'bg-[#1A5C3B]/10 text-[#1A5C3B]'}`}>
+                          <li key={benefitIndex} className={`flex items-start gap-2 text-sm ${isFeatured ? 'text-white/90' : 'text-[#292524]'}`}>
+                            <div className={`mt-0.5 flex h-4 w-4 items-center justify-center rounded-full ${isFeatured ? 'bg-[#f59e0b]/20 text-[#f59e0b]' : 'bg-[#15803d]/10 text-[#15803d]'}`}>
                               <Check className="h-3 w-3 stroke-[2.5]" />
                             </div>
                             <span>{benefit}</span>
