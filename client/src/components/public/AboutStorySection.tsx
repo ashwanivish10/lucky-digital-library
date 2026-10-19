@@ -83,22 +83,22 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
   };
 
   return (
-    <section className="py-16 sm:py-24 relative overflow-hidden bg-gradient-to-b from-white via-[#f4f9fc] to-[#edf4f8] text-[#0b1d2e] border-y border-[#dce8f0]">
+    <section className="py-16 sm:py-24 relative overflow-hidden bg-gradient-to-b from-[#fbfbfa] via-[#f5f3ef] to-[#eeeae4] text-[#1c1917] border-y border-[#e7e5e4]">
       {/* Decorative ambient background accents */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.035]"
         style={{
-          backgroundImage: 'radial-gradient(#087d99 1.2px, transparent 1.2px)',
+          backgroundImage: 'radial-gradient(#d97706 1.2px, transparent 1.2px)',
           backgroundSize: '32px 32px',
         }}
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-24 left-1/4 h-96 w-96 rounded-full bg-[#13b8c8]/10 blur-[120px]"
+        className="pointer-events-none absolute -top-24 left-1/4 h-96 w-96 rounded-full bg-[#d97706]/10 blur-[120px]"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-24 right-1/4 h-96 w-96 rounded-full bg-[#087d99]/10 blur-[120px]"
+        className="pointer-events-none absolute -bottom-24 right-1/4 h-96 w-96 rounded-full bg-[#b45309]/10 blur-[120px]"
       />
 
       <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
@@ -109,29 +109,29 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
           <div className="lg:col-span-7 space-y-6">
             {/* Section Tag & Heading */}
             <div className="space-y-2">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e7faff] border border-[#13b8c8]/30 text-xs font-bold uppercase tracking-wider text-[#075a70]">
-                <span className="w-2 h-2 rounded-full bg-[#13b8c8] animate-pulse" />
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fef3c7] border border-[#f59e0b]/30 text-xs font-bold uppercase tracking-wider text-[#b45309]">
+                <span className="w-2 h-2 rounded-full bg-[#d97706] animate-pulse" />
                 लकी डिजिटल लाइब्रेरी के बारे में
               </span>
-              <h2 className="font-[family-name:var(--font-ui)] font-bold text-3xl sm:text-4xl lg:text-5xl text-[#0b1d2e] tracking-tight leading-[1.15]">
+              <h2 className="font-[family-name:var(--font-ui)] font-bold text-3xl sm:text-4xl lg:text-5xl text-[#1c1917] tracking-tight leading-[1.15]">
                 जहाँ एकाग्रता से सफलता की शुरुआत होती है।
               </h2>
             </div>
 
             {/* The single narrative paragraph requested */}
-            <p className="text-base sm:text-lg text-[#334b63] leading-[1.9] font-normal">
+            <p className="text-base sm:text-lg text-[#57534e] leading-[1.9] font-normal">
               20 फरवरी 2025 को स्थापित{' '}
-              <strong className="text-[#0b1d2e] font-extrabold">
+              <strong className="text-[#1c1917] font-extrabold">
                 लकी डिजिटल लाइब्रेरी
               </strong>{' '}
               का उद्देश्य विद्यार्थियों को एक शांत, आरामदायक और प्रेरणादायक वातावरण प्रदान करना है, जहाँ वे एकाग्रता और अनुशासन के साथ अपने सपनों को साकार करने की दिशा में आगे बढ़ सकें। हमारा मानना है कि सही वातावरण, निरंतर मेहनत और दृढ़ संकल्प ही सफलता की नींव हैं। हम विद्यार्थियों को ऐसा अध्ययन स्थल प्रदान करने के लिए प्रतिबद्ध हैं, जहाँ वे अपने लक्ष्यों पर ध्यान केंद्रित कर सकें और सफलता की ओर कदम बढ़ा सकें।
             </p>
 
             {/* Tagline Motto Banner */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#e7faff] via-[#f4fbfd] to-white border-l-4 border-l-[#13b8c8] border border-[#dce8f0] shadow-sm">
-              <p className="text-base sm:text-lg font-bold text-[#0b1d2e] leading-snug">
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#fef3c7] via-[#fbfbfa] to-white border-l-4 border-l-[#d97706] border border-[#e7e5e4] shadow-[0_10px_25px_rgba(28,25,23,0.04)]">
+              <p className="text-base sm:text-lg font-bold text-[#1c1917] leading-snug">
                 लकी डिजिटल लाइब्रेरी —{' '}
-                <span className="text-[#087d99]">जहाँ एकाग्रता बनती है सफलता की नींव।</span>
+                <span className="text-[#b45309]">जहाँ एकाग्रता बनती है सफलता की नींव।</span>
               </p>
             </div>
 
@@ -146,7 +146,7 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
               </Link>
               <Link
                 to="/facilities"
-                className="btn btn-secondary text-xs py-2.5 px-5 rounded-xl border-[#dce8f0] text-[#0b1d2e]"
+                className="btn btn-secondary text-xs py-2.5 px-5 rounded-xl border-[#e7e5e4] text-[#1c1917]"
               >
                 सुविधाएं देखें
               </Link>
@@ -160,14 +160,14 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
             <div className="w-full max-w-[320px] sm:max-w-[360px]">
               {/* Smartphone Capsule Frame (9:16 Aspect Ratio) */}
               <div
-                className="relative rounded-[40px] sm:rounded-[46px] p-3 sm:p-3.5 bg-gradient-to-b from-[#101b2a] via-[#091522] to-[#040c15] border-2 border-[#13b8c8]/40 shadow-[0_24px_60px_rgba(7,21,33,0.35)] ring-1 ring-white/10"
+                className="relative rounded-[40px] sm:rounded-[46px] p-3 sm:p-3.5 bg-gradient-to-b from-[#292524] via-[#1c1917] to-[#0c0a09] border-2 border-[#d97706]/40 shadow-[0_24px_60px_rgba(28,25,23,0.2)] ring-1 ring-white/10"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
               >
                 {/* Top Dynamic Island / Speaker Pill */}
                 <div className="absolute top-4 sm:top-5 left-1/2 -translate-x-1/2 w-24 h-4 bg-black/90 rounded-full z-30 flex items-center justify-center gap-2 border border-white/10 shadow-sm pointer-events-none">
                   <span className="w-2.5 h-2.5 rounded-full bg-slate-900 ring-1 ring-white/15" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#13b8c8]/70" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b]/70" />
                 </div>
 
                 {/* Inner 9:16 Screen Container */}
@@ -191,8 +191,8 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
 
                   {/* Top Bar Overlay */}
                   <div className="absolute top-0 inset-x-0 pt-7 sm:pt-8 px-3.5 pb-8 bg-gradient-to-b from-black/80 via-black/40 to-transparent z-20 flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-bold text-[#7ef9ff] uppercase tracking-wider">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#13b8c8] animate-pulse" />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-bold text-[#f59e0b] uppercase tracking-wider">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#d97706] animate-pulse" />
                       वीडियो टूर • 9:16
                     </span>
 
@@ -225,13 +225,13 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
                     <button
                       type="button"
                       onClick={handleTogglePlay}
-                      className="pointer-events-auto w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-gradient-to-tr from-[#087d99] to-[#13b8c8] text-[#04111d] flex items-center justify-center shadow-[0_0_30px_rgba(19,184,200,0.5)] border-2 border-white/30 hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                      className="pointer-events-auto w-16 h-16 sm:w-18 sm:h-18 rounded-full bg-gradient-to-tr from-[#b45309] to-[#d97706] text-white flex items-center justify-center shadow-[0_0_30px_rgba(217,119,6,0.5)] border-2 border-white/30 hover:scale-110 active:scale-95 transition-all cursor-pointer"
                       aria-label={isPlaying ? 'Pause video' : 'Play video'}
                     >
                       {isPlaying ? (
-                        <Pause className="w-7 h-7 fill-[#04111d]" />
+                        <Pause className="w-7 h-7 fill-white" />
                       ) : (
-                        <Play className="w-7 h-7 ml-1 fill-[#04111d]" />
+                        <Play className="w-7 h-7 ml-1 fill-white" />
                       )}
                     </button>
                   </div>
@@ -240,7 +240,7 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
                   <div className="absolute bottom-0 inset-x-0 p-3.5 pt-10 bg-gradient-to-t from-black/95 via-black/70 to-transparent z-20 text-left">
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-[#13b8c8] animate-pulse" />
+                        <span className="w-2 h-2 rounded-full bg-[#f59e0b] animate-pulse" />
                         <h4 className="text-white text-xs sm:text-sm font-bold leading-tight drop-shadow-sm">
                           लकी डिजिटल लाइब्रेरी
                         </h4>
@@ -260,7 +260,7 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
                       className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden cursor-pointer relative group/bar hover:h-2 transition-all"
                     >
                       <div
-                        className="h-full bg-gradient-to-r from-[#087d99] to-[#13b8c8] rounded-full transition-all"
+                        className="h-full bg-gradient-to-r from-[#b45309] to-[#d97706] rounded-full transition-all"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
@@ -270,7 +270,7 @@ export const AboutStorySection: React.FC<AboutStorySectionProps> = ({
 
               {/* Bottom Label */}
               <div className="mt-3 text-center">
-                <span className="text-[11px] font-semibold text-[#65788c] uppercase tracking-widest">
+                <span className="text-[11px] font-semibold text-[#78716c] uppercase tracking-widest">
                   लकी डिजिटल लाइब्रेरी — 9:16 वीडियो टूर
                 </span>
               </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 
 interface FormStepsProps {
   steps: string[];
@@ -35,7 +35,7 @@ export const FormSteps: React.FC<FormStepsProps> = ({
       <div className="relative mb-8 mt-1 md:hidden" role="tablist" aria-label="Form steps">
         <div className="absolute left-0 top-5 z-0 h-1 w-full -translate-y-1/2 bg-[#e5e7eb]" />
         <div
-          className="absolute left-0 top-5 z-0 h-1 -translate-y-1/2 bg-[#087d99] transition-all duration-300"
+          className="absolute left-0 top-5 z-0 h-1 -translate-y-1/2 bg-[#a38b52] transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
         <div className="relative z-10 flex items-center justify-between">
@@ -52,7 +52,7 @@ export const FormSteps: React.FC<FormStepsProps> = ({
               >
                 <span
                   className={`flex h-10 w-10 items-center justify-center rounded-full border-4 border-white text-sm font-semibold shadow-sm transition-colors duration-300 ${
-                    reached ? 'bg-[#087d99] text-white' : 'bg-[#e5e7eb] text-[#4b5563]'
+                    reached ? 'bg-[#a38b52] text-white' : 'bg-[#e5e7eb] text-[#4b5563]'
                   }`}
                 >
                   {index + 1}
@@ -86,7 +86,7 @@ export const FormSteps: React.FC<FormStepsProps> = ({
           <button
             type="button"
             onClick={goNext}
-            className="rounded-lg bg-[#087d99] px-5 py-2.5 text-sm font-medium text-white shadow-md"
+            className="rounded-lg bg-[#a38b52] px-5 py-2.5 text-sm font-medium text-white shadow-md"
           >
             Next Step
           </button>

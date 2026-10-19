@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+﻿import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   User,
@@ -293,7 +293,7 @@ export const StudentDetailPage: React.FC = () => {
   if (!student) {
     return (
       <div className="text-center py-16">
-        <h3 className="text-xl font-bold text-[#0b1d2e]">Student not found</h3>
+        <h3 className="text-xl font-bold text-[#2c1f0e]">Student not found</h3>
         <button
           type="button"
           onClick={() => navigate('/admin/students')}
@@ -313,14 +313,14 @@ export const StudentDetailPage: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/admin/students')}
-            className="p-2 text-slate-500 hover:text-[#0b1d2e] hover:bg-[#e7faff]/50 rounded-lg transition-colors"
+            className="p-2 text-slate-500 hover:text-[#2c1f0e] hover:bg-[#f5ead4]/50 rounded-lg transition-colors"
             title="Back to Students"
           >
             <ArrowLeft size={20} />
           </button>
           <div>
             <div className="flex items-center gap-2.5">
-              <h2 className="text-2xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">{student.name}</h2>
+              <h2 className="text-2xl font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e]">{student.name}</h2>
               <span className={`badge ${getStatusBadgeClass(student.status)} text-[11px]`}>
                 {getStatusLabel(student.status)}
               </span>
@@ -335,7 +335,7 @@ export const StudentDetailPage: React.FC = () => {
           <button
             type="button"
             onClick={() => setEditModalOpen(true)}
-            className="btn btn-secondary text-xs py-2 px-3.5 border border-[#dce8f0] hover:border-[#13b8c8]"
+            className="btn btn-secondary text-xs py-2 px-3.5 border border-[#e8dcc8] hover:border-[#c2a66e]"
           >
             <Edit2 size={14} /> Edit Profile
           </button>
@@ -367,7 +367,7 @@ export const StudentDetailPage: React.FC = () => {
           </div>
           <Link
             to={`/admin/payments/record?studentId=${student._id}`}
-            className="btn bg-[#13b8c8] text-[#0b1d2e] hover:bg-[#087d99] text-xs font-semibold py-2 px-4 shadow"
+            className="btn bg-[#c2a66e] text-[#2c1f0e] hover:bg-[#a38b52] text-xs font-semibold py-2 px-4 shadow"
           >
             Clear Balance
           </Link>
@@ -375,13 +375,13 @@ export const StudentDetailPage: React.FC = () => {
       )}
 
       {/* Tab Navigation */}
-      <div className="border-b border-[#dce8f0] flex overflow-x-auto no-scrollbar gap-6 sm:gap-8 text-sm font-semibold whitespace-nowrap -mx-2 px-2 sm:mx-0 sm:px-0">
+      <div className="border-b border-[#e8dcc8] flex overflow-x-auto no-scrollbar gap-6 sm:gap-8 text-sm font-semibold whitespace-nowrap -mx-2 px-2 sm:mx-0 sm:px-0">
         <button
           type="button"
           onClick={() => setActiveTab('profile')}
           className={`pb-3 min-h-[44px] flex items-center gap-2 border-b-2 transition-colors ${
             activeTab === 'profile'
-              ? 'border-[#13b8c8] text-[#0b1d2e]'
+              ? 'border-[#c2a66e] text-[#2c1f0e]'
               : 'border-transparent text-slate-400 hover:text-slate-700'
           }`}
         >
@@ -394,7 +394,7 @@ export const StudentDetailPage: React.FC = () => {
           onClick={() => setActiveTab('membership')}
           className={`pb-3 min-h-[44px] flex items-center gap-2 border-b-2 transition-colors ${
             activeTab === 'membership'
-              ? 'border-[#13b8c8] text-[#0b1d2e]'
+              ? 'border-[#c2a66e] text-[#2c1f0e]'
               : 'border-transparent text-slate-400 hover:text-slate-700'
           }`}
         >
@@ -407,7 +407,7 @@ export const StudentDetailPage: React.FC = () => {
           onClick={() => setActiveTab('payments')}
           className={`pb-3 min-h-[44px] flex items-center gap-2 border-b-2 transition-colors ${
             activeTab === 'payments'
-              ? 'border-[#13b8c8] text-[#0b1d2e]'
+              ? 'border-[#c2a66e] text-[#2c1f0e]'
               : 'border-transparent text-slate-400 hover:text-slate-700'
           }`}
         >
@@ -421,20 +421,20 @@ export const StudentDetailPage: React.FC = () => {
       {/* 1. Profile Tab */}
       {activeTab === 'profile' && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
-          <div className="card bg-white p-6 rounded-xl border border-[#dce8f0] shadow-sm md:col-span-2 space-y-6">
-            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e] border-b border-[#e7faff] pb-3">
+          <div className="card bg-white p-6 rounded-xl border border-[#e8dcc8] shadow-sm md:col-span-2 space-y-6">
+            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#2c1f0e] border-b border-[#f5ead4] pb-3">
               Personal & Contact Information
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <span className="text-xs uppercase tracking-wider text-slate-400 block font-medium">Full Name</span>
-                <span className="text-base font-semibold text-[#0b1d2e] mt-0.5 block">{student.name}</span>
+                <span className="text-base font-semibold text-[#2c1f0e] mt-0.5 block">{student.name}</span>
               </div>
 
               <div>
                 <span className="text-xs uppercase tracking-wider text-slate-400 block font-medium">Phone Number</span>
-                <span className="text-base font-mono text-[#0b1d2e] mt-0.5 block flex items-center gap-1.5">
+                <span className="text-base font-mono text-[#2c1f0e] mt-0.5 block flex items-center gap-1.5">
                   <Phone size={14} className="text-slate-400" /> {student.phone}
                 </span>
               </div>
@@ -462,14 +462,14 @@ export const StudentDetailPage: React.FC = () => {
               </div>
             </div>
 
-            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e] border-b border-[#e7faff] pb-3 pt-2">
+            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#2c1f0e] border-b border-[#f5ead4] pb-3 pt-2">
               Library Details & Notes
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <span className="text-xs uppercase tracking-wider text-slate-400 block font-medium">Assigned Seat</span>
-                <span className="text-base font-semibold text-[#0b1d2e] mt-0.5 block">
+                <span className="text-base font-semibold text-[#2c1f0e] mt-0.5 block">
                   {student.seatNumber ? `Seat #${student.seatNumber}` : 'Unassigned'}
                 </span>
               </div>
@@ -483,7 +483,7 @@ export const StudentDetailPage: React.FC = () => {
 
               <div className="sm:col-span-2">
                 <span className="text-xs uppercase tracking-wider text-slate-400 block font-medium">Staff Notes</span>
-                <p className="text-sm text-slate-600 mt-1 whitespace-pre-wrap bg-[#FDFBF7] p-3 rounded-lg border border-[#dce8f0]">
+                <p className="text-sm text-slate-600 mt-1 whitespace-pre-wrap bg-[#FDFBF7] p-3 rounded-lg border border-[#e8dcc8]">
                   {student.notes || 'No administrative notes recorded.'}
                 </p>
               </div>
@@ -492,23 +492,23 @@ export const StudentDetailPage: React.FC = () => {
 
           {/* Quick Summary Card */}
           <div className="space-y-6">
-            <div className="card bg-white p-6 rounded-xl border border-[#dce8f0] shadow-sm space-y-4">
-              <h3 className="font-[family-name:var(--font-ui)] font-bold text-base text-[#0b1d2e]">Account Overview</h3>
+            <div className="card bg-white p-6 rounded-xl border border-[#e8dcc8] shadow-sm space-y-4">
+              <h3 className="font-[family-name:var(--font-ui)] font-bold text-base text-[#2c1f0e]">Account Overview</h3>
               <div className="space-y-3 text-xs">
-                <div className="flex justify-between items-center py-2 border-b border-[#e7faff]">
+                <div className="flex justify-between items-center py-2 border-b border-[#f5ead4]">
                   <span className="text-slate-500">Registration Status:</span>
                   <span className={`badge ${getStatusBadgeClass(student.registrationStatus)}`}>
                     {student.registrationStatus}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-[#e7faff]">
+                <div className="flex justify-between items-center py-2 border-b border-[#f5ead4]">
                   <span className="text-slate-500">Active Membership:</span>
-                  <span className="font-semibold text-[#0b1d2e]">
+                  <span className="font-semibold text-[#2c1f0e]">
                     {memberships.find((m) => ['active', 'expiring_soon'].includes(m.status))
                       ?.planNameSnapshot || 'None'}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-[#e7faff]">
+                <div className="flex justify-between items-center py-2 border-b border-[#f5ead4]">
                   <span className="text-slate-500">Total Payments Made:</span>
                   <span className="font-semibold text-[#2D6A4F]">
                     {formatINR(
@@ -532,7 +532,7 @@ export const StudentDetailPage: React.FC = () => {
       {activeTab === 'membership' && (
         <div className="space-y-6 animate-fade-in">
           <div className="flex items-center justify-between">
-            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">Membership Timeline</h3>
+            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#2c1f0e]">Membership Timeline</h3>
             <button
               type="button"
               onClick={() => openMembershipModal('create')}
@@ -543,9 +543,9 @@ export const StudentDetailPage: React.FC = () => {
           </div>
 
           {memberships.length === 0 ? (
-            <div className="card bg-white p-12 text-center rounded-xl border border-[#dce8f0] text-slate-400">
-              <Award size={40} className="mx-auto mb-3 text-[#13b8c8]/60" />
-              <p className="text-base font-semibold text-[#0b1d2e]">No Memberships Assigned</p>
+            <div className="card bg-white p-12 text-center rounded-xl border border-[#e8dcc8] text-slate-400">
+              <Award size={40} className="mx-auto mb-3 text-[#c2a66e]/60" />
+              <p className="text-base font-semibold text-[#2c1f0e]">No Memberships Assigned</p>
               <p className="text-xs text-slate-500 mt-1">Enroll this student in a membership plan.</p>
               <button
                 type="button"
@@ -565,13 +565,13 @@ export const StudentDetailPage: React.FC = () => {
                     className={`card bg-white p-5 rounded-xl border transition-all ${
                       isActive
                         ? 'border-emerald-300 ring-2 ring-emerald-50 shadow-md'
-                        : 'border-[#dce8f0] opacity-80'
+                        : 'border-[#e8dcc8] opacity-80'
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div>
                         <div className="flex items-center gap-2.5">
-                          <h4 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">
+                          <h4 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#2c1f0e]">
                             {m.planNameSnapshot}
                           </h4>
                           <span className={`badge ${getStatusBadgeClass(m.status)} text-[11px]`}>
@@ -624,7 +624,7 @@ export const StudentDetailPage: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => openMembershipModal('renew', m._id)}
-                          className="btn btn-secondary text-xs py-1.5 px-3 border border-[#dce8f0] hover:border-[#13b8c8]"
+                          className="btn btn-secondary text-xs py-1.5 px-3 border border-[#e8dcc8] hover:border-[#c2a66e]"
                         >
                           <RefreshCw size={13} /> Renew Plan
                         </button>
@@ -642,7 +642,7 @@ export const StudentDetailPage: React.FC = () => {
       {activeTab === 'payments' && (
         <div className="space-y-6 animate-fade-in">
           <div className="flex items-center justify-between">
-            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">Payment Receipts</h3>
+            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#2c1f0e]">Payment Receipts</h3>
             <div className="flex items-center gap-2">
               <ColumnPicker
                 columns={receiptColumns.columns}
@@ -659,9 +659,9 @@ export const StudentDetailPage: React.FC = () => {
           </div>
 
           {payments.length === 0 ? (
-            <div className="card bg-white p-12 text-center rounded-xl border border-[#dce8f0] text-slate-400">
-              <CreditCard size={40} className="mx-auto mb-3 text-[#13b8c8]/60" />
-              <p className="text-base font-semibold text-[#0b1d2e]">No Payments Recorded</p>
+            <div className="card bg-white p-12 text-center rounded-xl border border-[#e8dcc8] text-slate-400">
+              <CreditCard size={40} className="mx-auto mb-3 text-[#c2a66e]/60" />
+              <p className="text-base font-semibold text-[#2c1f0e]">No Payments Recorded</p>
               <p className="text-xs text-slate-500 mt-1">Record the first fee payment for this student.</p>
               <Link
                 to={`/admin/payments/record?studentId=${student._id}`}
@@ -677,10 +677,10 @@ export const StudentDetailPage: React.FC = () => {
                 {payments.map((p) => (
                   <div
                     key={p._id}
-                    className="card bg-white p-4 rounded-2xl border border-[#dce8f0] shadow-sm space-y-3"
+                    className="card bg-white p-4 rounded-2xl border border-[#e8dcc8] shadow-sm space-y-3"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-xs font-semibold text-[#0b1d2e] bg-[#f4f9fc] border border-[#dce8f0] px-2 py-0.5 rounded">
+                      <span className="font-mono text-xs font-semibold text-[#2c1f0e] bg-[#faf6f0] border border-[#e8dcc8] px-2 py-0.5 rounded">
                         {p.receiptNumber}
                       </span>
                       <span className="font-bold text-sm text-[#2D6A4F]">
@@ -698,7 +698,7 @@ export const StudentDetailPage: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => handleDownloadReceipt(p._id, p.receiptNumber)}
-                        className="btn btn-secondary py-1.5 px-3 text-xs min-h-[40px] border border-[#dce8f0] hover:border-[#13b8c8] inline-flex items-center gap-1.5"
+                        className="btn btn-secondary py-1.5 px-3 text-xs min-h-[40px] border border-[#e8dcc8] hover:border-[#c2a66e] inline-flex items-center gap-1.5"
                       >
                         <Download size={13} />
                         <span>PDF</span>
@@ -709,11 +709,11 @@ export const StudentDetailPage: React.FC = () => {
               </div>
 
               {/* Desktop Table (hidden md:block) */}
-              <div className="hidden md:block card bg-white rounded-xl border border-[#dce8f0] shadow-sm overflow-hidden">
+              <div className="hidden md:block card bg-white rounded-xl border border-[#e8dcc8] shadow-sm overflow-hidden">
                 <div className="table-container">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="bg-[#0b1d2e] text-[#f4f9fc] text-xs uppercase tracking-wider">
+                      <tr className="bg-[#2c1f0e] text-[#faf6f0] text-xs uppercase tracking-wider">
                         {RECEIPT_COLUMNS.filter((column) => receiptColumns.visible(column.id)).map((column) => (
                           <th
                             key={column.id}
@@ -724,11 +724,11 @@ export const StudentDetailPage: React.FC = () => {
                         ))}
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#e7faff] text-xs">
+                    <tbody className="divide-y divide-[#f5ead4] text-xs">
                       {payments.map((p) => (
                         <tr key={p._id} className="hover:bg-[#f8fbfd]">
                           {receiptColumns.visible('receipt') && (
-                          <td className="py-3.5 px-4 font-mono font-semibold text-[#0b1d2e]">
+                          <td className="py-3.5 px-4 font-mono font-semibold text-[#2c1f0e]">
                             {p.receiptNumber}
                           </td>
                           )}
@@ -762,7 +762,7 @@ export const StudentDetailPage: React.FC = () => {
                             <button
                               type="button"
                               onClick={() => handleDownloadReceipt(p._id, p.receiptNumber)}
-                              className="btn btn-secondary py-1 px-2.5 text-xs border border-[#dce8f0] hover:border-[#13b8c8]"
+                              className="btn btn-secondary py-1 px-2.5 text-xs border border-[#e8dcc8] hover:border-[#c2a66e]"
                               title="Download PDF Receipt"
                             >
                               <Download size={13} /> PDF
@@ -783,8 +783,8 @@ export const StudentDetailPage: React.FC = () => {
       {/* Edit Student Modal */}
       {editModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-[#dce8f0] space-y-4 max-h-[90vh] overflow-y-auto animate-fade-in">
-            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">Edit Student Profile</h3>
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-[#e8dcc8] space-y-4 max-h-[90vh] overflow-y-auto animate-fade-in">
+            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#2c1f0e]">Edit Student Profile</h3>
             <form noValidate onSubmit={handleEditSubmit} className="text-sm">
               <FormSteps
                 steps={['Profile', 'Seat', 'Notes']}
@@ -870,8 +870,8 @@ export const StudentDetailPage: React.FC = () => {
                 </div>
               </div>
 
-              <fieldset className="space-y-3 rounded-xl border border-[#dce8f0] bg-[#f8fbfd] p-3">
-                <legend className="px-1 text-xs font-bold text-[#0b1d2e]">Recurring seat schedule</legend>
+              <fieldset className="space-y-3 rounded-xl border border-[#e8dcc8] bg-[#f8fbfd] p-3">
+                <legend className="px-1 text-xs font-bold text-[#2c1f0e]">Recurring seat schedule</legend>
                 {editForm.seatNumber && editForm.seatDays.length === 0 && (
                   <p className="text-[11px] font-medium text-amber-700">
                     This existing seat has no recorded hours and is treated as occupied all week. Enter its real schedule before saving so no availability is assumed incorrectly.
@@ -889,7 +889,7 @@ export const StudentDetailPage: React.FC = () => {
                             ? [...editForm.seatDays, day]
                             : editForm.seatDays.filter((selectedDay) => selectedDay !== day),
                         })}
-                        className="rounded border-[#dce8f0] text-[#13b8c8] focus:ring-[#13b8c8]"
+                        className="rounded border-[#e8dcc8] text-[#c2a66e] focus:ring-[#c2a66e]"
                       />
                       {day.slice(0, 3)}
                     </label>
@@ -961,8 +961,8 @@ export const StudentDetailPage: React.FC = () => {
       {/* Add / Renew Membership Modal */}
       {membershipModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-[#dce8f0] space-y-4 animate-fade-in">
-            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-[#e8dcc8] space-y-4 animate-fade-in">
+            <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#2c1f0e]">
               {membershipModalMode === 'create' ? 'Add New Membership' : 'Renew Membership'}
             </h3>
             <form onSubmit={handleMembershipSubmit} className="space-y-4 text-sm">
@@ -974,7 +974,7 @@ export const StudentDetailPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => navigate('/admin/memberships')}
-                      className="font-bold underline text-[#087d99]"
+                      className="font-bold underline text-[#a38b52]"
                     >
                       Configure plans here
                     </button>

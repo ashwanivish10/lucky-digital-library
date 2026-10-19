@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+﻿import React, { useEffect, useState, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import {
   Search,
@@ -61,7 +61,7 @@ function FeeDue({ student }: { student: StudentItem }) {
       </span>
     );
   }
-  return <span className="text-xs text-[#65788c]">—</span>;
+  return <span className="text-xs text-[#8a7a60]">—</span>;
 }
 
 const STUDENT_COLUMNS = [
@@ -166,10 +166,10 @@ export const StudentsPage: React.FC = () => {
       <div className="page-header flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="section-eyebrow">Student Registry</span>
-          <h2 className="page-title text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+          <h2 className="page-title text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e]">
             Student Directory
           </h2>
-          <p className="text-sm text-[#65788c] mt-0.5">
+          <p className="text-sm text-[#8a7a60] mt-0.5">
             Manage registrations, credentials, active seats, and membership lifecycle ({totalStudents} enrolled).
           </p>
         </div>
@@ -185,11 +185,11 @@ export const StudentsPage: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar Card */}
-      <div className="card bg-white p-4 rounded-lg border border-[#dce8f0] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="card bg-white p-4 rounded-lg border border-[#e8dcc8] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex min-w-0 flex-1 items-center gap-2">
         {/* Debounced Search */}
-        <div className="relative max-w-md flex-1 flex items-center bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-3 py-2 focus-within:border-[#13b8c8] transition-colors">
-          <Search size={16} className="text-[#65788c] flex-shrink-0 mr-2" />
+        <div className="relative max-w-md flex-1 flex items-center bg-[#faf6f0] border border-[#e8dcc8] rounded-md px-3 py-2 focus-within:border-[#c2a66e] transition-colors">
+          <Search size={16} className="text-[#8a7a60] flex-shrink-0 mr-2" />
           <input
             type="text"
             placeholder="Search by name, student ID, or phone..."
@@ -198,7 +198,7 @@ export const StudentsPage: React.FC = () => {
               setSearchTerm(e.target.value);
               setPage(1);
             }}
-            className="w-full text-base md:text-sm text-[#0b1d2e] bg-transparent placeholder-[#65788c] focus:outline-none"
+            className="w-full text-base md:text-sm text-[#2c1f0e] bg-transparent placeholder-[#8a7a60] focus:outline-none"
           />
           {searchTerm && (
             <button
@@ -207,7 +207,7 @@ export const StudentsPage: React.FC = () => {
                 setSearchTerm('');
                 setPage(1);
               }}
-              className="text-[#65788c] hover:text-[#0b1d2e]"
+              className="text-[#8a7a60] hover:text-[#2c1f0e]"
             >
               <X size={14} />
             </button>
@@ -241,7 +241,7 @@ export const StudentsPage: React.FC = () => {
             <select
               value={draftStatus}
               onChange={(e) => setDraftStatus(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-[#dce8f0] bg-[#f4f9fc] px-3 py-3 text-sm text-[#0b1d2e]"
+              className="mt-1 w-full rounded-xl border border-[#e8dcc8] bg-[#faf6f0] px-3 py-3 text-sm text-[#2c1f0e]"
             >
               <option value="">All Statuses</option>
               <option value="active">Active</option>
@@ -255,7 +255,7 @@ export const StudentsPage: React.FC = () => {
             <select
               value={draftFee}
               onChange={(e) => setDraftFee(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-[#dce8f0] bg-[#f4f9fc] px-3 py-3 text-sm text-[#0b1d2e]"
+              className="mt-1 w-full rounded-xl border border-[#e8dcc8] bg-[#faf6f0] px-3 py-3 text-sm text-[#2c1f0e]"
             >
               <option value="">All fees</option>
               <option value="due">Fee due</option>
@@ -267,7 +267,7 @@ export const StudentsPage: React.FC = () => {
             <select
               value={draftReg}
               onChange={(e) => setDraftReg(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-[#dce8f0] bg-[#f4f9fc] px-3 py-3 text-sm text-[#0b1d2e]"
+              className="mt-1 w-full rounded-xl border border-[#e8dcc8] bg-[#faf6f0] px-3 py-3 text-sm text-[#2c1f0e]"
             >
               <option value="">All Registrations</option>
               <option value="pending">Pending Approval</option>
@@ -280,15 +280,15 @@ export const StudentsPage: React.FC = () => {
 
         {/* Filter Dropdowns */}
         <div className="hidden flex-wrap items-center gap-3 md:flex">
-          <div className="flex items-center gap-2 bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5">
-            <Filter size={14} className="text-[#65788c]" />
+          <div className="flex items-center gap-2 bg-[#faf6f0] border border-[#e8dcc8] rounded-md px-2.5 py-1.5">
+            <Filter size={14} className="text-[#8a7a60]" />
             <select
               value={statusFilter}
               onChange={(e) => {
                 setStatusFilter(e.target.value);
                 setPage(1);
               }}
-              className="text-xs bg-transparent text-[#0b1d2e] font-medium focus:outline-none cursor-pointer"
+              className="text-xs bg-transparent text-[#2c1f0e] font-medium focus:outline-none cursor-pointer"
             >
               <option value="">All Statuses</option>
               <option value="active">Active</option>
@@ -298,14 +298,14 @@ export const StudentsPage: React.FC = () => {
             </select>
           </div>
 
-          <div className="bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5">
+          <div className="bg-[#faf6f0] border border-[#e8dcc8] rounded-md px-2.5 py-1.5">
             <select
               value={feeFilter}
               onChange={(e) => {
                 setFeeFilter(e.target.value);
                 setPage(1);
               }}
-              className="text-xs bg-transparent text-[#0b1d2e] font-medium focus:outline-none cursor-pointer"
+              className="text-xs bg-transparent text-[#2c1f0e] font-medium focus:outline-none cursor-pointer"
             >
               <option value="">All fees</option>
               <option value="due">Fee due</option>
@@ -313,14 +313,14 @@ export const StudentsPage: React.FC = () => {
             </select>
           </div>
 
-          <div className="bg-[#f4f9fc] border border-[#dce8f0] rounded-md px-2.5 py-1.5">
+          <div className="bg-[#faf6f0] border border-[#e8dcc8] rounded-md px-2.5 py-1.5">
             <select
               value={regFilter}
               onChange={(e) => {
                 setRegFilter(e.target.value);
                 setPage(1);
               }}
-              className="text-xs bg-transparent text-[#0b1d2e] font-medium focus:outline-none cursor-pointer"
+              className="text-xs bg-transparent text-[#2c1f0e] font-medium focus:outline-none cursor-pointer"
             >
               <option value="">All Registrations</option>
               <option value="pending">Pending Approval</option>
@@ -355,31 +355,31 @@ export const StudentsPage: React.FC = () => {
           Array.from({ length: 4 }).map((_, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-[#dce8f0] bg-white p-4 shadow-sm space-y-3 animate-pulse"
+              className="rounded-2xl border border-[#e8dcc8] bg-white p-4 shadow-sm space-y-3 animate-pulse"
             >
               <div className="flex items-center justify-between">
-                <div className="h-5 w-36 bg-[#edf4f8] rounded"></div>
-                <div className="h-5 w-16 bg-[#edf4f8] rounded-full"></div>
+                <div className="h-5 w-36 bg-[#f5f0e6] rounded"></div>
+                <div className="h-5 w-16 bg-[#f5f0e6] rounded-full"></div>
               </div>
               <div className="flex items-center justify-between">
-                <div className="h-4 w-24 bg-[#edf4f8] rounded"></div>
-                <div className="h-4 w-28 bg-[#edf4f8] rounded"></div>
+                <div className="h-4 w-24 bg-[#f5f0e6] rounded"></div>
+                <div className="h-4 w-28 bg-[#f5f0e6] rounded"></div>
               </div>
-              <div className="h-4 w-full bg-[#edf4f8] rounded"></div>
-              <div className="h-4 w-3/4 bg-[#edf4f8] rounded"></div>
-              <div className="h-10 w-full bg-[#edf4f8] rounded-xl pt-2"></div>
+              <div className="h-4 w-full bg-[#f5f0e6] rounded"></div>
+              <div className="h-4 w-3/4 bg-[#f5f0e6] rounded"></div>
+              <div className="h-10 w-full bg-[#f5f0e6] rounded-xl pt-2"></div>
             </div>
           ))
         ) : students.length === 0 ? (
           // Mobile Empty state
-          <div className="rounded-2xl border border-[#dce8f0] bg-white p-8 text-center shadow-sm">
-            <div className="w-14 h-14 rounded-full bg-[#13b8c8]/10 flex items-center justify-center text-[#13b8c8] mx-auto mb-3">
+          <div className="rounded-2xl border border-[#e8dcc8] bg-white p-8 text-center shadow-sm">
+            <div className="w-14 h-14 rounded-full bg-[#c2a66e]/10 flex items-center justify-center text-[#c2a66e] mx-auto mb-3">
               <Users size={28} />
             </div>
-            <p className="text-base font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+            <p className="text-base font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e]">
               No students found
             </p>
-            <p className="text-xs text-[#65788c] mt-1 max-w-sm mx-auto">
+            <p className="text-xs text-[#8a7a60] mt-1 max-w-sm mx-auto">
               Try modifying your search or filter settings, or enroll a new student.
             </p>
             <Link
@@ -397,14 +397,14 @@ export const StudentsPage: React.FC = () => {
             return (
               <div
                 key={student._id}
-                className="rounded-2xl border border-[#dce8f0] bg-white p-4 shadow-sm space-y-3"
+                className="rounded-2xl border border-[#e8dcc8] bg-white p-4 shadow-sm space-y-3"
               >
                 {/* Top row: Student name (bold, left) + Status badge (right) */}
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 min-w-0">
                     <Link
                       to={`/admin/students/${student._id}`}
-                      className="font-semibold text-sm text-[#0b1d2e] hover:text-[#13b8c8] truncate transition-colors"
+                      className="font-semibold text-sm text-[#2c1f0e] hover:text-[#c2a66e] truncate transition-colors"
                     >
                       {student.name}
                     </Link>
@@ -420,13 +420,13 @@ export const StudentsPage: React.FC = () => {
                 </div>
 
                 {/* Second row: Student code (mono) + phone number */}
-                <div className="flex items-center justify-between gap-2 text-xs text-[#65788c]">
-                  <span className="font-mono font-medium text-[#0b1d2e] bg-[#f4f9fc] border border-[#dce8f0] px-2 py-0.5 rounded">
+                <div className="flex items-center justify-between gap-2 text-xs text-[#8a7a60]">
+                  <span className="font-mono font-medium text-[#2c1f0e] bg-[#faf6f0] border border-[#e8dcc8] px-2 py-0.5 rounded">
                     {student.studentCode}
                   </span>
                   <a
                     href={`tel:${student.phone}`}
-                    className="font-mono text-xs hover:text-[#13b8c8] transition-colors"
+                    className="font-mono text-xs hover:text-[#c2a66e] transition-colors"
                   >
                     {student.phone}
                   </a>
@@ -435,25 +435,25 @@ export const StudentsPage: React.FC = () => {
                 {/* Third row: Seat number + Timing/Shift (if available) */}
                 <div className="flex items-center justify-between gap-2 text-xs pt-2 border-t border-[#f0f5f9]">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[#65788c] text-[11px]">Seat:</span>
+                    <span className="text-[#8a7a60] text-[11px]">Seat:</span>
                     {student.seatNumber ? (
-                      <span className="px-2 py-0.5 bg-[#edf4f8] border border-[#dce8f0] rounded text-[#0b1d2e] font-mono font-semibold text-xs">
+                      <span className="px-2 py-0.5 bg-[#f5f0e6] border border-[#e8dcc8] rounded text-[#2c1f0e] font-mono font-semibold text-xs">
                         {student.seatNumber}
                       </span>
                     ) : (
-                      <span className="text-[#65788c]">—</span>
+                      <span className="text-[#8a7a60]">—</span>
                     )}
                   </div>
 
                   <div className="text-right">
                     {student.seatStartTime && student.seatEndTime ? (
                       <div className="flex flex-col items-end">
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#e7faff] text-[#075a70] border border-[#13b8c8]/30 font-semibold font-mono text-[11px]">
-                          <Clock className="w-3 h-3 text-[#13b8c8]" />
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#f5ead4] text-[#8b7340] border border-[#c2a66e]/30 font-semibold font-mono text-[11px]">
+                          <Clock className="w-3 h-3 text-[#c2a66e]" />
                           <span>{student.seatStartTime} – {student.seatEndTime}</span>
                         </span>
                         {student.seatDays && student.seatDays.length > 0 && (
-                          <span className="text-[10px] text-[#65788c] mt-0.5 font-medium">
+                          <span className="text-[10px] text-[#8a7a60] mt-0.5 font-medium">
                             {student.seatDays.length === 7
                               ? 'All 7 days'
                               : student.seatDays.map((d: string) => d.slice(0, 3)).join(', ')}
@@ -461,7 +461,7 @@ export const StudentsPage: React.FC = () => {
                         )}
                       </div>
                     ) : (
-                      <span className="text-[#65788c] text-[11px] font-medium">Full Day (24×7)</span>
+                      <span className="text-[#8a7a60] text-[11px] font-medium">Full Day (24×7)</span>
                     )}
                   </div>
                 </div>
@@ -469,25 +469,25 @@ export const StudentsPage: React.FC = () => {
                 {/* Fourth row: Membership plan name + expiry date */}
                 <div className="flex items-center justify-between gap-2 text-xs pt-2 border-t border-[#f0f5f9]">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[#65788c] text-[11px]">Plan:</span>
+                    <span className="text-[#8a7a60] text-[11px]">Plan:</span>
                     {activeMem ? (
                       <span className={`badge ${getStatusBadgeClass(activeMem.status)} text-[10px]`}>
                         {activeMem.planNameSnapshot}
                       </span>
                     ) : (
-                      <span className="text-xs text-[#65788c] italic">No Active Plan</span>
+                      <span className="text-xs text-[#8a7a60] italic">No Active Plan</span>
                     )}
                   </div>
 
                   {activeMem && (
-                    <div className="text-[11px] text-[#65788c]">
-                      Exp: <span className="font-medium text-[#0b1d2e]">{formatDate(activeMem.endDate)}</span>
+                    <div className="text-[11px] text-[#8a7a60]">
+                      Exp: <span className="font-medium text-[#2c1f0e]">{formatDate(activeMem.endDate)}</span>
                     </div>
                   )}
                 </div>
 
                 <div className="flex items-center justify-between gap-2 text-xs pt-2 border-t border-[#f0f5f9]">
-                  <span className="text-[#65788c] text-[11px]">Fee due</span>
+                  <span className="text-[#8a7a60] text-[11px]">Fee due</span>
                   <FeeDue student={student} />
                 </div>
 
@@ -495,17 +495,17 @@ export const StudentsPage: React.FC = () => {
                 <div className="pt-2 border-t border-[#f0f5f9] flex items-center gap-2">
                   <Link
                     to={`/admin/students/${student._id}`}
-                    className="flex-1 min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#f4f9fc] hover:bg-[#edf4f8] text-[#0b1d2e] text-xs font-semibold border border-[#dce8f0] transition-colors"
+                    className="flex-1 min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#faf6f0] hover:bg-[#f5f0e6] text-[#2c1f0e] text-xs font-semibold border border-[#e8dcc8] transition-colors"
                   >
-                    <Eye size={15} className="text-[#13b8c8]" />
+                    <Eye size={15} className="text-[#c2a66e]" />
                     <span>View</span>
                   </Link>
 
                   <Link
                     to={`/admin/students/${student._id}#profile`}
-                    className="flex-1 min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#f4f9fc] hover:bg-[#edf4f8] text-[#0b1d2e] text-xs font-semibold border border-[#dce8f0] transition-colors"
+                    className="flex-1 min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#faf6f0] hover:bg-[#f5f0e6] text-[#2c1f0e] text-xs font-semibold border border-[#e8dcc8] transition-colors"
                   >
-                    <Edit2 size={15} className="text-[#087d99]" />
+                    <Edit2 size={15} className="text-[#a38b52]" />
                     <span>Edit</span>
                   </Link>
 
@@ -527,7 +527,7 @@ export const StudentsPage: React.FC = () => {
       </div>
 
       {/* Table Container */}
-      <div className="overflow-hidden rounded-2xl border border-[#dce8f0] bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-[#e8dcc8] bg-white shadow-sm">
         <div className="student-directory hidden overflow-x-auto md:block">
           <table className="w-full text-left border-collapse">
           <thead>
@@ -542,13 +542,13 @@ export const StudentsPage: React.FC = () => {
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#dce8f0]/70 text-sm text-[#0b1d2e]">
+          <tbody className="divide-y divide-[#e8dcc8]/70 text-sm text-[#2c1f0e]">
             {loading ? (
               // Skeletons
               Array.from({ length: 6 }).map((_, i) => (
                 <tr key={i}>
                   <td colSpan={columns.shownCount} className="py-4 px-4">
-                    <div className="h-5 w-full bg-[#edf4f8] animate-pulse rounded"></div>
+                    <div className="h-5 w-full bg-[#f5f0e6] animate-pulse rounded"></div>
                   </td>
                 </tr>
               ))
@@ -556,12 +556,12 @@ export const StudentsPage: React.FC = () => {
               // Empty state
               <tr>
                 <td colSpan={columns.shownCount} className="py-12 px-4 text-center">
-                  <div className="flex flex-col items-center justify-center text-[#65788c]">
-                    <div className="w-14 h-14 rounded-full bg-[#13b8c8]/10 flex items-center justify-center text-[#13b8c8] mb-3">
+                  <div className="flex flex-col items-center justify-center text-[#8a7a60]">
+                    <div className="w-14 h-14 rounded-full bg-[#c2a66e]/10 flex items-center justify-center text-[#c2a66e] mb-3">
                       <Users size={28} />
                     </div>
-                    <p className="text-base font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">No students found</p>
-                    <p className="text-xs text-[#65788c] mt-1 max-w-sm">
+                    <p className="text-base font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e]">No students found</p>
+                    <p className="text-xs text-[#8a7a60] mt-1 max-w-sm">
                       Try modifying your search or filter settings, or enroll a new student.
                     </p>
                     <Link
@@ -581,20 +581,20 @@ export const StudentsPage: React.FC = () => {
                 return (
                   <tr
                     key={student._id}
-                    className={`transition-colors ${(student.outstanding || 0) > 0 ? 'is-due bg-rose-50/70 hover:bg-rose-50' : 'hover:bg-[#f4f9fc]/60'}`}
+                    className={`transition-colors ${(student.outstanding || 0) > 0 ? 'is-due bg-rose-50/70 hover:bg-rose-50' : 'hover:bg-[#faf6f0]/60'}`}
                   >
                     {columns.visible('code') && (
-                    <td className="py-3 whitespace-nowrap font-mono font-medium text-xs text-[#0b1d2e]">
+                    <td className="py-3 whitespace-nowrap font-mono font-medium text-xs text-[#2c1f0e]">
                       {student.studentCode}
                     </td>
                     )}
 
                     {columns.visible('name') && (
-                    <td className="py-3 font-medium text-[#0b1d2e]">
+                    <td className="py-3 font-medium text-[#2c1f0e]">
                       <div className="flex items-center gap-2">
                         <Link
                           to={`/admin/students/${student._id}`}
-                          className="hover:text-[#13b8c8] font-semibold transition-colors"
+                          className="hover:text-[#c2a66e] font-semibold transition-colors"
                         >
                           {student.name}
                         </Link>
@@ -605,19 +605,19 @@ export const StudentsPage: React.FC = () => {
                         )}
                       </div>
                       {student.email && (
-                        <div className="text-xs text-[#65788c] font-normal">{student.email}</div>
+                        <div className="text-xs text-[#8a7a60] font-normal">{student.email}</div>
                       )}
                     </td>
                     )}
 
                     {columns.visible('phone') && (
-                    <td className="py-3 whitespace-nowrap text-[#65788c] font-mono text-xs">
+                    <td className="py-3 whitespace-nowrap text-[#8a7a60] font-mono text-xs">
                       {student.phone}
                     </td>
                     )}
 
                     {columns.visible('joining') && (
-                    <td className="py-3 whitespace-nowrap text-[#65788c] text-xs">
+                    <td className="py-3 whitespace-nowrap text-[#8a7a60] text-xs">
                       {formatDate(student.joiningDate)}
                     </td>
                     )}
@@ -637,12 +637,12 @@ export const StudentsPage: React.FC = () => {
                           <span className={`badge membership-chip ${getStatusBadgeClass(activeMem.status)} text-[10px]`}>
                             {activeMem.planNameSnapshot}
                           </span>
-                          <div className="text-[11px] text-[#65788c] mt-0.5">
+                          <div className="text-[11px] text-[#8a7a60] mt-0.5">
                             Exp: {formatDate(activeMem.endDate)}
                           </div>
                         </div>
                       ) : (
-                        <span className="text-xs text-[#65788c] italic">No Active Plan</span>
+                        <span className="text-xs text-[#8a7a60] italic">No Active Plan</span>
                       )}
                     </td>
                     )}
@@ -654,13 +654,13 @@ export const StudentsPage: React.FC = () => {
                     )}
 
                     {columns.visible('seat') && (
-                    <td className="py-3 text-xs font-semibold text-[#0b1d2e]">
+                    <td className="py-3 text-xs font-semibold text-[#2c1f0e]">
                       {student.seatNumber ? (
-                        <span className="px-2 py-0.5 bg-[#edf4f8] border border-[#dce8f0] rounded text-[#0b1d2e] font-mono text-xs">
+                        <span className="px-2 py-0.5 bg-[#f5f0e6] border border-[#e8dcc8] rounded text-[#2c1f0e] font-mono text-xs">
                           {student.seatNumber}
                         </span>
                       ) : (
-                        <span className="text-[#65788c]">—</span>
+                        <span className="text-[#8a7a60]">—</span>
                       )}
                     </td>
                     )}
@@ -669,12 +669,12 @@ export const StudentsPage: React.FC = () => {
                     <td className="py-3 text-xs">
                       {student.seatStartTime && student.seatEndTime ? (
                         <div>
-                          <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap px-2 py-0.5 rounded-md bg-[#e7faff] text-[#075a70] border border-[#13b8c8]/30 font-semibold font-mono text-[11px]">
-                            <Clock className="w-3 h-3 shrink-0 text-[#13b8c8]" />
+                          <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap px-2 py-0.5 rounded-md bg-[#f5ead4] text-[#8b7340] border border-[#c2a66e]/30 font-semibold font-mono text-[11px]">
+                            <Clock className="w-3 h-3 shrink-0 text-[#c2a66e]" />
                             <span>{student.seatStartTime} – {student.seatEndTime}</span>
                           </span>
                           {student.seatDays && student.seatDays.length > 0 && (
-                            <div className="whitespace-nowrap text-[10px] text-[#65788c] mt-0.5 font-medium">
+                            <div className="whitespace-nowrap text-[10px] text-[#8a7a60] mt-0.5 font-medium">
                               {student.seatDays.length === 7
                                 ? 'All 7 days'
                                 : student.seatDays.map((d: string) => d.slice(0, 3)).join(', ')}
@@ -682,17 +682,17 @@ export const StudentsPage: React.FC = () => {
                           )}
                         </div>
                       ) : (
-                        <span className="text-[#65788c] text-xs font-medium">Full Day (24×7)</span>
+                        <span className="text-[#8a7a60] text-xs font-medium">Full Day (24×7)</span>
                       )}
                     </td>
                     )}
 
                     {columns.visible('actions') && (
                     <td className="py-3 text-right">
-                      <div className="inline-flex items-center gap-0.5 rounded-lg border border-[#dce8f0] bg-white p-0.5">
+                      <div className="inline-flex items-center gap-0.5 rounded-lg border border-[#e8dcc8] bg-white p-0.5">
                         <Link
                           to={`/admin/students/${student._id}`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#087d99] hover:bg-[#e7faff] transition-colors"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#a38b52] hover:bg-[#f5ead4] transition-colors"
                           title="View Student"
                         >
                           <Eye size={16} />
@@ -700,7 +700,7 @@ export const StudentsPage: React.FC = () => {
 
                         <Link
                           to={`/admin/students/${student._id}#profile`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#294055] hover:bg-[#f4f9fc] transition-colors"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-md text-[#294055] hover:bg-[#faf6f0] transition-colors"
                           title="Edit Student"
                         >
                           <Edit2 size={16} />
@@ -744,17 +744,17 @@ export const StudentsPage: React.FC = () => {
       {/* Confirmation Modal for Archiving */}
       {studentToArchive && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#060A14]/70 backdrop-blur-xs">
-          <div className="bg-white rounded-lg max-w-md w-full p-6 shadow-2xl border border-[#dce8f0] space-y-4 animate-fade-in">
+          <div className="bg-white rounded-lg max-w-md w-full p-6 shadow-2xl border border-[#e8dcc8] space-y-4 animate-fade-in">
             <div className="flex items-center gap-3 text-[#8B1A1A]">
               <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center flex-shrink-0">
                 <AlertCircle size={22} className="text-[#8B1A1A]" />
               </div>
               <div>
-                <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">Archive Student</h3>
-                <span className="text-xs text-[#65788c]">Status transition confirmation</span>
+                <h3 className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#2c1f0e]">Archive Student</h3>
+                <span className="text-xs text-[#8a7a60]">Status transition confirmation</span>
               </div>
             </div>
-            <p className="text-sm text-[#0b1d2e]">
+            <p className="text-sm text-[#2c1f0e]">
               Are you sure you want to archive <strong>{studentToArchive.name}</strong> (
               {studentToArchive.studentCode})? Their account status will transition to archived.
             </p>

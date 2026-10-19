@@ -88,32 +88,32 @@ export const AchieversShowcase: React.FC = () => {
       transition={{ duration: 0.6, delay: 0.15 }}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_top_left,_rgba(126,249,255,0.18),transparent_26%),linear-gradient(180deg,rgba(15,28,42,0.98),rgba(9,18,28,0.96))] p-5 sm:p-7 shadow-[0_25px_60px_rgba(2,9,18,0.58)] backdrop-blur-xl"
+      className="relative overflow-hidden rounded-[28px] border border-[#e7e5e4] bg-white p-5 sm:p-7 shadow-[0_20px_45px_rgba(28,25,23,0.06)]"
     >
       {/* Ambient background glows */}
-      <div className="pointer-events-none absolute -right-10 top-0 h-40 w-40 rounded-full bg-[#5dc4ff]/15 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-8 left-0 h-36 w-36 rounded-full bg-[#7ef9ff]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -right-10 top-0 h-40 w-40 rounded-full bg-[#d97706]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-8 left-0 h-36 w-36 rounded-full bg-[#f59e0b]/10 blur-3xl" />
 
       <div className="relative z-10">
         {/* Header: Achievers */}
-        <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
+        <div className="mb-5 flex items-center justify-between border-b border-[#e7e5e4] pb-4">
           <div>
             <div className="mb-1.5 flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-[#7ef9ff] shadow-[0_0_14px_rgba(126,249,255,0.9)] animate-pulse" />
-              <span className="font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.2em] text-[#cfeeff]">
+              <span className="h-2 w-2 rounded-full bg-[#d97706] shadow-sm animate-pulse" />
+              <span className="font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.2em] text-[#b45309]">
                 Hall of Fame • Selections
               </span>
             </div>
-            <h3 className="font-[family-name:var(--font-ui)] text-2xl sm:text-3xl font-black tracking-[-0.04em] text-white">
+            <h3 className="font-[family-name:var(--font-ui)] text-2xl sm:text-3xl font-black tracking-[-0.04em] text-[#1c1917]">
               Achievers
             </h3>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="hidden sm:inline-block px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-[#7ef9ff]">
+            <span className="hidden sm:inline-block px-2.5 py-1 rounded-full bg-[#f5f5f4] border border-[#e7e5e4] text-[10px] font-mono text-[#78716c]">
               {currentIndex + 1} / {ACHIEVERS.length}
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#7ef9ff]/25 bg-[#7ef9ff]/10 text-[#7ef9ff] shadow-[inset_0_0_0_1px_rgba(126,249,255,0.18)]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#d97706]/30 bg-[#fef3c7] text-[#d97706] shadow-xs">
               <Trophy className="h-5 w-5" />
             </div>
           </div>
@@ -202,12 +202,12 @@ export const AchieversShowcase: React.FC = () => {
                 onClick={() => {
                   if (offset === 1) handleNext();
                 }}
-                className={`absolute h-[300px] w-[92%] touch-pan-y select-none overflow-hidden rounded-2xl bg-[#091522] sm:h-[335px] sm:w-[94%] ${
+                className={`absolute h-[300px] w-[92%] touch-pan-y select-none overflow-hidden rounded-2xl bg-[#fbfbfa] sm:h-[335px] sm:w-[94%] ${
                   offset === 0
-                    ? 'border-2 border-[#13b8c8]/50 shadow-[0_20px_50px_rgba(2,10,20,0.75)]'
+                    ? 'border-2 border-[#d97706]/60 shadow-[0_18px_40px_rgba(28,25,23,0.12)]'
                     : offset === 1
-                    ? 'border border-white/20 shadow-[0_12px_32px_rgba(2,10,20,0.45)]'
-                    : 'border border-white/10 shadow-[0_8px_20px_rgba(2,10,20,0.3)]'
+                    ? 'border border-[#d6d3d1] shadow-[0_10px_25px_rgba(28,25,23,0.08)]'
+                    : 'border border-[#e7e5e4] shadow-[0_6px_16px_rgba(28,25,23,0.05)]'
                 }`}
                 style={{ willChange: 'transform, opacity' }}
               >
@@ -225,21 +225,21 @@ export const AchieversShowcase: React.FC = () => {
                     offset === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none'
                   }`}
                 >
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-[#13b8c8]/40 text-[11px] font-bold text-[#7ef9ff] shadow-md">
-                    <Award className="w-3.5 h-3.5 text-[#13b8c8]" />
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-[#d97706]/40 text-[11px] font-bold text-[#b45309] shadow-sm">
+                    <Award className="w-3.5 h-3.5 text-[#d97706]" />
                     <span>{achiever.badge}</span>
                   </span>
                 </div>
 
                 {/* Bottom Details Overlay - smoothly visible on active card */}
                 <div
-                  className={`absolute inset-x-0 bottom-0 pt-16 pb-4 px-4 bg-gradient-to-t from-black/95 via-black/75 to-transparent z-20 text-left transition-opacity duration-300 ${
+                  className={`absolute inset-x-0 bottom-0 pt-16 pb-4 px-4 bg-gradient-to-t from-black/85 via-black/50 to-transparent z-20 text-left transition-opacity duration-300 ${
                     offset === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none'
                   }`}
                 >
                   <div className="flex items-center gap-1.5 mb-0.5">
-                    <span className="w-2 h-2 rounded-full bg-[#13b8c8] animate-pulse" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#7ef9ff]">
+                    <span className="w-2 h-2 rounded-full bg-[#f59e0b] animate-pulse" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-200">
                       {achiever.exam}
                     </span>
                   </div>
@@ -259,7 +259,7 @@ export const AchieversShowcase: React.FC = () => {
             type="button"
             onClick={handlePrev}
             aria-label="Previous Achiever"
-            className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/85 text-white/90 flex items-center justify-center z-40 border border-white/20 backdrop-blur-sm transition-transform active:scale-90"
+            className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/85 hover:bg-white text-[#1c1917] flex items-center justify-center z-40 border border-[#e7e5e4] backdrop-blur-sm transition-transform active:scale-90 shadow-sm"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -267,14 +267,14 @@ export const AchieversShowcase: React.FC = () => {
             type="button"
             onClick={handleNext}
             aria-label="Next Achiever"
-            className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/85 text-white/90 flex items-center justify-center z-40 border border-white/20 backdrop-blur-sm transition-transform active:scale-90"
+            className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/85 hover:bg-white text-[#1c1917] flex items-center justify-center z-40 border border-[#e7e5e4] backdrop-blur-sm transition-transform active:scale-90 shadow-sm"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
 
         {/* Progress & Slide Dots Indicator */}
-        <div className="flex items-center justify-between pt-2 border-t border-white/10">
+        <div className="flex items-center justify-between pt-2 border-t border-[#e7e5e4]">
           <div className="flex items-center gap-1.5">
             {ACHIEVERS.map((_, i) => (
               <button
@@ -286,16 +286,16 @@ export const AchieversShowcase: React.FC = () => {
                 }}
                 className={`h-1.5 rounded-full transition-all duration-500 ${
                   currentIndex === i
-                    ? 'w-6 bg-gradient-to-r from-[#087d99] to-[#7ef9ff] shadow-[0_0_8px_rgba(126,249,255,0.6)]'
-                    : 'w-2 bg-white/20 hover:bg-white/40'
+                    ? 'w-6 bg-gradient-to-r from-[#b45309] to-[#d97706] shadow-sm'
+                    : 'w-2 bg-[#d6d3d1] hover:bg-[#a8a29e]'
                 }`}
                 aria-label={`Go to achiever ${i + 1}`}
               />
             ))}
           </div>
 
-          <div className="flex items-center gap-1 text-[11px] font-semibold text-[#7ef9ff]">
-            <Sparkles className="w-3.5 h-3.5 text-[#13b8c8]" />
+          <div className="flex items-center gap-1 text-[11px] font-semibold text-[#b45309]">
+            <Sparkles className="w-3.5 h-3.5 text-[#d97706]" />
             <span>Success Stories</span>
           </div>
         </div>

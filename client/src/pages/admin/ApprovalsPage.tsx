@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { UserCheck, Check, X, Phone, Mail, Clock } from 'lucide-react';
 import { studentsApi, plansApi, membershipsApi } from '../../lib/api';
@@ -144,7 +144,7 @@ export const ApprovalsPage: React.FC = () => {
       {/* Header */}
       <div className="page-header">
         <div>
-          <h1 className="page-title text-2xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+          <h1 className="page-title text-2xl font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e]">
             Pending Student Registrations
           </h1>
           <p className="text-xs text-[#64748B] mt-1">
@@ -161,7 +161,7 @@ export const ApprovalsPage: React.FC = () => {
       </div>
 
       {/* Main Table */}
-      <div className="bg-white rounded-2xl border border-[#dce8f0] shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#e8dcc8] shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-sm text-[#64748B]">Loading pending registrations...</div>
         ) : students.length === 0 ? (
@@ -169,7 +169,7 @@ export const ApprovalsPage: React.FC = () => {
             <div className="w-14 h-14 rounded-full bg-[#D1FAE5] text-[#065F46] flex items-center justify-center mx-auto mb-4">
               <UserCheck className="w-7 h-7" />
             </div>
-            <h3 className="text-lg font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mb-1">Queue is Clear</h3>
+            <h3 className="text-lg font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e] mb-1">Queue is Clear</h3>
             <p className="text-xs text-[#64748B] max-w-sm mx-auto">
               There are no pending student applications awaiting review right now.
             </p>
@@ -181,12 +181,12 @@ export const ApprovalsPage: React.FC = () => {
               {students.map((student) => (
                 <div
                   key={student._id}
-                  className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd]/60 p-4 shadow-xs space-y-3"
+                  className="rounded-2xl border border-[#e8dcc8] bg-[#f8fbfd]/60 p-4 shadow-xs space-y-3"
                 >
                   {/* Top row: Applicant Name + Provisional Student ID */}
                   <div className="flex items-center justify-between gap-2">
-                    <div className="font-bold text-sm text-[#0b1d2e]">{student.name}</div>
-                    <span className="font-mono font-bold text-xs text-[#0b1d2e] bg-[#f4f9fc] border border-[#dce8f0] px-2 py-0.5 rounded">
+                    <div className="font-bold text-sm text-[#2c1f0e]">{student.name}</div>
+                    <span className="font-mono font-bold text-xs text-[#2c1f0e] bg-[#faf6f0] border border-[#e8dcc8] px-2 py-0.5 rounded">
                       {student.studentCode}
                     </span>
                   </div>
@@ -197,9 +197,9 @@ export const ApprovalsPage: React.FC = () => {
                   )}
 
                   {/* Contact row: Phone + Email */}
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-[#475569] pt-2 border-t border-[#e7faff]">
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-[#475569] pt-2 border-t border-[#f5ead4]">
                     <div className="flex items-center gap-1.5 font-medium">
-                      <Phone className="w-3.5 h-3.5 text-[#13b8c8]" />
+                      <Phone className="w-3.5 h-3.5 text-[#c2a66e]" />
                       <a href={`tel:${student.phone}`} className="hover:underline font-mono">{student.phone}</a>
                     </div>
                     {student.email && (
@@ -211,9 +211,9 @@ export const ApprovalsPage: React.FC = () => {
                   </div>
 
                   {/* Applied Date & Notes */}
-                  <div className="flex items-center justify-between gap-2 text-xs pt-2 border-t border-[#e7faff]">
+                  <div className="flex items-center justify-between gap-2 text-xs pt-2 border-t border-[#f5ead4]">
                     <div className="text-[#64748B]">
-                      Applied: <span className="text-[#0b1d2e] font-medium">{formatDate(student.createdAt || student.joiningDate)}</span>
+                      Applied: <span className="text-[#2c1f0e] font-medium">{formatDate(student.createdAt || student.joiningDate)}</span>
                     </div>
                     {student.notes && (
                       <div className="text-right text-[11px] text-[#334155] italic max-w-[55%] truncate">
@@ -223,13 +223,13 @@ export const ApprovalsPage: React.FC = () => {
                   </div>
 
                   {/* Action Buttons: Approve & Reject (min 44px touch targets) */}
-                  <div className="pt-2 border-t border-[#e7faff] flex items-center gap-2">
+                  <div className="pt-2 border-t border-[#f5ead4] flex items-center gap-2">
                     <button
                       type="button"
                       onClick={() => openApproveModal(student)}
-                      className="flex-1 min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#0b1d2e] hover:bg-[#13b8c8] text-white text-xs font-semibold shadow-xs transition-colors"
+                      className="flex-1 min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#2c1f0e] hover:bg-[#c2a66e] text-white text-xs font-semibold shadow-xs transition-colors"
                     >
-                      <Check className="w-4 h-4 text-[#7ef9ff]" />
+                      <Check className="w-4 h-4 text-[#e8d5a8]" />
                       <span>Approve</span>
                     </button>
                     <button
@@ -249,7 +249,7 @@ export const ApprovalsPage: React.FC = () => {
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-[#0b1d2e] text-white text-[11px] font-semibold uppercase tracking-wider">
+                <tr className="bg-[#2c1f0e] text-white text-[11px] font-semibold uppercase tracking-wider">
                   {APPROVAL_COLUMNS.filter((column) => columns.visible(column.id)).map((column) => (
                     <th
                       key={column.id}
@@ -260,17 +260,17 @@ export const ApprovalsPage: React.FC = () => {
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#e7faff] text-sm">
+              <tbody className="divide-y divide-[#f5ead4] text-sm">
                 {students.map((student) => (
-                  <tr key={student._id} className="hover:bg-[#f4f9fc]/50 transition-colors">
+                  <tr key={student._id} className="hover:bg-[#faf6f0]/50 transition-colors">
                     {columns.visible('code') && (
-                    <td className="py-4 px-4 font-mono font-bold text-[#0b1d2e]">
+                    <td className="py-4 px-4 font-mono font-bold text-[#2c1f0e]">
                       {student.studentCode}
                     </td>
                     )}
                     {columns.visible('applicant') && (
                     <td className="py-4 px-4">
-                      <div className="font-semibold text-[#0b1d2e]">{student.name}</div>
+                      <div className="font-semibold text-[#2c1f0e]">{student.name}</div>
                       {student.address && (
                         <div className="text-[11px] text-[#64748B] truncate max-w-xs">{student.address}</div>
                       )}
@@ -279,7 +279,7 @@ export const ApprovalsPage: React.FC = () => {
                     {columns.visible('contact') && (
                     <td className="py-4 px-4 text-xs text-[#475569]">
                       <div className="flex items-center gap-1.5 font-medium">
-                        <Phone className="w-3.5 h-3.5 text-[#13b8c8]" />
+                        <Phone className="w-3.5 h-3.5 text-[#c2a66e]" />
                         <a href={`tel:${student.phone}`} className="hover:underline">{student.phone}</a>
                       </div>
                       {student.email && (
@@ -335,42 +335,42 @@ export const ApprovalsPage: React.FC = () => {
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-white rounded-3xl p-6 md:p-8 max-w-lg w-full border border-[#dce8f0] shadow-2xl relative"
+            className="bg-white rounded-3xl p-6 md:p-8 max-w-lg w-full border border-[#e8dcc8] shadow-2xl relative"
           >
-            <div className="flex justify-between items-start mb-6 pb-4 border-b border-[#e7faff]">
+            <div className="flex justify-between items-start mb-6 pb-4 border-b border-[#f5ead4]">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#13b8c8]">Registration Review</span>
-                <h3 className="text-xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mt-0.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#c2a66e]">Registration Review</span>
+                <h3 className="text-xl font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e] mt-0.5">
                   Enroll {selectedStudent.name}
                 </h3>
               </div>
               <button
                 onClick={() => setModalOpen(false)}
-                className="text-[#64748B] hover:text-[#0b1d2e]"
+                className="text-[#64748B] hover:text-[#2c1f0e]"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="space-y-4">
-              <div className="p-3.5 bg-[#f4f9fc] rounded-xl text-xs space-y-1">
+              <div className="p-3.5 bg-[#faf6f0] rounded-xl text-xs space-y-1">
                 <div className="flex justify-between">
                   <span className="text-[#64748B]">Applicant:</span>
-                  <strong className="text-[#0b1d2e]">{selectedStudent.name}</strong>
+                  <strong className="text-[#2c1f0e]">{selectedStudent.name}</strong>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#64748B]">Phone:</span>
-                  <strong className="text-[#0b1d2e]">{selectedStudent.phone}</strong>
+                  <strong className="text-[#2c1f0e]">{selectedStudent.phone}</strong>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#64748B]">Student Code:</span>
-                  <strong className="font-mono text-[#0b1d2e]">{selectedStudent.studentCode}</strong>
+                  <strong className="font-mono text-[#2c1f0e]">{selectedStudent.studentCode}</strong>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-[#dce8f0] bg-[#f8fbfd] p-3.5">
-                <div className="mb-2 flex items-center gap-2 text-xs font-bold text-[#0b1d2e]">
-                  <Clock className="h-3.5 w-3.5 text-[#13b8c8]" />
+              <div className="rounded-xl border border-[#e8dcc8] bg-[#f8fbfd] p-3.5">
+                <div className="mb-2 flex items-center gap-2 text-xs font-bold text-[#2c1f0e]">
+                  <Clock className="h-3.5 w-3.5 text-[#c2a66e]" />
                   Requested study schedule
                 </div>
                 <p className="text-xs text-[#475569]">
@@ -380,13 +380,13 @@ export const ApprovalsPage: React.FC = () => {
                   ).map((day: string) => day.slice(0, 3)).join(', ')}
                   {' · '}{selectedStudent.seatStartTime || '06:00'}–{selectedStudent.seatEndTime || '14:00'}
                 </p>
-                <label className="mt-3 block text-[11px] font-bold uppercase tracking-wider text-[#0b1d2e]">
+                <label className="mt-3 block text-[11px] font-bold uppercase tracking-wider text-[#2c1f0e]">
                   Assign a seat (optional)
                   <select
                     value={selectedSeatNumber}
                     onChange={(event) => setSelectedSeatNumber(event.target.value)}
                     disabled={seatAvailabilityLoading}
-                    className="mt-1.5 w-full rounded-xl border border-[#dce8f0] bg-white px-3.5 py-2.5 text-base md:text-sm font-normal focus:border-[#13b8c8] focus:outline-none"
+                    className="mt-1.5 w-full rounded-xl border border-[#e8dcc8] bg-white px-3.5 py-2.5 text-base md:text-sm font-normal focus:border-[#c2a66e] focus:outline-none"
                   >
                     <option value="">
                       {seatAvailabilityLoading
@@ -406,7 +406,7 @@ export const ApprovalsPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#2c1f0e] mb-1.5">
                   Actual Library Joining Date *
                 </label>
                 <input
@@ -414,7 +414,7 @@ export const ApprovalsPage: React.FC = () => {
                   required
                   value={joiningDate}
                   onChange={(e) => setJoiningDate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#dce8f0] text-base md:text-sm focus:outline-none focus:border-[#13b8c8]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#e8dcc8] text-base md:text-sm focus:outline-none focus:border-[#c2a66e]"
                 />
                 <span className="text-[11px] text-[#64748B] mt-1 block">
                   Stored distinctly from application date for strict audit tracking.
@@ -422,13 +422,13 @@ export const ApprovalsPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#2c1f0e] mb-1.5">
                   Initial Membership Plan
                 </label>
                 <select
                   value={selectedPlanId}
                   onChange={(e) => setSelectedPlanId(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#dce8f0] text-base md:text-sm focus:outline-none focus:border-[#13b8c8]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#e8dcc8] text-base md:text-sm focus:outline-none focus:border-[#c2a66e]"
                 >
                   <option value="">-- Assign Later --</option>
                   {plans.map((p) => (
@@ -439,11 +439,11 @@ export const ApprovalsPage: React.FC = () => {
                 </select>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#FEF3C7]/40 border border-[#13b8c8]/30 text-[11px] text-[#92400E] leading-relaxed">
+              <div className="p-3 rounded-xl bg-[#FEF3C7]/40 border border-[#c2a66e]/30 text-[11px] text-[#92400E] leading-relaxed">
                 Approving this application activates the student's credentials. They will now be able to log in to the student portal.
               </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-[#e7faff]">
+              <div className="flex justify-end gap-3 pt-4 border-t border-[#f5ead4]">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Home, Sparkles, CreditCard, PhoneCall, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -40,14 +40,14 @@ export const MobileBottomNav: React.FC = () => {
                     size={22}
                     className={`transition-transform duration-200 ${
                       isActive
-                        ? 'text-[#087d99] stroke-[2.4] scale-110'
-                        : 'text-[#65788c] stroke-[1.8]'
+                        ? 'text-[#a38b52] stroke-[2.4] scale-110'
+                        : 'text-[#8a7a60] stroke-[1.8]'
                     }`}
                   />
                 </div>
                 <span
                   className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
-                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                    isActive ? 'font-bold text-[#a38b52]' : 'font-medium text-[#8a7a60]'
                   }`}
                 >
                   {item.label}

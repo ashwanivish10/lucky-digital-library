@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -174,7 +174,7 @@ export const RecordPaymentPage: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-6 pb-24 md:pb-6">
       <div className="page-header">
         <div>
-          <h1 className="page-title text-2xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+          <h1 className="page-title text-2xl font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e]">
             Record Fee Payment
           </h1>
           <p className="text-xs text-[#64748B] mt-1">
@@ -187,23 +187,23 @@ export const RecordPaymentPage: React.FC = () => {
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="bg-white rounded-3xl p-8 md:p-12 border border-[#dce8f0] shadow-lg text-center"
+          className="bg-white rounded-3xl p-8 md:p-12 border border-[#e8dcc8] shadow-lg text-center"
         >
           <div className="w-16 h-16 rounded-full bg-[#D1FAE5] text-[#065F46] flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-8 h-8" />
           </div>
-          <span className="text-xs font-bold uppercase tracking-wider text-[#13b8c8]">Transaction Successful</span>
-          <h2 className="text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mt-1 mb-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#c2a66e]">Transaction Successful</span>
+          <h2 className="text-3xl font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e] mt-1 mb-2">
             Payment Recorded & Ledger Updated
           </h2>
           <p className="text-sm text-[#64748B] max-w-md mx-auto mb-6">
             The fee received has been added to the library ledger under unique receipt ID:
           </p>
 
-          <div className="bg-[#f4f9fc] p-6 rounded-2xl border border-[#dce8f0] max-w-sm mx-auto mb-8 space-y-2 text-left">
+          <div className="bg-[#faf6f0] p-6 rounded-2xl border border-[#e8dcc8] max-w-sm mx-auto mb-8 space-y-2 text-left">
             <div className="flex justify-between text-xs">
               <span className="text-[#64748B]">Receipt Number:</span>
-              <strong className="font-mono text-[#0b1d2e]">{recordedPayment.receiptNumber}</strong>
+              <strong className="font-mono text-[#2c1f0e]">{recordedPayment.receiptNumber}</strong>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-[#64748B]">Amount Received:</span>
@@ -211,11 +211,11 @@ export const RecordPaymentPage: React.FC = () => {
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-[#64748B]">Payment Method:</span>
-              <span className="uppercase text-[11px] font-bold text-[#0b1d2e]">{recordedPayment.paymentMethod}</span>
+              <span className="uppercase text-[11px] font-bold text-[#2c1f0e]">{recordedPayment.paymentMethod}</span>
             </div>
             <div className="flex justify-between text-xs">
               <span className="text-[#64748B]">Payment Date:</span>
-              <span className="text-[#0b1d2e]">{formatDate(recordedPayment.paymentDate)}</span>
+              <span className="text-[#2c1f0e]">{formatDate(recordedPayment.paymentDate)}</span>
             </div>
           </div>
 
@@ -243,7 +243,7 @@ export const RecordPaymentPage: React.FC = () => {
           </div>
         </motion.div>
       ) : (
-        <form noValidate onSubmit={handleSubmit} className="bg-white rounded-3xl p-5 sm:p-8 border border-[#dce8f0] shadow-sm">
+        <form noValidate onSubmit={handleSubmit} className="bg-white rounded-3xl p-5 sm:p-8 border border-[#e8dcc8] shadow-sm">
           <FormSteps
             steps={['Student', 'Payment']}
             canContinue={(index) => {
@@ -254,7 +254,7 @@ export const RecordPaymentPage: React.FC = () => {
               return true;
             }}
             footer={
-              <div className="pt-2 border-t border-[#dce8f0] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-4">
+              <div className="pt-2 border-t border-[#e8dcc8] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-4">
                 <div className="text-xs text-[#64748B] flex items-center justify-center sm:justify-start gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-[#2D6A4F] shrink-0" />
                   <span>Generates audit-verified sequential receipt code</span>
@@ -279,17 +279,17 @@ export const RecordPaymentPage: React.FC = () => {
             }
           >
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-wider text-[#0b1d2e] mb-4 flex items-center gap-2">
-              <User className="w-4 h-4 text-[#13b8c8]" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[#2c1f0e] mb-4 flex items-center gap-2">
+              <User className="w-4 h-4 text-[#c2a66e]" />
               1. Select Student
             </h2>
 
             {selectedStudent ? (
-              <div className="p-4 bg-[#f4f9fc] rounded-2xl border border-[#13b8c8]/30 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+              <div className="p-4 bg-[#faf6f0] rounded-2xl border border-[#c2a66e]/30 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#0b1d2e]">{selectedStudent.name}</span>
-                    <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-white text-[#0b1d2e] border">
+                    <span className="font-[family-name:var(--font-ui)] font-bold text-lg text-[#2c1f0e]">{selectedStudent.name}</span>
+                    <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-white text-[#2c1f0e] border">
                       {selectedStudent.studentCode}
                     </span>
                   </div>
@@ -326,19 +326,19 @@ export const RecordPaymentPage: React.FC = () => {
                     onFocus={() => setListOpen(true)}
                     onBlur={() => setTimeout(() => setListOpen(false), 180)}
                     placeholder="Search or pick a student..."
-                    className="w-full pl-10 pr-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/40 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
+                    className="w-full pl-10 pr-4 py-3 min-h-[48px] rounded-xl border border-[#e8dcc8] bg-[#faf6f0]/40 text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e] text-base sm:text-sm"
                   />
                 </div>
 
                 {listOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#dce8f0] rounded-2xl shadow-xl z-20 max-h-72 overflow-y-auto divide-y divide-[#e7faff]">
-                    <div className="px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-[#65788c]">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#e8dcc8] rounded-2xl shadow-xl z-20 max-h-72 overflow-y-auto divide-y divide-[#f5ead4]">
+                    <div className="px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-[#8a7a60]">
                       {searchTerm.trim() ? 'Search results' : 'Recent students'}
                     </div>
                     {isSearching ? (
-                      <div className="px-4 py-3 text-sm text-[#65788c]">Loading students...</div>
+                      <div className="px-4 py-3 text-sm text-[#8a7a60]">Loading students...</div>
                     ) : searchResults.length === 0 ? (
-                      <div className="px-4 py-3 text-sm text-[#65788c]">No students found.</div>
+                      <div className="px-4 py-3 text-sm text-[#8a7a60]">No students found.</div>
                     ) : (
                       searchResults.map((s) => (
                         <button
@@ -348,13 +348,13 @@ export const RecordPaymentPage: React.FC = () => {
                             event.preventDefault();
                             loadStudentDetails(s._id);
                           }}
-                          className="w-full px-4 py-3 text-left hover:bg-[#f4f9fc] flex justify-between items-center transition-colors"
+                          className="w-full px-4 py-3 text-left hover:bg-[#faf6f0] flex justify-between items-center transition-colors"
                         >
                           <div>
-                            <div className="font-semibold text-sm text-[#0b1d2e]">{s.name}</div>
+                            <div className="font-semibold text-sm text-[#2c1f0e]">{s.name}</div>
                             <div className="text-xs text-[#64788c] font-mono">{s.studentCode} &bull; {s.phone}</div>
                           </div>
-                          <span className="text-xs font-semibold text-[#087d99] flex items-center gap-1">
+                          <span className="text-xs font-semibold text-[#a38b52] flex items-center gap-1">
                             Select <ArrowRight className="w-3.5 h-3.5" />
                           </span>
                         </button>
@@ -367,18 +367,18 @@ export const RecordPaymentPage: React.FC = () => {
           </div>
 
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-wider text-[#0b1d2e] mb-4 flex items-center gap-2">
-              <CreditCard className="w-4 h-4 text-[#13b8c8]" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[#2c1f0e] mb-4 flex items-center gap-2">
+              <CreditCard className="w-4 h-4 text-[#c2a66e]" />
               2. Transaction Particulars
             </h2>
 
             <div className="grid md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#2c1f0e] mb-2">
                   Amount Received (INR) *
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-lg font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] pointer-events-none">₹</span>
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-lg font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e] pointer-events-none">₹</span>
                   <input
                     type="number"
                     min="1"
@@ -386,19 +386,19 @@ export const RecordPaymentPage: React.FC = () => {
                     value={amountINR}
                     onChange={(e) => setAmountINR(e.target.value === '' ? '' : Number(e.target.value))}
                     placeholder="1200"
-                    className="w-full pl-9 pr-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-lg font-semibold"
+                    className="w-full pl-9 pr-4 py-3 min-h-[48px] rounded-xl border border-[#e8dcc8] text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e] text-base sm:text-lg font-semibold"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#2c1f0e] mb-2">
                   Payment Method *
                 </label>
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value as any)}
-                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-white text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#e8dcc8] bg-white text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e] text-base sm:text-sm"
                 >
                   <option value="cash">Cash (In-person)</option>
                   <option value="upi">UPI (GPay / PhonePe / Paytm / BHIM)</option>
@@ -411,7 +411,7 @@ export const RecordPaymentPage: React.FC = () => {
 
             <div className="grid md:grid-cols-3 gap-6 mb-6">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#2c1f0e] mb-2">
                   Payment Date *
                 </label>
                 <input
@@ -419,12 +419,12 @@ export const RecordPaymentPage: React.FC = () => {
                   required
                   value={paymentDate}
                   onChange={(e) => setPaymentDate(e.target.value)}
-                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#e8dcc8] text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e] text-base sm:text-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#2c1f0e] mb-2">
                   Fee Category
                 </label>
                 <input
@@ -432,12 +432,12 @@ export const RecordPaymentPage: React.FC = () => {
                   value={feeCategory}
                   onChange={(e) => setFeeCategory(e.target.value)}
                   placeholder="e.g. Monthly Fee"
-                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#e8dcc8] text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e] text-base sm:text-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#2c1f0e] mb-2">
                   Period Label
                 </label>
                 <input
@@ -445,14 +445,14 @@ export const RecordPaymentPage: React.FC = () => {
                   value={periodLabel}
                   onChange={(e) => setPeriodLabel(e.target.value)}
                   placeholder="e.g. November 2026"
-                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#e8dcc8] text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e] text-base sm:text-sm"
                 />
               </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#2c1f0e] mb-2">
                   Transaction Reference / UTR (Optional)
                 </label>
                 <input
@@ -460,12 +460,12 @@ export const RecordPaymentPage: React.FC = () => {
                   value={transactionReference}
                   onChange={(e) => setTransactionReference(e.target.value)}
                   placeholder="e.g. UPI Ref 324158912389"
-                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm font-mono"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#e8dcc8] text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e] text-base sm:text-sm font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0b1d2e] mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#2c1f0e] mb-2">
                   Internal Remarks / Notes (Optional)
                 </label>
                 <input
@@ -473,7 +473,7 @@ export const RecordPaymentPage: React.FC = () => {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="e.g. Received partial payment; balance to follow"
-                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] text-base sm:text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#e8dcc8] text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e] text-base sm:text-sm"
                 />
               </div>
             </div>

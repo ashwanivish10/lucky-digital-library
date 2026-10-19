@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -28,6 +28,7 @@ import { SeatMap } from '../../components/common/SeatMap';
 import AboutStorySection from '../../components/public/AboutStorySection';
 import HowToJoinSection from '../../components/public/HowToJoinSection';
 import AchieversShowcase from '../../components/public/AchieversShowcase';
+import { PrismaHero } from '../../components/ui/prisma-hero';
 
 const defaultFacilities = [
   { icon: 'wifi', title: 'High-speed optical Wi-Fi', description: 'Reliable dual-band fiber internet for focused study sessions and exams.', isVisible: true, order: 1 },
@@ -122,10 +123,10 @@ export const HomePage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f4f9fc]">
+      <div className="min-h-screen flex items-center justify-center bg-[#faf6f0]">
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-3 border-[#13b8c8] border-t-transparent rounded-full animate-spin mx-auto shadow-md" />
-          <p className="font-[family-name:var(--font-ui)] tracking-widest text-[#0b1d2e] uppercase text-xs font-semibold">
+          <div className="w-12 h-12 border-3 border-[#c2a66e] border-t-transparent rounded-full animate-spin mx-auto shadow-md" />
+          <p className="font-[family-name:var(--font-ui)] tracking-widest text-[#2c1f0e] uppercase text-xs font-semibold">
             Opening {libraryName}...
           </p>
         </div>
@@ -134,150 +135,21 @@ export const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="flex w-full flex-col overflow-x-clip bg-[#f4f9fc] text-[#0b1d2e]">
+    <div className="flex w-full flex-col overflow-x-clip bg-[#fbfbfa] text-[#1c1917]">
       {/* ========================================================= */}
-      {/* 1. LUXURY EDITORIAL HERO SECTION                         */}
+      {/* 1. PRISMA HERO COMPONENT SECTION                            */}
       {/* ========================================================= */}
-      <section className="relative min-h-[92vh] bg-[radial-gradient(circle_at_top_right,_rgba(93,196,255,0.18),_transparent_26%),radial-gradient(circle_at_bottom_left,_rgba(127,140,255,0.18),_transparent_22%),linear-gradient(135deg,#040d18_0%,#071d2d_38%,#0a1830_100%)] text-white flex items-center overflow-hidden border-b border-white/10 py-16 sm:py-24">
-        {/* Modern SaaS glows */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-[-10%] right-[-8%] w-[720px] h-[720px] rounded-full blur-[160px] opacity-35"
-          style={{ background: 'radial-gradient(circle, rgba(93,196,255,0.9) 0%, transparent 60%)' }}
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-[-18%] left-[-8%] w-[660px] h-[660px] rounded-full blur-[170px] opacity-25"
-          style={{ background: 'radial-gradient(circle, rgba(126,249,255,0.7) 0%, transparent 62%)' }}
-        />
-
-        {/* Clean product grid */}
-        <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:4.5rem_4.5rem] pointer-events-none" />
-
-        <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
-          <div className="grid items-center gap-12 lg:gap-16 lg:grid-cols-12">
-            {/* Left Content Column (7 cols) */}
-            <div className="lg:col-span-7">
-              {/* Eyebrow Pill */}
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#dfeeff] font-[family-name:var(--font-ui)] text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] mb-6 backdrop-blur-md shadow-[0_0_20px_rgba(93,196,255,0.12)]"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-[#7ef9ff]" />
-                <span>Best Library In MauAima • Prayagraj</span>
-              </motion.div>
-
-              {/* Commanding Headline */}
-              <motion.h1
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.08 }}
-                className="font-[family-name:var(--font-ui)] text-4xl sm:text-5xl lg:text-6xl xl:text-[5.4rem] font-black tracking-[-0.08em] text-white leading-[0.9] mb-6"
-              >
-                Your study flow,
-                <br />
-                <span className="text-gold-gradient font-black">upgraded</span>.
-              </motion.h1>
-
-              {/* Sub-deck Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.16 }}
-                className="text-base sm:text-lg text-white/75 leading-relaxed max-w-2xl font-medium mb-8"
-              >
-                {settings?.description ||
-                  'Engineered exclusively for competitive aspirants and serious scholars. 58 dedicated ergonomic cabins, pin-drop silent atmosphere, dual-band optical fiber, and 24×7 round-the-clock access all 7 days in Prayagraj.'}
-              </motion.p>
-
-              {/* Action Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.24 }}
-                className="flex flex-col items-stretch gap-3 mb-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
-              >
-                <Link
-                  to="/membership"
-                  className="btn btn-primary flex w-full items-center justify-center gap-2.5 rounded-full px-8 py-4 text-xs font-black uppercase tracking-[0.14em] shadow-[0_18px_40px_rgba(93,196,255,0.28)] transition-all hover:shadow-[0_24px_50px_rgba(126,249,255,0.22)] sm:w-auto"
-                >
-                  <span>Explore Membership</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  to="/facilities"
-                  className="btn flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-7 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-[0_10px_24px_rgba(7,14,26,0.2)] transition-all hover:border-[#7ef9ff] hover:bg-[#7ef9ff]/10 sm:w-auto"
-                >
-                  <Armchair className="w-4 h-4 text-[#7ef9ff]" />
-                  <span>View 58-Desk Layout</span>
-                </Link>
-              </motion.div>
-
-              {/* Social Proof Bar */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.7, delay: 0.32 }}
-                className="flex items-center gap-3 text-xs text-white/70 flex-wrap"
-              >
-                <div className="flex items-center text-[#7ef9ff]">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                  ))}
-                </div>
-                <span className="font-semibold text-white/90">4.9 / 5.0 Rating on Google Maps</span>
-                <span className="text-white/30 hidden sm:inline">•</span>
-                <span className="text-white/60 hidden sm:inline">200+ Enrolled Scholars</span>
-              </motion.div>
-            </div>
-
-            {/* Right Column: Achievers Showcase (5 cols) */}
-            <div className="lg:col-span-5">
-              <AchieversShowcase />
-            </div>
-          </div>
-
-          {/* Bottom Prestige Metrics Ribbon */}
-          <div className="mt-16 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 text-center md:grid-cols-4 md:divide-x md:divide-white/10 md:divide-y-0">
-            <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">58 Desks</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a9d9ff]">
-                Acoustic Cabins
-              </p>
-            </div>
-            <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">200+</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a9d9ff]">
-                Enrolled Scholars
-              </p>
-            </div>
-            <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">24×7</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a9d9ff]">
-                Open 24 Hours • All 7 Days
-              </p>
-            </div>
-            <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">4.9 ★</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a9d9ff]">
-                Google Rating
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PrismaHero />
 
       {/* ========================================================= */}
       {/* 2. FACILITY HIGHLIGHTS                                     */}
       {/* ========================================================= */}
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(93,196,255,0.12),_transparent_25%),linear-gradient(180deg,#0b1624_0%,#091725_100%)] py-20 text-white">
-        <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:44px_44px]" />
+      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(217,119,6,0.06),_transparent_25%),linear-gradient(180deg,#f5f3ef_0%,#fbfbfa_100%)] py-20 text-[#1c1917]">
+        <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(28,25,23,0.06)_1px,transparent_1px),linear-gradient(to_right,rgba(28,25,23,0.06)_1px,transparent_1px)] [background-size:44px_44px]" />
         <div className="relative mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="mb-10 text-center">
-            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#7ef9ff]">Built for focus</p>
-            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">Everything serious students need</h2>
+            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#d97706]">Built for focus</p>
+            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">Everything serious students need</h2>
           </div>
 
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -286,14 +158,14 @@ export const HomePage: React.FC = () => {
                 key={idx}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.2 }}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-[0_18px_36px_rgba(2,8,17,0.24)] backdrop-blur-sm"
+                className="rounded-2xl border border-[#e7e5e4] bg-white p-6 shadow-[0_10px_25px_rgba(28,25,23,0.04)]"
               >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#7ef9ff]/10 text-[#7ef9ff] ring-1 ring-[#7ef9ff]/20">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#fef3c7] text-[#d97706] ring-1 ring-[#f59e0b]/30">
                   <DynamicIcon name={item.icon} className="h-5 w-5" />
                 </div>
-                <div className="mb-2 text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.22em] text-[#a9d9ff]">0{idx + 1}</div>
-                <h3 className="font-[family-name:var(--font-ui)] text-xl font-bold tracking-[-0.04em] text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/70">{item.description}</p>
+                <div className="mb-2 text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.22em] text-[#b45309]">0{idx + 1}</div>
+                <h3 className="font-[family-name:var(--font-ui)] text-xl font-bold tracking-[-0.03em] text-[#1c1917]">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[#78716c]">{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -308,14 +180,14 @@ export const HomePage: React.FC = () => {
       {/* ========================================================= */}
       {/* 3. INTERACTIVE 58-SEAT SANCTUARY PREVIEW                  */}
       {/* ========================================================= */}
-      <section className="border-y border-white/10 bg-[#091827] py-20 text-white">
+      <section className="border-y border-[#e7e5e4] bg-[#f5f3ef] py-20 text-[#1c1917]">
         <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="mb-8 text-center">
-            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#7ef9ff]">Seat map</p>
-            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-white sm:text-4xl">A quiet workspace you can actually use</h2>
+            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#d97706]">Seat map</p>
+            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">A quiet workspace you can actually use</h2>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-[#0b1828] p-4 shadow-[0_18px_38px_rgba(2,8,17,0.34)]">
+          <div className="rounded-2xl border border-[#e7e5e4] bg-white p-4 shadow-[0_12px_30px_rgba(28,25,23,0.06)]">
             <SeatMap interactive={true} showControls={true} compact={false} />
           </div>
         </div>
@@ -324,16 +196,16 @@ export const HomePage: React.FC = () => {
       {/* ========================================================= */}
       {/* 4. MEMBERSHIP PLANS                                       */}
       {/* ========================================================= */}
-      <section className="bg-[radial-gradient(circle_at_top,_rgba(126,249,255,0.08),_transparent_18%),linear-gradient(180deg,#f4f8ff_0%,#edf5ff_100%)] py-20">
+      <section className="bg-[radial-gradient(circle_at_top,_rgba(217,119,6,0.05),_transparent_20%),linear-gradient(180deg,#fbfbfa_0%,#f4f2ee_100%)] py-20">
         <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="mb-10 text-center">
-            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#0f6ea5]">Membership</p>
-            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.06em] text-[#0d1d30] sm:text-4xl">Simple plans for every study goal</h2>
+            <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#b45309]">Membership</p>
+            <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">Simple plans for every study goal</h2>
           </div>
 
           {plans.length === 0 ? (
-            <div className="mx-auto max-w-lg rounded-2xl border border-[#d7e7f7] bg-white p-8 text-center shadow-[0_18px_38px_rgba(15,29,48,0.08)]">
-              <p className="text-sm leading-relaxed text-[#51657a]">Contact our reception to enquire about current membership options and seat availability.</p>
+            <div className="mx-auto max-w-lg rounded-2xl border border-[#e7e5e4] bg-white p-8 text-center shadow-sm">
+              <p className="text-sm leading-relaxed text-[#78716c]">Contact our reception to enquire about current membership options and seat availability.</p>
               <Link to="/contact" className="btn btn-primary mt-6 px-6 py-3 text-xs uppercase tracking-wider font-bold">Ask about plans</Link>
             </div>
           ) : (
@@ -342,33 +214,38 @@ export const HomePage: React.FC = () => {
                 const isFeatured = idx === 1 || plans.length === 1;
 
                 return (
-                  <div
+                  <motion.div
                     key={plan._id}
-                    className={`relative flex flex-col justify-between rounded-3xl p-7 ${isFeatured ? 'border border-[#7ef9ff]/30 bg-[#091827] text-white shadow-[0_22px_48px_rgba(9,24,39,0.28)]' : 'border border-[#d7e7f7] bg-white text-[#0d1d30] shadow-[0_16px_36px_rgba(15,29,48,0.08)]'}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: idx * 0.15 }}
+                    whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                    className={`relative flex flex-col justify-between rounded-3xl p-7 ${isFeatured ? 'border-2 border-[#d97706] bg-white text-[#1c1917] shadow-xl ring-2 ring-[#d97706]/20' : 'border border-[#e7e5e4] bg-white text-[#1c1917] shadow-md'}`}
                   >
                     {isFeatured && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#7ef9ff] via-[#5dc4ff] to-[#7f8cff] px-3 py-1 text-[9px] font-[family-name:var(--font-ui)] font-bold uppercase tracking-[0.2em] text-[#071521]">
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#f59e0b] to-[#d97706] px-3.5 py-1 text-[9px] font-[family-name:var(--font-ui)] font-bold uppercase tracking-[0.2em] text-white shadow-sm">
                         Most chosen
                       </div>
                     )}
 
                     <div>
-                      <h3 className="font-[family-name:var(--font-ui)] text-2xl font-black tracking-[-0.05em]">{plan.name}</h3>
+                      <h3 className="font-[family-name:var(--font-ui)] text-2xl font-black tracking-[-0.04em] text-[#1c1917]">{plan.name}</h3>
                       <div className="mt-5 flex items-baseline gap-2">
-                        <span className="font-[family-name:var(--font-ui)] text-4xl font-black tracking-[-0.05em]">{formatINR(plan.baseFee)}</span>
-                        <span className={`text-[10px] uppercase tracking-[0.18em] ${isFeatured ? 'text-white/60' : 'text-[#5d7288]'}`}>
+                        <span className="font-[family-name:var(--font-ui)] text-4xl font-black tracking-[-0.05em] text-[#1c1917]">{formatINR(plan.baseFee)}</span>
+                        <span className="text-[10px] uppercase tracking-[0.18em] text-[#78716c]">
                           / {plan.durationValue} {plan.durationUnit}
                         </span>
                       </div>
 
                       {plan.registrationFee > 0 && (
-                        <p className={`mt-3 text-xs ${isFeatured ? 'text-white/70' : 'text-[#5d7288]'}`}>One-time registration fee: {formatINR(plan.registrationFee)}</p>
+                        <p className="mt-3 text-xs text-[#78716c]">One-time registration fee: {formatINR(plan.registrationFee)}</p>
                       )}
 
                       <ul className="mt-6 space-y-3">
                         {plan.benefits.map((benefit, benefitIndex) => (
-                          <li key={benefitIndex} className={`flex items-start gap-2 text-sm ${isFeatured ? 'text-white/85' : 'text-[#1c2d3f]'}`}>
-                            <div className={`mt-0.5 flex h-4 w-4 items-center justify-center rounded-full ${isFeatured ? 'bg-[#7ef9ff]/15 text-[#7ef9ff]' : 'bg-[#1A5C3B]/10 text-[#1A5C3B]'}`}>
+                          <li key={benefitIndex} className="flex items-start gap-2 text-sm text-[#292524]">
+                            <div className="mt-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#15803d]/10 text-[#15803d]">
                               <Check className="h-3 w-3 stroke-[2.5]" />
                             </div>
                             <span>{benefit}</span>
@@ -384,7 +261,7 @@ export const HomePage: React.FC = () => {
                       <span>Choose plan</span>
                       <ArrowRight className="h-4 w-4" />
                     </Link>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -400,18 +277,18 @@ export const HomePage: React.FC = () => {
       {/* ========================================================= */}
       {/* 8. SCHOLAR REVIEWS & GOOGLE FEEDBACK                      */}
       {/* ========================================================= */}
-      <section className="py-24 bg-[#f4f9fc] text-[#0b1d2e] border-t border-[#dce8f0] relative">
+      <section className="py-24 bg-[#faf6f0] text-[#2c1f0e] border-t border-[#e8dcc8] relative">
         <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#13b8c8]/15 border border-[#13b8c8]/35 text-[#075a70] font-[family-name:var(--font-ui)] text-xs font-bold uppercase tracking-wider mb-2">
-                <Star className="w-3.5 h-3.5 fill-current text-[#13b8c8]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#c2a66e]/15 border border-[#c2a66e]/35 text-[#8b7340] font-[family-name:var(--font-ui)] text-xs font-bold uppercase tracking-wider mb-2">
+                <Star className="w-3.5 h-3.5 fill-current text-[#c2a66e]" />
                 <span>4.9 / 5.0 Rating on Google Maps</span>
               </div>
-              <h2 className="section-title text-3xl sm:text-4xl md:text-5xl text-[#0b1d2e] mt-1">
+              <h2 className="section-title text-3xl sm:text-4xl md:text-5xl text-[#2c1f0e] mt-1">
                 What Our Scholars Say
               </h2>
-              <div className="w-14 h-0.5 bg-[#13b8c8] mt-4 rounded-full" />
+              <div className="w-14 h-0.5 bg-[#c2a66e] mt-4 rounded-full" />
             </div>
 
             <div className="flex items-center gap-3">
@@ -436,7 +313,7 @@ export const HomePage: React.FC = () => {
           </div>
 
           {/* Testimonial Cards Grid */}
-          <div className="marquee-shell rounded-2xl border border-[#dce8f0] bg-white p-4 shadow-sm">
+          <div className="marquee-shell rounded-2xl border border-[#e8dcc8] bg-white p-4 shadow-sm">
             <div className="marquee-track">
               {marqueeReviews.map((t, idx) => (
                 <article
@@ -444,11 +321,11 @@ export const HomePage: React.FC = () => {
                   className="marquee-card flex h-full min-h-[220px] flex-col justify-between"
                 >
                   <div className="mb-4 flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-1 text-[#13b8c8]">
+                    <div className="flex items-center gap-1 text-[#c2a66e]">
                       {Array.from({ length: 5 }).map((_, starIndex) => (
                         <Star
                           key={`${t._id || 'review'}-${starIndex}`}
-                          className={`h-4 w-4 ${starIndex < (t.rating || 5) ? 'fill-current text-[#13b8c8]' : 'text-gray-300'}`}
+                          className={`h-4 w-4 ${starIndex < (t.rating || 5) ? 'fill-current text-[#c2a66e]' : 'text-gray-300'}`}
                         />
                       ))}
                     </div>
@@ -457,11 +334,11 @@ export const HomePage: React.FC = () => {
                     </span>
                   </div>
 
-                  <p className="text-sm leading-relaxed text-[#0b1d2e]/80 italic">“{t.text}”</p>
+                  <p className="text-sm leading-relaxed text-[#2c1f0e]/80 italic">“{t.text}”</p>
 
-                  <div className="mt-6 border-t border-[#dce8f0] pt-4">
-                    <h4 className="font-[family-name:var(--font-ui)] text-lg font-bold text-[#0b1d2e]">{t.name}</h4>
-                    {t.role && <p className="text-xs text-[#65788c]">{t.role}</p>}
+                  <div className="mt-6 border-t border-[#e8dcc8] pt-4">
+                    <h4 className="font-[family-name:var(--font-ui)] text-lg font-bold text-[#2c1f0e]">{t.name}</h4>
+                    {t.role && <p className="text-xs text-[#8a7a60]">{t.role}</p>}
                   </div>
                 </article>
               ))}
@@ -472,60 +349,60 @@ export const HomePage: React.FC = () => {
         {/* Modal: Write a Review */}
         {reviewModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="relative w-full max-w-lg rounded-2xl border border-[#dce8f0] bg-white p-7 shadow-2xl">
+            <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="relative w-full max-w-lg rounded-2xl border border-[#e8dcc8] bg-white p-7 shadow-2xl">
               <button type="button" onClick={() => setReviewModalOpen(false)} className="absolute right-5 top-5 text-gray-400 hover:text-gray-700">
                 <X className="h-5 w-5" />
               </button>
 
               <div className="mb-6">
-                <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#13b8c8]">Share your experience</p>
-                <h3 className="mt-2 font-[family-name:var(--font-ui)] text-2xl font-bold text-[#0b1d2e]">Submit a review</h3>
+                <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#c2a66e]">Share your experience</p>
+                <h3 className="mt-2 font-[family-name:var(--font-ui)] text-2xl font-bold text-[#2c1f0e]">Submit a review</h3>
               </div>
 
               <form onSubmit={handleSubmitReview} className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#0b1d2e]">Your name *</label>
+                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#2c1f0e]">Your name *</label>
                   <input
                     type="text"
                     required
                     value={newReviewForm.name}
                     onChange={(e) => setNewReviewForm({ ...newReviewForm, name: e.target.value })}
-                    className="w-full rounded-lg border border-[#dce8f0] px-4 py-2.5 text-sm focus:border-[#13b8c8] focus:outline-none"
+                    className="w-full rounded-lg border border-[#e8dcc8] px-4 py-2.5 text-sm focus:border-[#c2a66e] focus:outline-none"
                     placeholder="e.g. Rahul Sharma"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#0b1d2e]">Role / exam</label>
+                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#2c1f0e]">Role / exam</label>
                   <input
                     type="text"
                     value={newReviewForm.role}
                     onChange={(e) => setNewReviewForm({ ...newReviewForm, role: e.target.value })}
-                    className="w-full rounded-lg border border-[#dce8f0] px-4 py-2.5 text-sm focus:border-[#13b8c8] focus:outline-none"
+                    className="w-full rounded-lg border border-[#e8dcc8] px-4 py-2.5 text-sm focus:border-[#c2a66e] focus:outline-none"
                     placeholder="e.g. UPSC aspirant"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#0b1d2e]">Rating</label>
+                  <label className="mb-2 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#2c1f0e]">Rating</label>
                   <div className="flex items-center gap-1.5">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button type="button" key={star} onClick={() => setNewReviewForm({ ...newReviewForm, rating: star })} className="p-1">
-                        <Star className={`h-6 w-6 ${star <= newReviewForm.rating ? 'fill-current text-[#13b8c8]' : 'text-gray-300'}`} />
+                        <Star className={`h-6 w-6 ${star <= newReviewForm.rating ? 'fill-current text-[#c2a66e]' : 'text-gray-300'}`} />
                       </button>
                     ))}
-                    <span className="ml-2 text-xs font-semibold text-[#0b1d2e]">{newReviewForm.rating} / 5</span>
+                    <span className="ml-2 text-xs font-semibold text-[#2c1f0e]">{newReviewForm.rating} / 5</span>
                   </div>
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#0b1d2e]">Review *</label>
+                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#2c1f0e]">Review *</label>
                   <textarea
                     required
                     rows={4}
                     value={newReviewForm.text}
                     onChange={(e) => setNewReviewForm({ ...newReviewForm, text: e.target.value })}
-                    className="w-full rounded-lg border border-[#dce8f0] px-4 py-2.5 text-sm focus:border-[#13b8c8] focus:outline-none"
+                    className="w-full rounded-lg border border-[#e8dcc8] px-4 py-2.5 text-sm focus:border-[#c2a66e] focus:outline-none"
                     placeholder="Tell us about your experience at the library..."
                   />
                 </div>
@@ -547,13 +424,13 @@ export const HomePage: React.FC = () => {
       {/* ========================================================= */}
       {/* 9. INTERACTIVE GOOGLE MAP & LOCATION                      */}
       {/* ========================================================= */}
-      <section className="border-t border-[#dce8f0] bg-[#edf4f8] py-20">
+      <section className="border-t border-[#e8dcc8] bg-[#f5f0e6] py-20">
         <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
             <div>
-              <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#13b8c8]">Visit us</p>
-              <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-bold text-[#0b1d2e] sm:text-4xl">Find your study routine in the heart of Mauaima.</h2>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#5F6F7D]">{address}</p>
+              <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#c2a66e]">Visit us</p>
+              <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-bold text-[#2c1f0e] sm:text-4xl">Find your study routine in the heart of Mauaima.</h2>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#7a6b52]">{address}</p>
 
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <a href={mapLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary px-5 py-3 text-xs uppercase tracking-wider font-bold">
@@ -567,8 +444,8 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#13b8c8]/20 bg-white p-5 shadow-sm">
-              <div className="overflow-hidden rounded-xl border border-[#dce8f0]">
+            <div className="rounded-2xl border border-[#c2a66e]/20 bg-white p-5 shadow-sm">
+              <div className="overflow-hidden rounded-xl border border-[#e8dcc8]">
                 <iframe
                   title="Lucky Digital Library Google Maps"
                   src="https://maps.google.com/maps?q=25.6952462,81.9050274(Lucky+Digital+Library)&hl=en&z=17&output=embed"

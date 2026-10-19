@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -180,12 +180,12 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ duration: 0.2 }}
-          className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-2xl border border-[#dce8f0] text-[#0b1d2e]"
+          className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-2xl border border-[#e8dcc8] text-[#2c1f0e]"
         >
           {/* Modal Header */}
           <div className="sticky top-0 z-20 flex items-center justify-between border-b border-[#e2edf3] bg-gradient-to-r from-[#071521] via-[#0c2032] to-[#122e44] px-6 py-4 text-white">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#7ef9ff]/30 bg-[#7ef9ff]/15 text-[#7ef9ff] shadow-sm">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e8d5a8]/30 bg-[#e8d5a8]/15 text-[#e8d5a8] shadow-sm">
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
@@ -209,8 +209,8 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             {/* Section 1: Student Details */}
-            <div className="rounded-xl border border-[#dce8f0] bg-[#f8fbfd] p-4.5 space-y-3.5">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
+            <div className="rounded-xl border border-[#e8dcc8] bg-[#f8fbfd] p-4.5 space-y-3.5">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#a38b52]">
                 <User size={15} />
                 <span>Section 1: Student Details</span>
               </div>
@@ -228,7 +228,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="e.g. Rahul Kumar"
-                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                     />
                   </div>
                 </div>
@@ -246,14 +246,14 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="e.g. 9876543210"
                       maxLength={15}
-                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                     />
                   </div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2 rounded-lg border border-[#cbe4ed] bg-[#eef8fb] px-3 py-2 text-xs text-[#096a82]">
-                <CheckCircle2 size={15} className="shrink-0 text-[#13b8c8]" />
+                <CheckCircle2 size={15} className="shrink-0 text-[#c2a66e]" />
                 <span>
                   <strong>Automatic Password:</strong> The student's mobile number will silently be their initial login password. On their first login, they will be prompted to set their private password.
                 </span>
@@ -261,18 +261,18 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
             </div>
 
             {/* Section 2: Seat & Custom Timing Duration */}
-            <div className="rounded-xl border border-[#dce8f0] bg-[#f8fbfd] p-4.5 space-y-4">
+            <div className="rounded-xl border border-[#e8dcc8] bg-[#f8fbfd] p-4.5 space-y-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#a38b52]">
                   <Clock size={15} />
                   <span>Section 2: Seat & Timing Selection</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setShowSeatMap(!showSeatMap)}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087d99] hover:text-[#075a70] bg-white border border-[#cbe4ed] px-3 py-1 rounded-lg shadow-2xs hover:bg-[#eef8fb] transition-all"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a38b52] hover:text-[#8b7340] bg-white border border-[#cbe4ed] px-3 py-1 rounded-lg shadow-2xs hover:bg-[#eef8fb] transition-all"
                 >
-                  <Armchair size={14} className="text-[#13b8c8]" />
+                  <Armchair size={14} className="text-[#c2a66e]" />
                   <span>{showSeatMap ? 'Hide Seat Map' : 'Select Seat from Floor Map'}</span>
                 </button>
               </div>
@@ -292,7 +292,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                       value={seatNumber}
                       onChange={(e) => setSeatNumber(e.target.value)}
                       placeholder="e.g. 14 (Optional)"
-                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-bold text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                     />
                   </div>
                 </div>
@@ -301,12 +301,12 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setShowSeatMap(true)}
-                    className="flex-1 py-2 px-3 rounded-lg border border-[#dce8f0] bg-white text-xs font-semibold text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-all text-left flex items-center justify-between"
+                    className="flex-1 py-2 px-3 rounded-lg border border-[#e8dcc8] bg-white text-xs font-semibold text-[#2c1f0e] hover:border-[#c2a66e] hover:bg-[#f0fbfd] transition-all text-left flex items-center justify-between"
                   >
                     <span>
                       {seatNumber ? `Selected: Seat ${seatNumber}` : 'Click to pick seat on map (1–58)'}
                     </span>
-                    <span className="text-[#087d99] font-bold text-[11px]">View Map &rarr;</span>
+                    <span className="text-[#a38b52] font-bold text-[11px]">View Map &rarr;</span>
                   </button>
 
                   {seatNumber && (
@@ -342,7 +342,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
+                    <span className="block text-[11px] font-semibold text-[#8a7a60] mb-1">
                       Time From (Start Time)
                     </span>
                     <div className="relative">
@@ -352,13 +352,13 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                         required
                         value={timeFrom}
                         onChange={(e) => setTimeFrom(e.target.value)}
-                        className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-semibold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                        className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-semibold text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
+                    <span className="block text-[11px] font-semibold text-[#8a7a60] mb-1">
                       Time To (End Time)
                     </span>
                     <div className="relative">
@@ -368,14 +368,14 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                         required
                         value={timeTo}
                         onChange={(e) => setTimeTo(e.target.value)}
-                        className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-semibold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                        className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm font-semibold text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                       />
                     </div>
                   </div>
                 </div>
 
                 {calculatedShift && (
-                  <div className="flex items-center justify-between rounded-lg bg-[#e7faff] border border-[#cbe4ed] px-3 py-1.5 text-xs text-[#087d99]">
+                  <div className="flex items-center justify-between rounded-lg bg-[#f5ead4] border border-[#cbe4ed] px-3 py-1.5 text-xs text-[#a38b52]">
                     <span className="font-medium">
                       Calculated Shift: <strong>{calculatedShift}</strong>
                     </span>
@@ -393,25 +393,25 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                     Duration Period (Start & End Date) <span className="text-red-500">*</span>
                   </label>
                   <div className="flex items-center gap-1.5 text-[11px]">
-                    <span className="text-[#65788c] font-medium">Quick duration:</span>
+                    <span className="text-[#8a7a60] font-medium">Quick duration:</span>
                     <button
                       type="button"
                       onClick={() => applyDuration(0, 15)}
-                      className="px-2 py-0.5 rounded border border-[#cfdce6] bg-white text-[#0b1d2e] hover:bg-[#eaf5f9] hover:border-[#13b8c8] transition-colors"
+                      className="px-2 py-0.5 rounded border border-[#cfdce6] bg-white text-[#2c1f0e] hover:bg-[#eaf5f9] hover:border-[#c2a66e] transition-colors"
                     >
                       15 Days
                     </button>
                     <button
                       type="button"
                       onClick={() => applyDuration(1)}
-                      className="px-2 py-0.5 rounded border border-[#cfdce6] bg-white text-[#0b1d2e] hover:bg-[#eaf5f9] hover:border-[#13b8c8] transition-colors font-semibold"
+                      className="px-2 py-0.5 rounded border border-[#cfdce6] bg-white text-[#2c1f0e] hover:bg-[#eaf5f9] hover:border-[#c2a66e] transition-colors font-semibold"
                     >
                       1 Month
                     </button>
                     <button
                       type="button"
                       onClick={() => applyDuration(3)}
-                      className="px-2 py-0.5 rounded border border-[#cfdce6] bg-white text-[#0b1d2e] hover:bg-[#eaf5f9] hover:border-[#13b8c8] transition-colors"
+                      className="px-2 py-0.5 rounded border border-[#cfdce6] bg-white text-[#2c1f0e] hover:bg-[#eaf5f9] hover:border-[#c2a66e] transition-colors"
                     >
                       3 Months
                     </button>
@@ -420,7 +420,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
+                    <span className="block text-[11px] font-semibold text-[#8a7a60] mb-1">
                       Start Date
                     </span>
                     <div className="relative">
@@ -430,13 +430,13 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                         required
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
-                        className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                        className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <span className="block text-[11px] font-semibold text-[#65788c] mb-1">
+                    <span className="block text-[11px] font-semibold text-[#8a7a60] mb-1">
                       End Date
                     </span>
                     <div className="relative">
@@ -446,7 +446,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                         required
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
-                        className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                        className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-9 pr-3 text-sm text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                       />
                     </div>
                   </div>
@@ -455,8 +455,8 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
             </div>
 
             {/* Section 3: Custom Billing & Payment */}
-            <div className="rounded-xl border border-[#dce8f0] bg-[#f8fbfd] p-4.5 space-y-4">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
+            <div className="rounded-xl border border-[#e8dcc8] bg-[#f8fbfd] p-4.5 space-y-4">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#a38b52]">
                 <IndianRupee size={15} />
                 <span>Section 3: Custom Billing & Payment</span>
               </div>
@@ -483,7 +483,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                         }
                       }}
                       placeholder="e.g. 1500"
-                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-8 pr-3 text-sm font-semibold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-8 pr-3 text-sm font-semibold text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                     />
                   </div>
                 </div>
@@ -503,7 +503,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                       value={amountReceivedToday}
                       onChange={(e) => setAmountReceivedToday(e.target.value)}
                       placeholder="e.g. 1000"
-                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-8 pr-3 text-sm font-semibold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-2 pl-8 pr-3 text-sm font-semibold text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                     />
                   </div>
                 </div>
@@ -552,7 +552,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                     onClick={() => setPaymentMethod('cash')}
                     className={`flex items-center justify-center gap-2 rounded-lg border py-2.5 px-4 text-xs font-bold transition-all ${
                       paymentMethod === 'cash'
-                        ? 'border-[#087d99] bg-[#087d99] text-white shadow-sm'
+                        ? 'border-[#a38b52] bg-[#a38b52] text-white shadow-sm'
                         : 'border-[#cfdce6] bg-white text-[#294055] hover:bg-[#f1f7fa]'
                     }`}
                   >
@@ -565,7 +565,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                     onClick={() => setPaymentMethod('upi')}
                     className={`flex items-center justify-center gap-2 rounded-lg border py-2.5 px-4 text-xs font-bold transition-all ${
                       paymentMethod === 'upi'
-                        ? 'border-[#087d99] bg-[#087d99] text-white shadow-sm'
+                        ? 'border-[#a38b52] bg-[#a38b52] text-white shadow-sm'
                         : 'border-[#cfdce6] bg-white text-[#294055] hover:bg-[#f1f7fa]'
                     }`}
                   >
@@ -579,7 +579,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {paymentMethod === 'upi' && (
                   <div>
-                    <label className="block text-xs font-medium text-[#65788c] mb-1">
+                    <label className="block text-xs font-medium text-[#8a7a60] mb-1">
                       UPI Reference / UTR (Optional)
                     </label>
                     <input
@@ -587,13 +587,13 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                       value={transactionReference}
                       onChange={(e) => setTransactionReference(e.target.value)}
                       placeholder="e.g. 4028472910"
-                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-1.5 px-3 text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none"
+                      className="w-full rounded-lg border border-[#cfdce6] bg-white py-1.5 px-3 text-xs text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none"
                     />
                   </div>
                 )}
 
                 <div className={paymentMethod === 'upi' ? '' : 'sm:col-span-2'}>
-                  <label className="block text-xs font-medium text-[#65788c] mb-1">
+                  <label className="block text-xs font-medium text-[#8a7a60] mb-1">
                     Internal Admin Note (Optional)
                   </label>
                   <input
@@ -601,7 +601,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="e.g. Walk-in student, civil services aspirant"
-                    className="w-full rounded-lg border border-[#cfdce6] bg-white py-1.5 px-3 text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none"
+                    className="w-full rounded-lg border border-[#cfdce6] bg-white py-1.5 px-3 text-xs text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none"
                   />
                 </div>
               </div>
@@ -613,7 +613,7 @@ export const CustomEnrollModal: React.FC<CustomEnrollModalProps> = ({
                 type="button"
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="rounded-xl border border-[#cfdce6] bg-white px-5 py-2.5 text-xs font-bold text-[#65788c] hover:bg-[#f1f7fa] hover:text-[#0b1d2e] transition-colors"
+                className="rounded-xl border border-[#cfdce6] bg-white px-5 py-2.5 text-xs font-bold text-[#8a7a60] hover:bg-[#f1f7fa] hover:text-[#2c1f0e] transition-colors"
               >
                 Cancel
               </button>

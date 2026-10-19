@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import argon2 from 'argon2';
+import { hash, verify } from '@node-rs/argon2';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import { User } from '../models/User';
@@ -80,7 +80,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
-  const valid = await argon2.verify(user.passwordHash, password);
+  const valid = await verify(user.passwordHash, password);
   if (!valid) {
     res.status(401).json({ success: false, message: 'Invalid phone/email or password' });
     return;
@@ -132,7 +132,7 @@ export const setFirstPassword = async (req: AuthRequest, res: Response): Promise
   const user = await User.findById(req.user._id);
   if (!user) throw createError('User not found', 404);
 
-  user.passwordHash = await argon2.hash(newPassword);
+  user.passwordHash = await hash(newPassword);
   user.requiresPasswordChange = false;
   await user.save();
 
@@ -204,13 +204,13 @@ export const changePassword = async (req: AuthRequest, res: Response): Promise<v
   const user = await User.findById(req.user._id);
   if (!user) throw createError('User not found', 404);
 
-  const valid = await argon2.verify(user.passwordHash, parse.data.currentPassword);
+  const valid = await verify(user.passwordHash, parse.data.currentPassword);
   if (!valid) {
     res.status(400).json({ success: false, message: 'Current password is incorrect' });
     return;
   }
 
-  user.passwordHash = await argon2.hash(parse.data.newPassword);
+  user.passwordHash = await hash(parse.data.newPassword);
   await user.save();
 
   res.json({ success: true, message: 'Password changed successfully' });

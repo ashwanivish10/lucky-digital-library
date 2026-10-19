@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 const PAGE_SIZES = [10, 25, 50, 100];
 
@@ -31,7 +31,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
       value={pageSize}
       disabled={loading}
       onChange={(event) => onPageSizeChange(Number(event.target.value))}
-      className="h-8 rounded-md border border-[#d5dee7] bg-white px-1.5 text-xs text-[#294055] outline-none focus:border-[#13b8c8] sm:h-9 sm:px-2 sm:text-sm"
+      className="h-8 rounded-md border border-[#d5dee7] bg-white px-1.5 text-xs text-[#294055] outline-none focus:border-[#c2a66e] sm:h-9 sm:px-2 sm:text-sm"
     >
       {PAGE_SIZES.map((size) => (
         <option key={size} value={size}>

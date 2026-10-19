@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import { Check, ChevronDown, Columns3 } from 'lucide-react';
 
 export interface ColumnDef {
@@ -96,7 +96,7 @@ export const ColumnPicker: React.FC<ColumnPickerProps> = ({ columns, visible, on
                 role="menuitemcheckbox"
                 aria-checked={isOn}
                 onClick={() => onToggle(column.id)}
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm text-[#1f2937] hover:bg-[#f4f9fc]"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm text-[#1f2937] hover:bg-[#faf6f0]"
               >
                 <span className="flex h-4 w-4 shrink-0 items-center justify-center">
                   {isOn && <Check size={14} strokeWidth={2.6} />}
