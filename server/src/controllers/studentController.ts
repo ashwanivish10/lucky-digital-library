@@ -11,7 +11,7 @@ import { AuthRequest } from '../middleware/auth';
 import { createError } from '../middleware/errorHandler';
 import { generateStudentCode } from '../utils/codeGenerator';
 import { membershipAmountDue } from '../utils/fees';
-import argon2 from 'argon2';
+import { hash } from '@node-rs/argon2';
 import { format } from 'date-fns';
 import { generateReceiptNumber } from './paymentController';
 import {
@@ -235,7 +235,7 @@ export const createStudent = async (req: AuthRequest, res: Response): Promise<vo
   // Create a user account for the student
   if (data.email) {
     const tempPassword = Math.random().toString(36).slice(-8);
-    const passwordHash = await argon2.hash(tempPassword);
+    const passwordHash = await hash(tempPassword);
     await User.create({
       name: data.name,
       email: data.email,
@@ -676,7 +676,7 @@ export const customEnroll = async (req: AuthRequest, res: Response): Promise<voi
   });
 
   if (!user) {
-    const passwordHash = await argon2.hash(cleanPhone);
+    const passwordHash = await hash(cleanPhone);
     user = await User.create({
       name: student.name,
       phone: cleanPhone,
@@ -692,7 +692,7 @@ export const customEnroll = async (req: AuthRequest, res: Response): Promise<voi
     user.studentId = student._id;
     user.status = 'active';
     if (user.requiresPasswordChange) {
-      user.passwordHash = await argon2.hash(cleanPhone);
+      user.passwordHash = await hash(cleanPhone);
     }
     await user.save();
   }

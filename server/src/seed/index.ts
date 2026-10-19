@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import mongoose from 'mongoose';
-import argon2 from 'argon2';
+import { hash } from '@node-rs/argon2';
 import { config } from '../config';
 import { User } from '../models/User';
 import { MembershipPlan } from '../models/MembershipPlan';
@@ -23,7 +23,7 @@ async function seed() {
   // --- Admin User ---
   const existing = await User.findOne({ email: config.seed.adminEmail });
   if (!existing) {
-    const passwordHash = await argon2.hash(config.seed.adminPassword);
+    const passwordHash = await hash(config.seed.adminPassword);
     await User.create({
       name: config.seed.adminName,
       email: config.seed.adminEmail,

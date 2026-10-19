@@ -12,7 +12,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import mongoose from 'mongoose';
-import argon2 from 'argon2';
+import { hash } from '@node-rs/argon2';
 import { addDays, subDays, subMonths, format } from 'date-fns';
 import { config } from '../config';
 import { User } from '../models/User';
@@ -53,7 +53,7 @@ async function devSeed() {
   // 1. Ensure Admin exists
   let admin = await User.findOne({ role: 'admin' });
   if (!admin) {
-    const passwordHash = await argon2.hash(config.seed.adminPassword);
+    const passwordHash = await hash(config.seed.adminPassword);
     admin = await User.create({
       name: config.seed.adminName,
       email: config.seed.adminEmail,
@@ -80,7 +80,7 @@ async function devSeed() {
     User.deleteMany({ role: 'student' }),
   ]);
 
-  const defaultPasswordHash = await argon2.hash('Student@1234');
+  const defaultPasswordHash = await hash('Student@1234');
   const now = new Date();
 
   console.log(`Creating ${SAMPLE_STUDENTS.length} sample students with realistic records...`);
