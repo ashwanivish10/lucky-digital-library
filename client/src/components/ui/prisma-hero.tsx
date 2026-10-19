@@ -117,10 +117,10 @@ export const PrismaHero = () => {
                 transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
               >
                 <Link
-                  to="/membership"
+                  to="/login"
                   className="group inline-flex items-center gap-2 self-start rounded-full bg-[#d97706] py-2 pl-6 pr-2 text-sm font-bold text-white transition-all hover:gap-3 hover:bg-[#b45309] shadow-lg sm:text-base"
                 >
-                  Explore Membership
+                  Sign In
                   <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#1c1917] transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
                     <ArrowRight className="h-4 w-4" />
                   </span>
