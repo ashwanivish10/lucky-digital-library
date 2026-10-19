@@ -342,8 +342,13 @@ export const HomePage: React.FC = () => {
                 const isFeatured = idx === 1 || plans.length === 1;
 
                 return (
-                  <div
+                  <motion.div
                     key={plan._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: idx * 0.15 }}
+                    whileHover={{ y: -6, transition: { duration: 0.2 } }}
                     className={`relative flex flex-col justify-between rounded-3xl p-7 ${isFeatured ? 'border-2 border-[#d97706] bg-white text-[#1c1917] shadow-xl ring-2 ring-[#d97706]/20' : 'border border-[#e7e5e4] bg-white text-[#1c1917] shadow-md'}`}
                   >
                     {isFeatured && (
@@ -384,7 +389,7 @@ export const HomePage: React.FC = () => {
                       <span>Choose plan</span>
                       <ArrowRight className="h-4 w-4" />
                     </Link>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
