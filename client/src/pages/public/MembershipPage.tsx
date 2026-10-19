@@ -24,19 +24,19 @@ export const MembershipPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-[#f4f9fc] min-h-screen text-[#0b1d2e]">
+    <div className="bg-[#fbfbfa] min-h-screen text-[#1c1917]">
       {/* Hero */}
-      <section className="bg-[#0b1d2e] text-white pt-12 pb-14 sm:pt-20 sm:pb-20 relative overflow-hidden border-b border-[#13b8c8]/20">
-        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#13b8c8_1px,transparent_1px),linear-gradient(to_bottom,#13b8c8_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
+      <section className="bg-[radial-gradient(circle_at_top_right,_rgba(217,119,6,0.08),_transparent_32%),linear-gradient(135deg,#fcfbf9_0%,#f5f3ef_50%,#eeeae4_100%)] text-[#1c1917] pt-12 pb-14 sm:pt-20 sm:pb-20 relative overflow-hidden border-b border-[#e7e5e4]">
+        <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,rgba(28,25,23,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(28,25,23,0.12)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
         <div className="max-w-3xl mx-auto px-6 relative z-10 text-center">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-[#7ef9ff] mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#13b8c8] animate-pulse" />
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#d6d3d1] text-[#78350f] font-[family-name:var(--font-ui)] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#d97706] animate-pulse" />
             Transparent Tiers
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-ui)] font-bold text-white mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-ui)] font-bold text-[#1c1917] mb-4 leading-tight">
             Membership Plans
           </h1>
-          <p className="max-w-xl mx-auto text-[#a0b3c6] text-sm sm:text-base leading-relaxed">
+          <p className="max-w-xl mx-auto text-[#78716c] text-sm sm:text-base leading-relaxed">
             Select the membership plan tailored to your study schedule. All tiers include full access to our silent zones, power charging, and high-speed Wi-Fi.
           </p>
         </div>
@@ -47,14 +47,14 @@ export const MembershipPage: React.FC = () => {
         {loading ? (
           <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-96 rounded-2xl bg-white border border-[#dce8f0] animate-pulse shadow-xs" />
+              <div key={i} className="h-96 rounded-2xl bg-white border border-[#e7e5e4] animate-pulse shadow-xs" />
             ))}
           </div>
         ) : plans.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-2xl border border-[#dce8f0] p-8 max-w-md mx-auto shadow-sm">
-            <HelpCircle className="w-12 h-12 text-[#13b8c8] mx-auto mb-4" />
-            <h3 className="text-xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mb-2">Plans Available Soon</h3>
-            <p className="text-sm text-[#65788c] mb-6 font-normal">
+          <div className="text-center py-16 bg-white rounded-2xl border border-[#e7e5e4] p-8 max-w-md mx-auto shadow-sm">
+            <HelpCircle className="w-12 h-12 text-[#d97706] mx-auto mb-4" />
+            <h3 className="text-xl font-[family-name:var(--font-ui)] font-bold text-[#1c1917] mb-2">Plans Available Soon</h3>
+            <p className="text-sm text-[#78716c] mb-6 font-normal">
               Please contact our administrative desk for current membership availability and registration.
             </p>
             <Link to="/contact" className="btn btn-primary text-xs uppercase tracking-wider font-bold">Contact Desk</Link>
@@ -68,35 +68,35 @@ export const MembershipPage: React.FC = () => {
                   key={plan._id}
                   className={`relative flex flex-col rounded-2xl bg-white p-7 sm:p-9 transition-all duration-300 ${
                     isPopular
-                      ? 'border-2 border-[#13b8c8] shadow-xl lg:-translate-y-2'
-                      : 'border border-[#dce8f0] shadow-sm hover:shadow-md hover:border-[#13b8c8]'
+                      ? 'border-2 border-[#d97706] shadow-xl lg:-translate-y-2 ring-2 ring-[#d97706]/20'
+                      : 'border border-[#e7e5e4] shadow-[0_10px_25px_rgba(28,25,23,0.04)] hover:shadow-md hover:border-[#d97706]'
                   }`}
                 >
                   {isPopular && (
-                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#087d99] via-[#13b8c8] to-[#075a70] px-4 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[#0b1d2e] shadow-sm flex items-center gap-1 font-[family-name:var(--font-ui)]">
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#f59e0b] to-[#d97706] px-4 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-white shadow-sm flex items-center gap-1 font-[family-name:var(--font-ui)]">
                       <Sparkles className="w-3.5 h-3.5" />
                       Most Popular
                     </div>
                   )}
 
                   <div className="mb-6">
-                    <h3 className="text-2xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mb-1.5">{plan.name}</h3>
-                    <p className="text-xs uppercase font-semibold text-[#65788c] tracking-wider font-[family-name:var(--font-ui)]">
+                    <h3 className="text-2xl font-[family-name:var(--font-ui)] font-bold text-[#1c1917] mb-1.5">{plan.name}</h3>
+                    <p className="text-xs uppercase font-semibold text-[#78716c] tracking-wider font-[family-name:var(--font-ui)]">
                       Tenure: {plan.durationValue} {plan.durationUnit}
                     </p>
                   </div>
 
-                  <div className="mb-6 pb-6 border-b border-[#dce8f0]">
+                  <div className="mb-6 pb-6 border-b border-[#e7e5e4]">
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-4xl sm:text-5xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+                      <span className="text-4xl sm:text-5xl font-[family-name:var(--font-ui)] font-bold text-[#1c1917]">
                         {formatINR(plan.baseFee)}
                       </span>
-                      <span className="text-xs uppercase tracking-wider text-[#65788c] font-medium font-[family-name:var(--font-ui)]">
+                      <span className="text-xs uppercase tracking-wider text-[#78716c] font-medium font-[family-name:var(--font-ui)]">
                         / {plan.durationValue} {plan.durationUnit}
                       </span>
                     </div>
                     {plan.registrationFee > 0 && (
-                      <p className="text-xs text-[#65788c] mt-2 font-normal">
+                      <p className="text-xs text-[#78716c] mt-2 font-normal">
                         + One-time Registration: {formatINR(plan.registrationFee)}
                       </p>
                     )}
@@ -104,21 +104,21 @@ export const MembershipPage: React.FC = () => {
 
                   {/* Included Benefits */}
                   <div className="flex-1 space-y-3.5 mb-8">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-[#0b1d2e] font-[family-name:var(--font-ui)]">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-[#1c1917] font-[family-name:var(--font-ui)]">
                       Included Privileges:
                     </p>
                     {plan.benefits.map((benefit, bIndex) => (
                       <div key={bIndex} className="flex items-start gap-2.5">
-                        <div className="mt-0.5 rounded-full p-0.5 bg-[#1A5C3B]/10 text-[#1A5C3B] shrink-0">
+                        <div className="mt-0.5 rounded-full p-0.5 bg-[#15803d]/10 text-[#15803d] shrink-0">
                           <Check className="w-3.5 h-3.5" />
                         </div>
-                        <span className="text-sm text-[#334155]">{benefit}</span>
+                        <span className="text-sm text-[#292524]">{benefit}</span>
                       </div>
                     ))}
                   </div>
 
                   {plan.terms && (
-                    <p className="text-xs text-[#9AAABB] italic mb-6 border-t border-[#dce8f0] pt-3">
+                    <p className="text-xs text-[#a8a29e] italic mb-6 border-t border-[#e7e5e4] pt-3">
                       * {plan.terms}
                     </p>
                   )}

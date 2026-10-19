@@ -78,19 +78,19 @@ export const FacilitiesPage: React.FC = () => {
   const libraryName = settings?.libraryName || 'Lucky Digital Library';
 
   return (
-    <div className="bg-[#f4f9fc] min-h-screen text-[#0b1d2e]">
+    <div className="bg-[#fbfbfa] min-h-screen text-[#1c1917]">
       {/* Minimal Hero */}
-      <section className="bg-[#0b1d2e] text-white pt-12 pb-14 sm:pt-20 sm:pb-20 relative overflow-hidden border-b border-[#13b8c8]/20">
-        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#13b8c8_1px,transparent_1px),linear-gradient(to_bottom,#13b8c8_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
+      <section className="bg-[radial-gradient(circle_at_top_right,_rgba(217,119,6,0.08),_transparent_32%),linear-gradient(135deg,#fcfbf9_0%,#f5f3ef_50%,#eeeae4_100%)] text-[#1c1917] pt-12 pb-14 sm:pt-20 sm:pb-20 relative overflow-hidden border-b border-[#e7e5e4]">
+        <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,rgba(28,25,23,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(28,25,23,0.12)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
         <div className="max-w-3xl mx-auto px-6 relative z-10 text-center">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-[#7ef9ff] mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#13b8c8] animate-pulse" />
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#d6d3d1] text-[#78350f] font-[family-name:var(--font-ui)] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#d97706] animate-pulse" />
             Study Environment
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-ui)] font-bold text-white mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-ui)] font-bold text-[#1c1917] mb-4 leading-tight">
             Our Facilities & Amenities
           </h1>
-          <p className="max-w-xl mx-auto text-[#a0b3c6] text-sm sm:text-base leading-relaxed">
+          <p className="max-w-xl mx-auto text-[#78716c] text-sm sm:text-base leading-relaxed">
             Essential study amenities at {libraryName}, calibrated for uninterrupted focus and academic achievement.
           </p>
         </div>
@@ -104,16 +104,16 @@ export const FacilitiesPage: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="p-5 sm:p-6 rounded-2xl bg-white border border-[#dce8f0] shadow-2xs hover:border-[#13b8c8]/60 hover:shadow-md transition-all flex items-start gap-4"
+                className="p-5 sm:p-6 rounded-2xl bg-white border border-[#e7e5e4] shadow-[0_10px_25px_rgba(28,25,23,0.04)] hover:border-[#d97706]/60 hover:shadow-md transition-all flex items-start gap-4"
               >
-                <div className="w-11 h-11 rounded-xl bg-[#0b1d2e] text-[#13b8c8] flex items-center justify-center shrink-0 shadow-xs">
+                <div className="w-11 h-11 rounded-xl bg-[#fef3c7] text-[#d97706] flex items-center justify-center shrink-0 shadow-xs ring-1 ring-[#f59e0b]/30">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-base sm:text-lg font-bold text-[#0b1d2e] leading-snug">
+                  <h3 className="text-base sm:text-lg font-bold text-[#1c1917] leading-snug">
                     {facility.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#475e75] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#78716c] leading-relaxed">
                     {facility.desc}
                   </p>
                 </div>
@@ -123,8 +123,8 @@ export const FacilitiesPage: React.FC = () => {
         </div>
 
         {/* Minimal Bottom CTA */}
-        <div className="mt-14 pt-10 border-t border-[#dce8f0] text-center space-y-4">
-          <p className="text-xs font-bold text-[#075a70] uppercase tracking-wider">
+        <div className="mt-14 pt-10 border-t border-[#e7e5e4] text-center space-y-4">
+          <p className="text-xs font-bold text-[#b45309] uppercase tracking-wider">
             Lucky Digital Library — Where focus builds the foundation of success.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
@@ -137,7 +137,7 @@ export const FacilitiesPage: React.FC = () => {
             </Link>
             <Link
               to="/contact"
-              className="btn btn-secondary text-xs py-2.5 px-6 rounded-xl border-[#dce8f0] text-[#0b1d2e]"
+              className="btn btn-secondary text-xs py-2.5 px-6 rounded-xl border-[#e7e5e4] text-[#1c1917]"
             >
               Contact Us
             </Link>

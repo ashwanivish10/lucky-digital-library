@@ -34,19 +34,19 @@ export const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#f4f9fc] min-h-screen text-[#0b1d2e]">
+    <div className="bg-[#fbfbfa] min-h-screen text-[#1c1917]">
       {/* Hero */}
-      <section className="bg-[#0b1d2e] text-white pt-12 pb-14 sm:pt-20 sm:pb-20 relative overflow-hidden border-b border-[#13b8c8]/20">
-        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#13b8c8_1px,transparent_1px),linear-gradient(to_bottom,#13b8c8_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
+      <section className="bg-[radial-gradient(circle_at_top_right,_rgba(217,119,6,0.08),_transparent_32%),linear-gradient(135deg,#fcfbf9_0%,#f5f3ef_50%,#eeeae4_100%)] text-[#1c1917] pt-12 pb-14 sm:pt-20 sm:pb-20 relative overflow-hidden border-b border-[#e7e5e4]">
+        <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,rgba(28,25,23,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(28,25,23,0.12)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
         <div className="max-w-2xl mx-auto px-6 relative z-10 text-center">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-[#7ef9ff] mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#13b8c8] animate-pulse" />
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#d6d3d1] text-[#78350f] font-[family-name:var(--font-ui)] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#d97706] animate-pulse" />
             Contact & Inquiries
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-ui)] font-bold text-white mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-[family-name:var(--font-ui)] font-bold text-[#1c1917] mb-4 leading-tight">
             Send Us a Message
           </h1>
-          <p className="max-w-lg mx-auto text-[#a0b3c6] text-sm sm:text-base leading-relaxed">
+          <p className="max-w-lg mx-auto text-[#78716c] text-sm sm:text-base leading-relaxed">
             Have questions about admission, seat reservation, or study shifts? Fill in your details below and our team will get back to you promptly.
           </p>
         </div>
@@ -54,7 +54,7 @@ export const ContactPage: React.FC = () => {
 
       {/* Centered Send Us a Message Form Card */}
       <section className="py-14 sm:py-20 pb-24 sm:pb-20 max-w-2xl mx-auto px-4 sm:px-6">
-        <div className="bg-white rounded-2xl p-5 sm:p-10 border border-[#dce8f0] shadow-sm">
+        <div className="bg-white rounded-2xl p-5 sm:p-10 border border-[#e7e5e4] shadow-[0_10px_25px_rgba(28,25,23,0.04)]">
           <form noValidate onSubmit={handleSubmit} className="space-y-5">
             <FormSteps
               steps={['Your details', 'Message']}
@@ -85,7 +85,7 @@ export const ContactPage: React.FC = () => {
             <div className="space-y-5">
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#0b1d2e] mb-2 font-[family-name:var(--font-ui)]">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#1c1917] mb-2 font-[family-name:var(--font-ui)]">
                   Full Name *
                 </label>
                 <input
@@ -94,12 +94,12 @@ export const ContactPage: React.FC = () => {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="e.g. Amit Sharma"
-                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#e7e5e4] bg-[#fbfbfa] text-[#1c1917] focus:outline-none focus:border-[#d97706] focus:ring-1 focus:ring-[#d97706] transition-colors text-base sm:text-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#0b1d2e] mb-2 font-[family-name:var(--font-ui)]">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#1c1917] mb-2 font-[family-name:var(--font-ui)]">
                   Phone Number
                 </label>
                 <input
@@ -107,14 +107,14 @@ export const ContactPage: React.FC = () => {
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   placeholder="e.g. 9876543210"
-                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#e7e5e4] bg-[#fbfbfa] text-[#1c1917] focus:outline-none focus:border-[#d97706] focus:ring-1 focus:ring-[#d97706] transition-colors text-base sm:text-sm"
                 />
               </div>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#0b1d2e] mb-2 font-[family-name:var(--font-ui)]">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#1c1917] mb-2 font-[family-name:var(--font-ui)]">
                   Email Address
                 </label>
                 <input
@@ -122,12 +122,12 @@ export const ContactPage: React.FC = () => {
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   placeholder="amit@example.com"
-                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#e7e5e4] bg-[#fbfbfa] text-[#1c1917] focus:outline-none focus:border-[#d97706] focus:ring-1 focus:ring-[#d97706] transition-colors text-base sm:text-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#0b1d2e] mb-2 font-[family-name:var(--font-ui)]">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#1c1917] mb-2 font-[family-name:var(--font-ui)]">
                   Subject
                 </label>
                 <input
@@ -135,14 +135,14 @@ export const ContactPage: React.FC = () => {
                   value={form.subject}
                   onChange={(e) => setForm({ ...form, subject: e.target.value })}
                   placeholder="e.g. Seat Availability Inquiry"
-                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
+                  className="w-full px-4 py-3 min-h-[48px] rounded-xl border border-[#e7e5e4] bg-[#fbfbfa] text-[#1c1917] focus:outline-none focus:border-[#d97706] focus:ring-1 focus:ring-[#d97706] transition-colors text-base sm:text-sm"
                 />
               </div>
             </div>
             </div>
 
             <div className="space-y-5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#0b1d2e] mb-2 font-[family-name:var(--font-ui)]">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#1c1917] mb-2 font-[family-name:var(--font-ui)]">
                 Message / Question *
               </label>
               <textarea
@@ -151,7 +151,7 @@ export const ContactPage: React.FC = () => {
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 placeholder="Provide details about your study shift, exam preparation, or any specific requirements..."
-                className="w-full px-4 py-3 min-h-[120px] rounded-xl border border-[#dce8f0] bg-[#f4f9fc]/50 text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] focus:ring-1 focus:ring-[#13b8c8] transition-colors text-base sm:text-sm"
+                className="w-full px-4 py-3 min-h-[120px] rounded-xl border border-[#e7e5e4] bg-[#fbfbfa] text-[#1c1917] focus:outline-none focus:border-[#d97706] focus:ring-1 focus:ring-[#d97706] transition-colors text-base sm:text-sm"
               />
             </div>
             </FormSteps>
