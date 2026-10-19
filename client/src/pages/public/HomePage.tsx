@@ -344,7 +344,7 @@ export const HomePage: React.FC = () => {
                 return (
                   <div
                     key={plan._id}
-                    className={`relative flex flex-col justify-between rounded-3xl p-7 ${isFeatured ? 'border-2 border-[#d97706] bg-[#1c1917] text-white shadow-xl' : 'border border-[#e7e5e4] bg-white text-[#1c1917] shadow-md'}`}
+                    className={`relative flex flex-col justify-between rounded-3xl p-7 ${isFeatured ? 'border-2 border-[#d97706] bg-white text-[#1c1917] shadow-xl ring-2 ring-[#d97706]/20' : 'border border-[#e7e5e4] bg-white text-[#1c1917] shadow-md'}`}
                   >
                     {isFeatured && (
                       <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#f59e0b] to-[#d97706] px-3.5 py-1 text-[9px] font-[family-name:var(--font-ui)] font-bold uppercase tracking-[0.2em] text-white shadow-sm">
@@ -353,22 +353,22 @@ export const HomePage: React.FC = () => {
                     )}
 
                     <div>
-                      <h3 className="font-[family-name:var(--font-ui)] text-2xl font-black tracking-[-0.04em]">{plan.name}</h3>
+                      <h3 className="font-[family-name:var(--font-ui)] text-2xl font-black tracking-[-0.04em] text-[#1c1917]">{plan.name}</h3>
                       <div className="mt-5 flex items-baseline gap-2">
-                        <span className="font-[family-name:var(--font-ui)] text-4xl font-black tracking-[-0.05em]">{formatINR(plan.baseFee)}</span>
-                        <span className={`text-[10px] uppercase tracking-[0.18em] ${isFeatured ? 'text-white/70' : 'text-[#78716c]'}`}>
+                        <span className="font-[family-name:var(--font-ui)] text-4xl font-black tracking-[-0.05em] text-[#1c1917]">{formatINR(plan.baseFee)}</span>
+                        <span className="text-[10px] uppercase tracking-[0.18em] text-[#78716c]">
                           / {plan.durationValue} {plan.durationUnit}
                         </span>
                       </div>
 
                       {plan.registrationFee > 0 && (
-                        <p className={`mt-3 text-xs ${isFeatured ? 'text-white/75' : 'text-[#78716c]'}`}>One-time registration fee: {formatINR(plan.registrationFee)}</p>
+                        <p className="mt-3 text-xs text-[#78716c]">One-time registration fee: {formatINR(plan.registrationFee)}</p>
                       )}
 
                       <ul className="mt-6 space-y-3">
                         {plan.benefits.map((benefit, benefitIndex) => (
-                          <li key={benefitIndex} className={`flex items-start gap-2 text-sm ${isFeatured ? 'text-white/90' : 'text-[#292524]'}`}>
-                            <div className={`mt-0.5 flex h-4 w-4 items-center justify-center rounded-full ${isFeatured ? 'bg-[#f59e0b]/20 text-[#f59e0b]' : 'bg-[#15803d]/10 text-[#15803d]'}`}>
+                          <li key={benefitIndex} className="flex items-start gap-2 text-sm text-[#292524]">
+                            <div className="mt-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#15803d]/10 text-[#15803d]">
                               <Check className="h-3 w-3 stroke-[2.5]" />
                             </div>
                             <span>{benefit}</span>

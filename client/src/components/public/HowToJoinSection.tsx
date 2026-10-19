@@ -38,11 +38,11 @@ const STEPS = [
 
 export const HowToJoinSection: React.FC = () => {
   return (
-    <section className="py-20 sm:py-24 relative overflow-hidden bg-gradient-to-b from-[#0b1624] via-[#08121d] to-[#040a12] text-white">
+    <section className="py-20 sm:py-24 relative overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(217,119,6,0.06),_transparent_25%),linear-gradient(180deg,#f4f2ee_0%,#fbfbfa_100%)] text-[#1c1917]">
       {/* Subtle ambient lighting */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#13b8c8]/10 blur-[140px]"
+        className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#d97706]/10 blur-[140px]"
       />
 
       <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
@@ -53,7 +53,7 @@ export const HowToJoinSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="font-[family-name:var(--font-ui)] font-bold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight"
+            className="font-[family-name:var(--font-ui)] font-bold text-3xl sm:text-4xl lg:text-5xl text-[#1c1917] tracking-tight"
           >
             How To Join The Library
           </motion.h2>
@@ -71,23 +71,23 @@ export const HowToJoinSection: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="rounded-2xl p-6 sm:p-7 border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] hover:border-[#13b8c8]/50 transition-all duration-300 shadow-[0_8px_24px_rgba(2,8,17,0.3)] flex flex-col justify-between"
+                className="rounded-2xl p-6 sm:p-7 border border-[#e7e5e4] bg-white hover:border-[#d97706]/50 transition-all duration-300 shadow-[0_10px_25px_rgba(28,25,23,0.04)] flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#087d99] to-[#13b8c8] text-[#040e17] flex items-center justify-center shadow-[0_0_20px_rgba(19,184,200,0.35)]">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#b45309] to-[#d97706] text-white flex items-center justify-center shadow-md">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="font-[family-name:var(--font-ui)] text-2xl font-black text-white/30 tracking-tight">
+                    <span className="font-[family-name:var(--font-ui)] text-2xl font-black text-[#d6d3d1] tracking-tight">
                       {step.number}
                     </span>
                   </div>
 
-                  <h3 className="font-[family-name:var(--font-ui)] text-xl font-bold text-white mb-2 leading-snug">
+                  <h3 className="font-[family-name:var(--font-ui)] text-xl font-bold text-[#1c1917] mb-2 leading-snug">
                     {step.title}
                   </h3>
 
-                  <p className="text-sm text-white/65 leading-relaxed font-normal">
+                  <p className="text-sm text-[#78716c] leading-relaxed font-normal">
                     {step.description}
                   </p>
                 </div>
@@ -106,7 +106,7 @@ export const HowToJoinSection: React.FC = () => {
         >
           <Link
             to="/contact"
-            className="btn btn-primary px-8 py-3.5 text-xs uppercase tracking-wider font-bold rounded-xl shadow-lg inline-flex items-center gap-2 hover:scale-105 transition-transform"
+            className="btn btn-primary px-8 py-3.5 text-xs uppercase tracking-wider font-bold rounded-xl shadow-md inline-flex items-center gap-2 hover:scale-105 transition-transform"
           >
             <span>Enquire & Visit Us</span>
             <ArrowRight className="w-4 h-4" />
