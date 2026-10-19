@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { NavLink, Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -135,7 +135,7 @@ export const AdminLayout: React.FC = () => {
   ];
 
   return (
-    <div className="admin-shell relative flex min-h-screen bg-[#f4f9fc] font-sans">
+    <div className="admin-shell relative flex min-h-screen bg-[#faf6f0] font-sans">
       {/* Mobile Backdrop */}
       {mobileSidebarOpen && (
         <div
@@ -155,19 +155,19 @@ export const AdminLayout: React.FC = () => {
             : '-translate-x-full pointer-events-none md:pointer-events-auto max-md:invisible'
         }`}
       >
-        <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#7ef9ff] to-transparent" />
+        <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#e8d5a8] to-transparent" />
 
         {/* Logo Section */}
         <div className="flex items-center justify-between border-b border-white/10 px-4 py-4">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-xl border border-[#7ef9ff]/25 bg-gradient-to-br from-[#dff9ff] via-[#7ef9ff] to-[#5dc4ff] text-lg font-black text-[#071521] shadow-[0_8px_22px_rgba(93,196,255,0.2)]">
+            <div className="flex h-9 w-9 min-w-[36px] items-center justify-center rounded-xl border border-[#e8d5a8]/25 bg-gradient-to-br from-[#f5ead4] via-[#e8d5a8] to-[#d4b87a] text-lg font-black text-[#071521] shadow-[0_8px_22px_rgba(93,196,255,0.2)]">
               L
             </div>
             <div className={`truncate ${sidebarCollapsed ? 'md:hidden' : 'block'}`}>
               <span className="block font-[family-name:var(--font-ui)] text-sm font-black leading-tight tracking-[-0.04em] text-white">
                 Lucky Digital Library
               </span>
-              <span className="mt-0.5 block font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase tracking-[0.18em] text-[#7ef9ff]">
+              <span className="mt-0.5 block font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase tracking-[0.18em] text-[#e8d5a8]">
                 Admin Portal
               </span>
             </div>
@@ -188,7 +188,7 @@ export const AdminLayout: React.FC = () => {
           {navSections.map((section, idx) => (
             <div key={idx} className="px-2">
               <div
-                className={`px-4 py-2 md:px-3 md:py-1.5 font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase tracking-[0.2em] text-[#7ef9ff]/50 ${
+                className={`px-4 py-2 md:px-3 md:py-1.5 font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase tracking-[0.2em] text-[#e8d5a8]/50 ${
                   sidebarCollapsed ? 'md:hidden' : 'block'
                 }`}
               >
@@ -206,7 +206,7 @@ export const AdminLayout: React.FC = () => {
                       className={({ isActive }) =>
                         `relative flex items-center gap-3 rounded-xl min-h-[48px] px-4 py-3 md:min-h-0 md:px-3 md:py-2.5 text-sm font-medium transition-all ${
                           isActive
-                            ? 'bg-[#7ef9ff]/10 text-[#7ef9ff] ring-1 ring-inset ring-[#7ef9ff]/15 font-semibold'
+                            ? 'bg-[#e8d5a8]/10 text-[#e8d5a8] ring-1 ring-inset ring-[#e8d5a8]/15 font-semibold'
                             : 'text-white/65 hover:bg-white/5 hover:text-white'
                         } ${sidebarCollapsed ? 'md:justify-center md:px-0' : ''}`
                       }
@@ -215,7 +215,7 @@ export const AdminLayout: React.FC = () => {
                       <div className="relative flex items-center justify-center">
                         <Icon size={18} className="flex-shrink-0" />
                         {sidebarCollapsed && item.badge && item.badge > 0 ? (
-                          <span className="hidden md:block absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#13b8c8] ring-2 ring-[#071521]" />
+                          <span className="hidden md:block absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#c2a66e] ring-2 ring-[#071521]" />
                         ) : null}
                       </div>
                       <span className={`truncate flex-1 ${sidebarCollapsed ? 'md:hidden' : 'block'}`}>
@@ -223,7 +223,7 @@ export const AdminLayout: React.FC = () => {
                       </span>
                       {item.badge && item.badge > 0 ? (
                         <span
-                          className={`ml-auto inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#13b8c8] text-[#071521] ${
+                          className={`ml-auto inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#c2a66e] text-[#071521] ${
                             sidebarCollapsed ? 'md:hidden' : 'inline-flex'
                           }`}
                         >
@@ -243,7 +243,7 @@ export const AdminLayout: React.FC = () => {
           <NavLink
             to="/"
             target="_blank"
-            className={`flex items-center gap-2.5 rounded-xl min-h-[48px] px-4 py-3 md:min-h-0 md:px-3 md:py-2.5 text-xs text-[#7ef9ff] transition-all hover:bg-white/5 hover:text-white ${
+            className={`flex items-center gap-2.5 rounded-xl min-h-[48px] px-4 py-3 md:min-h-0 md:px-3 md:py-2.5 text-xs text-[#e8d5a8] transition-all hover:bg-white/5 hover:text-white ${
               sidebarCollapsed ? 'md:justify-center md:px-0' : ''
             }`}
             title="View Public Site"
@@ -257,9 +257,9 @@ export const AdminLayout: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex min-h-dvh min-w-0 flex-1 flex-col bg-[#f4f9fc] md:h-screen md:overflow-hidden">
+      <div className="flex min-h-dvh min-w-0 flex-1 flex-col bg-[#faf6f0] md:h-screen md:overflow-hidden">
         {/* TopBar */}
-        <header className="sticky top-0 z-30 flex h-16 min-w-0 flex-shrink-0 items-center justify-between gap-2 border-b border-[#dce8f0] bg-white px-3 shadow-[0_2px_8px_rgba(7,21,33,0.04)] sm:px-4 md:px-8">
+        <header className="sticky top-0 z-30 flex h-16 min-w-0 flex-shrink-0 items-center justify-between gap-2 border-b border-[#e8dcc8] bg-white px-3 shadow-[0_2px_8px_rgba(7,21,33,0.04)] sm:px-4 md:px-8">
           <div className="flex min-w-0 flex-1 items-center gap-2">
             {/* Collapse toggle on Desktop */}
             <button
@@ -271,7 +271,7 @@ export const AdminLayout: React.FC = () => {
               <Menu size={18} />
             </button>
 
-            <h1 className="min-w-0 flex-1 truncate font-[family-name:var(--font-ui)] text-base font-black tracking-[-0.04em] text-[#0b1d2e] sm:text-lg md:text-xl">
+            <h1 className="min-w-0 flex-1 truncate font-[family-name:var(--font-ui)] text-base font-black tracking-[-0.04em] text-[#2c1f0e] sm:text-lg md:text-xl">
               {getPageTitle()}
             </h1>
           </div>
@@ -280,10 +280,10 @@ export const AdminLayout: React.FC = () => {
             {/* Add Student Link Button */}
             <Link
               to="/admin/students/add"
-              className="hidden min-h-[44px] items-center gap-1.5 rounded-xl border border-[#7ef9ff]/30 bg-gradient-to-r from-[#071521] via-[#0d2235] to-[#14324c] px-3.5 py-2 text-xs font-bold text-[#7ef9ff] shadow-sm transition-all hover:border-[#7ef9ff]/60 hover:text-white sm:inline-flex"
+              className="hidden min-h-[44px] items-center gap-1.5 rounded-xl border border-[#e8d5a8]/30 bg-gradient-to-r from-[#071521] via-[#0d2235] to-[#14324c] px-3.5 py-2 text-xs font-bold text-[#e8d5a8] shadow-sm transition-all hover:border-[#e8d5a8]/60 hover:text-white sm:inline-flex"
               title="Enroll student with seat selection, custom timing, fee & receipt"
             >
-              <Sparkles size={14} className="text-[#7ef9ff]" />
+              <Sparkles size={14} className="text-[#e8d5a8]" />
               <span className="hidden sm:inline">Add Student</span>
               <span className="sm:hidden">+ Enroll</span>
             </Link>
@@ -292,13 +292,13 @@ export const AdminLayout: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/admin/messages')}
-              className="relative inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl text-[#65788c] transition-colors hover:bg-[#f1f7fa] hover:text-[#087d99]"
+              className="relative inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl text-[#8a7a60] transition-colors hover:bg-[#f1f7fa] hover:text-[#a38b52]"
               title="Messages & Inquiries"
               aria-label="Messages"
             >
               <MessageSquare size={19} />
               {unreadCount > 0 && (
-                <span className="absolute top-1.5 right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#13b8c8] px-1 text-[9px] font-bold text-[#071521]">
+                <span className="absolute top-1.5 right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#c2a66e] px-1 text-[9px] font-bold text-[#071521]">
                   {unreadCount}
                 </span>
               )}
@@ -308,7 +308,7 @@ export const AdminLayout: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/admin/approvals')}
-              className="relative inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl text-[#65788c] transition-colors hover:bg-[#f1f7fa] hover:text-[#087d99]"
+              className="relative inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl text-[#8a7a60] transition-colors hover:bg-[#f1f7fa] hover:text-[#a38b52]"
               title="Pending Approvals"
               aria-label="Approvals"
             >
@@ -319,22 +319,22 @@ export const AdminLayout: React.FC = () => {
             <div className="relative">
               <button
                 type="button"
-                className="flex min-h-[44px] items-center gap-2 rounded-xl border border-transparent p-1 transition-colors hover:border-[#dce8f0] hover:bg-[#f8fbfd]"
+                className="flex min-h-[44px] items-center gap-2 rounded-xl border border-transparent p-1 transition-colors hover:border-[#e8dcc8] hover:bg-[#f8fbfd]"
                 onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
                 aria-label="User profile menu"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#7ef9ff]/30 bg-[#0b2032] text-xs font-bold text-[#7ef9ff] shadow-sm">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#e8d5a8]/30 bg-[#0b2032] text-xs font-bold text-[#e8d5a8] shadow-sm">
                   {user?.name ? getInitials(user.name) : <UserIcon size={15} />}
                 </div>
                 <div className="hidden md:block text-left pr-1">
-                  <div className="text-xs font-semibold leading-tight text-[#0b1d2e]">
+                  <div className="text-xs font-semibold leading-tight text-[#2c1f0e]">
                     {user?.name || 'Admin'}
                   </div>
-                  <div className="font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase leading-tight tracking-[0.12em] text-[#087d99]">
+                  <div className="font-[family-name:var(--font-ui)] text-[9px] font-bold uppercase leading-tight tracking-[0.12em] text-[#a38b52]">
                     {user?.role || 'Administrator'}
                   </div>
                 </div>
-                <ChevronDown size={14} className="text-[#65788c] hidden md:block" />
+                <ChevronDown size={14} className="text-[#8a7a60] hidden md:block" />
               </button>
 
               {/* Dropdown Menu */}
@@ -344,17 +344,17 @@ export const AdminLayout: React.FC = () => {
                     className="fixed inset-0 z-30"
                     onClick={() => setProfileDropdownOpen(false)}
                   />
-                  <div className="absolute right-0 z-40 mt-2 w-56 animate-fade-in rounded-2xl border border-[#dce8f0] bg-white py-1.5 text-sm shadow-xl">
+                  <div className="absolute right-0 z-40 mt-2 w-56 animate-fade-in rounded-2xl border border-[#e8dcc8] bg-white py-1.5 text-sm shadow-xl">
                     <div className="border-b border-[#e6eef3] px-4 py-2.5">
-                      <div className="truncate font-semibold text-[#0b1d2e]">{user?.name}</div>
-                      <div className="truncate text-xs text-[#65788c]">{user?.email}</div>
+                      <div className="truncate font-semibold text-[#2c1f0e]">{user?.name}</div>
+                      <div className="truncate text-xs text-[#8a7a60]">{user?.email}</div>
                     </div>
                     <NavLink
                       to="/admin/settings"
                       onClick={() => setProfileDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-4 py-2 text-[#294055] transition-colors hover:bg-[#f4f9fc]"
+                      className="flex items-center gap-2.5 px-4 py-2 text-[#294055] transition-colors hover:bg-[#faf6f0]"
                     >
-                      <Settings size={15} className="text-[#65788c]" />
+                      <Settings size={15} className="text-[#8a7a60]" />
                       Settings
                     </NavLink>
                     <button
@@ -376,7 +376,7 @@ export const AdminLayout: React.FC = () => {
         </header>
 
         {/* Content Outlet */}
-        <main className="w-full max-w-full flex-1 bg-[#f4f9fc] p-4 pb-28 sm:p-5 md:overflow-y-auto md:p-8 md:pb-8">
+        <main className="w-full max-w-full flex-1 bg-[#faf6f0] p-4 pb-28 sm:p-5 md:overflow-y-auto md:p-8 md:pb-8">
           <Outlet />
         </main>
 
@@ -397,12 +397,12 @@ export const AdminLayout: React.FC = () => {
                 <LayoutDashboard
                   size={22}
                   className={`transition-transform duration-200 ${
-                    isActive ? 'text-[#087d99] stroke-[2.4] scale-110' : 'text-[#65788c] stroke-[1.8]'
+                    isActive ? 'text-[#a38b52] stroke-[2.4] scale-110' : 'text-[#8a7a60] stroke-[1.8]'
                   }`}
                 />
                 <span
                   className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
-                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                    isActive ? 'font-bold text-[#a38b52]' : 'font-medium text-[#8a7a60]'
                   }`}
                 >
                   Dashboard
@@ -423,12 +423,12 @@ export const AdminLayout: React.FC = () => {
                 <Users
                   size={22}
                   className={`transition-transform duration-200 ${
-                    isActive ? 'text-[#087d99] stroke-[2.4] scale-110' : 'text-[#65788c] stroke-[1.8]'
+                    isActive ? 'text-[#a38b52] stroke-[2.4] scale-110' : 'text-[#8a7a60] stroke-[1.8]'
                   }`}
                 />
                 <span
                   className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
-                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                    isActive ? 'font-bold text-[#a38b52]' : 'font-medium text-[#8a7a60]'
                   }`}
                 >
                   Students
@@ -445,12 +445,12 @@ export const AdminLayout: React.FC = () => {
           >
             {({ isActive }) => (
               <>
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-[#087d99] to-[#13b8c8] text-white shadow-[0_4px_12px_rgba(8,125,153,0.35)] -mt-3 transition-transform active:scale-95">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-[#a38b52] to-[#c2a66e] text-white shadow-[0_4px_12px_rgba(8,125,153,0.35)] -mt-3 transition-transform active:scale-95">
                   <UserPlus size={18} className="!w-[18px] !h-[18px]" />
                 </div>
                 <span
                   className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
-                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                    isActive ? 'font-bold text-[#a38b52]' : 'font-medium text-[#8a7a60]'
                   }`}
                 >
                   Add New
@@ -471,12 +471,12 @@ export const AdminLayout: React.FC = () => {
                 <CreditCard
                   size={22}
                   className={`transition-transform duration-200 ${
-                    isActive ? 'text-[#087d99] stroke-[2.4] scale-110' : 'text-[#65788c] stroke-[1.8]'
+                    isActive ? 'text-[#a38b52] stroke-[2.4] scale-110' : 'text-[#8a7a60] stroke-[1.8]'
                   }`}
                 />
                 <span
                   className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
-                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                    isActive ? 'font-bold text-[#a38b52]' : 'font-medium text-[#8a7a60]'
                   }`}
                 >
                   Payments
@@ -496,12 +496,12 @@ export const AdminLayout: React.FC = () => {
                 <Settings
                   size={22}
                   className={`transition-transform duration-200 ${
-                    isActive ? 'text-[#087d99] stroke-[2.4] scale-110' : 'text-[#65788c] stroke-[1.8]'
+                    isActive ? 'text-[#a38b52] stroke-[2.4] scale-110' : 'text-[#8a7a60] stroke-[1.8]'
                   }`}
                 />
                 <span
                   className={`text-[11px] mt-0.5 tracking-tight transition-colors duration-200 ${
-                    isActive ? 'font-bold text-[#087d99]' : 'font-medium text-[#65788c]'
+                    isActive ? 'font-bold text-[#a38b52]' : 'font-medium text-[#8a7a60]'
                   }`}
                 >
                   Settings

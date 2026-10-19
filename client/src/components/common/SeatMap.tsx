@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   DoorOpen,
@@ -164,7 +164,7 @@ export const SeatMap: React.FC<SeatMapProps> = ({
           seat.isMySeat
             ? 'bg-gradient-to-r from-[#f7d77b] via-[#f2bf63] to-[#d7a14a] text-[#071521] font-extrabold border-[#fbdd81] shadow-[0_0_18px_rgba(247,215,123,0.42)] z-10 scale-[1.02]'
             : isSelected
-            ? 'bg-gradient-to-r from-[#7ef9ff]/25 to-[#5dc4ff]/20 text-white border-[#7ef9ff]/60 ring-1 ring-[#7ef9ff]/60 z-10'
+            ? 'bg-gradient-to-r from-[#e8d5a8]/25 to-[#d4b87a]/20 text-white border-[#e8d5a8]/60 ring-1 ring-[#e8d5a8]/60 z-10'
             : seat.isOccupied
             ? 'bg-[#111f32] text-[#8aa7c6] border-[#213a55] hover:border-[#335d8f] hover:bg-[#16283d]'
             : 'bg-[#0d2d2e]/90 text-[#aefae3] border-[#1f7d74]/60 hover:border-[#4fe3d1] hover:bg-[#12363a]'
@@ -175,7 +175,7 @@ export const SeatMap: React.FC<SeatMapProps> = ({
             <span className="flex items-center gap-1 font-semibold truncate leading-none">
               <span>Seat {seat.seatNumber}</span>
               {seat.isMySeat && (
-                <span className="text-[7.5px] bg-[#060A14] text-[#13b8c8] px-0.5 rounded font-sans uppercase font-bold">
+                <span className="text-[7.5px] bg-[#060A14] text-[#c2a66e] px-0.5 rounded font-sans uppercase font-bold">
                   YOU
                 </span>
               )}
@@ -199,7 +199,7 @@ export const SeatMap: React.FC<SeatMapProps> = ({
             </span>
             <span className="flex items-center gap-1 font-semibold truncate leading-none">
               {seat.isMySeat && (
-                <span className="text-[7.5px] bg-[#060A14] text-[#13b8c8] px-0.5 rounded font-sans uppercase font-bold">
+                <span className="text-[7.5px] bg-[#060A14] text-[#c2a66e] px-0.5 rounded font-sans uppercase font-bold">
                   YOU
                 </span>
               )}

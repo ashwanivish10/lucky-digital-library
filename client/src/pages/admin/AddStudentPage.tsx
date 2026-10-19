@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -185,18 +185,18 @@ export const AddStudentPage: React.FC = () => {
       <div className="flex flex-col gap-1.5 pt-1">
         <Link
           to="/admin/students"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087d99] hover:text-[#075a70] w-fit"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a38b52] hover:text-[#8b7340] w-fit"
         >
           <ArrowLeft size={14} />
           <span>Back to Students Directory</span>
         </Link>
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] flex items-center gap-2">
-              <Sparkles className="text-[#13b8c8] h-6 w-6 sm:h-7 sm:w-7" />
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e] flex items-center gap-2">
+              <Sparkles className="text-[#c2a66e] h-6 w-6 sm:h-7 sm:w-7" />
               <span>Student Enrollment</span>
             </h2>
-            <p className="text-xs sm:text-sm text-[#65788c] mt-0.5">
+            <p className="text-xs sm:text-sm text-[#8a7a60] mt-0.5">
               Instant registration, floor seat selection, custom timings & receipt
             </p>
           </div>
@@ -204,7 +204,7 @@ export const AddStudentPage: React.FC = () => {
       </div>
 
       {/* Main Enrollment Card Form */}
-      <form noValidate onSubmit={handleSubmit} className="card bg-white p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-[#dce8f0] shadow-sm">
+      <form noValidate onSubmit={handleSubmit} className="card bg-white p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-[#e8dcc8] shadow-sm">
         <FormSteps
           steps={['Student', 'Shift', 'Dates', 'Payment']}
           canContinue={(index) => {
@@ -235,11 +235,11 @@ export const AddStudentPage: React.FC = () => {
             return true;
           }}
           footer={
-            <div className="sticky bottom-[4.5rem] z-30 -mx-4 -mb-4 border-t border-[#dce8f0] bg-white/95 px-4 py-3 backdrop-blur-md md:static md:m-0 md:border-t md:border-[#e2edf3] md:bg-transparent md:p-0 md:pt-4">
+            <div className="sticky bottom-[4.5rem] z-30 -mx-4 -mb-4 border-t border-[#e8dcc8] bg-white/95 px-4 py-3 backdrop-blur-md md:static md:m-0 md:border-t md:border-[#e2edf3] md:bg-transparent md:p-0 md:pt-4">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-4 text-xs font-semibold text-[#65788c]">
+                <div className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-4 text-xs font-semibold text-[#8a7a60]">
                   <span>
-                    Total: <strong className="text-[#0b1d2e]">₹{parsedTotalFee}</strong>
+                    Total: <strong className="text-[#2c1f0e]">₹{parsedTotalFee}</strong>
                   </span>
                   <span>
                     Paid: <strong className="text-emerald-700">₹{parsedReceivedToday}</strong>
@@ -253,7 +253,7 @@ export const AddStudentPage: React.FC = () => {
                 <div className="w-full sm:w-auto flex items-center justify-end gap-2.5">
                   <Link
                     to="/admin/students"
-                    className="hidden sm:inline-flex rounded-xl border border-[#cfdce6] bg-white px-5 py-2.5 text-xs font-bold text-[#65788c] hover:bg-[#f1f7fa] hover:text-[#0b1d2e] transition-colors"
+                    className="hidden sm:inline-flex rounded-xl border border-[#cfdce6] bg-white px-5 py-2.5 text-xs font-bold text-[#8a7a60] hover:bg-[#f1f7fa] hover:text-[#2c1f0e] transition-colors"
                   >
                     Cancel
                   </Link>
@@ -279,10 +279,10 @@ export const AddStudentPage: React.FC = () => {
             </div>
           }
         >
-        <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-3.5">
+        <div className="rounded-2xl border border-[#e8dcc8] bg-[#f8fbfd] p-4 sm:p-5 space-y-3.5">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#a38b52]">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#f5ead4] text-[11px] font-black text-[#a38b52]">
                 1
               </span>
               <span>Student Details</span>
@@ -311,7 +311,7 @@ export const AddStudentPage: React.FC = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Rahul Kumar"
-                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-10 pr-3.5 text-base sm:text-sm text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-10 pr-3.5 text-base sm:text-sm text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                 />
               </div>
             </div>
@@ -332,14 +332,14 @@ export const AddStudentPage: React.FC = () => {
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="e.g. 9876543210"
                   maxLength={15}
-                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-10 pr-3.5 text-base sm:text-sm font-semibold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-10 pr-3.5 text-base sm:text-sm font-semibold text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                 />
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-2 rounded-xl border border-[#cbe4ed] bg-[#eef8fb] p-3 text-xs text-[#096a82]">
-            <CheckCircle2 size={16} className="shrink-0 text-[#13b8c8]" />
+            <CheckCircle2 size={16} className="shrink-0 text-[#c2a66e]" />
             <span>
               <strong>Zero-friction credentials:</strong> Student's phone number is automatically set as their initial login password. On their first login, they will be required to set a new password.
             </span>
@@ -347,10 +347,10 @@ export const AddStudentPage: React.FC = () => {
         </div>
 
         {/* Section 2: Shift Timings & Seat Assignment */}
-        <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
+        <div className="rounded-2xl border border-[#e8dcc8] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#a38b52]">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#f5ead4] text-[11px] font-black text-[#a38b52]">
                 2
               </span>
               <span>Shift Timings & Desk Allocation</span>
@@ -359,9 +359,9 @@ export const AddStudentPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowSeatMap(!showSeatMap)}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#087d99] hover:text-[#075a70] bg-white border border-[#cbe4ed] px-3 py-1.5 rounded-xl shadow-xs hover:bg-[#eef8fb] transition-all self-start sm:self-auto min-h-[36px] sm:min-h-0"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#a38b52] hover:text-[#8b7340] bg-white border border-[#cbe4ed] px-3 py-1.5 rounded-xl shadow-xs hover:bg-[#eef8fb] transition-all self-start sm:self-auto min-h-[36px] sm:min-h-0"
             >
-              <Armchair size={14} className="text-[#13b8c8]" />
+              <Armchair size={14} className="text-[#c2a66e]" />
               <span>{showSeatMap ? 'Hide Map' : 'Floor Map (1–58)'}</span>
             </button>
           </div>
@@ -375,32 +375,32 @@ export const AddStudentPage: React.FC = () => {
 
               {/* 1-tap quick timing buttons for speed without restriction */}
               <div className="flex items-center gap-1.5 text-[11px] overflow-x-auto no-scrollbar py-1 -mx-1 px-1 [mask-image:linear-gradient(to_right,black_85%,transparent)] sm:[mask-image:none]">
-                <span className="text-[#65788c] font-medium hidden xs:inline shrink-0">Quick fill:</span>
+                <span className="text-[#8a7a60] font-medium hidden xs:inline shrink-0">Quick fill:</span>
                 <button
                   type="button"
                   onClick={() => setPresetTiming('08:00', '16:00')}
-                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#2c1f0e] hover:border-[#c2a66e] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   8 AM – 4 PM
                 </button>
                 <button
                   type="button"
                   onClick={() => setPresetTiming('08:00', '20:00')}
-                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#2c1f0e] hover:border-[#c2a66e] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   8 AM – 8 PM
                 </button>
                 <button
                   type="button"
                   onClick={() => setPresetTiming('06:00', '14:00')}
-                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#2c1f0e] hover:border-[#c2a66e] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   6 AM – 2 PM
                 </button>
                 <button
                   type="button"
                   onClick={() => setPresetTiming('14:00', '22:00')}
-                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#2c1f0e] hover:border-[#c2a66e] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   2 PM – 10 PM
                 </button>
@@ -409,7 +409,7 @@ export const AddStudentPage: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               <div>
-                <span className="block text-[11px] font-bold text-[#65788c] mb-1">
+                <span className="block text-[11px] font-bold text-[#8a7a60] mb-1">
                   Time From (Start Time)
                 </span>
                 <div className="relative">
@@ -419,13 +419,13 @@ export const AddStudentPage: React.FC = () => {
                     required
                     value={timeFrom}
                     onChange={(e) => setTimeFrom(e.target.value)}
-                    className="shift-time w-full min-w-0 rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3 text-sm font-bold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="shift-time w-full min-w-0 rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3 text-sm font-bold text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
 
               <div>
-                <span className="block text-[11px] font-bold text-[#65788c] mb-1">
+                <span className="block text-[11px] font-bold text-[#8a7a60] mb-1">
                   Time To (End Time)
                 </span>
                 <div className="relative">
@@ -435,16 +435,16 @@ export const AddStudentPage: React.FC = () => {
                     required
                     value={timeTo}
                     onChange={(e) => setTimeTo(e.target.value)}
-                    className="shift-time w-full min-w-0 rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3 text-sm font-bold text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="shift-time w-full min-w-0 rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3 text-sm font-bold text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
             </div>
 
             {calculatedShift && (
-              <div className="flex flex-col items-start gap-1.5 rounded-xl border border-[#cbe4ed] bg-[#e7faff] px-3.5 py-2 text-xs text-[#087d99] sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-col items-start gap-1.5 rounded-xl border border-[#cbe4ed] bg-[#f5ead4] px-3.5 py-2 text-xs text-[#a38b52] sm:flex-row sm:items-center sm:justify-between">
                 <span className="flex min-w-0 items-start gap-1.5 font-semibold leading-snug">
-                  <Clock size={13} className="mt-0.5 shrink-0 text-[#13b8c8]" />
+                  <Clock size={13} className="mt-0.5 shrink-0 text-[#c2a66e]" />
                   <span>Shift slot: <strong>{calculatedShift}</strong></span>
                 </span>
                 <span className="shrink-0 rounded-md border border-[#cbe4ed] bg-white/80 px-2 py-0.5 text-[11px] font-bold">
@@ -471,7 +471,7 @@ export const AddStudentPage: React.FC = () => {
                     value={seatNumber}
                     onChange={(e) => setSeatNumber(e.target.value)}
                     placeholder="e.g. 14"
-                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm font-bold text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
@@ -482,12 +482,12 @@ export const AddStudentPage: React.FC = () => {
                   onClick={() => setShowSeatMap(!showSeatMap)}
                   className={`flex min-w-0 flex-1 items-center justify-between gap-2 rounded-xl border px-3.5 py-2.5 text-left text-xs font-bold transition-all ${
                     seatNumber
-                      ? 'border-[#087d99] bg-[#071521] text-[#7ef9ff]'
-                      : 'border-[#dce8f0] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd]'
+                      ? 'border-[#a38b52] bg-[#071521] text-[#e8d5a8]'
+                      : 'border-[#e8dcc8] bg-white text-[#2c1f0e] hover:border-[#c2a66e] hover:bg-[#f0fbfd]'
                   }`}
                 >
                   <div className="flex min-w-0 items-center gap-1.5">
-                    <Armchair size={15} className={`shrink-0 ${seatNumber ? 'text-[#7ef9ff]' : 'text-[#13b8c8]'}`} />
+                    <Armchair size={15} className={`shrink-0 ${seatNumber ? 'text-[#e8d5a8]' : 'text-[#c2a66e]'}`} />
                     <span className="min-w-0 leading-snug">
                       {seatNumber
                         ? `Assigned Desk: Seat ${seatNumber}`
@@ -527,9 +527,9 @@ export const AddStudentPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
+        <div className="rounded-2xl border border-[#e8dcc8] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#a38b52]">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#f5ead4] text-[11px] font-black text-[#a38b52]">
               3
             </span>
             <span>Membership Dates</span>
@@ -542,32 +542,32 @@ export const AddStudentPage: React.FC = () => {
 
               {/* 1-tap quick duration chips */}
               <div className="flex items-center gap-1.5 text-[11px] overflow-x-auto no-scrollbar py-1 -mx-1 px-1 [mask-image:linear-gradient(to_right,black_85%,transparent)] sm:[mask-image:none]">
-                <span className="text-[#65788c] font-medium hidden xs:inline shrink-0">Quick pick:</span>
+                <span className="text-[#8a7a60] font-medium hidden xs:inline shrink-0">Quick pick:</span>
                 <button
                   type="button"
                   onClick={() => applyDuration(0, 15)}
-                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#2c1f0e] hover:border-[#c2a66e] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   15 Days
                 </button>
                 <button
                   type="button"
                   onClick={() => applyDuration(1)}
-                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#087d99] bg-[#e7faff] text-[#087d99] font-bold shadow-2xs whitespace-nowrap shrink-0"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#a38b52] bg-[#f5ead4] text-[#a38b52] font-bold shadow-2xs whitespace-nowrap shrink-0"
                 >
                   1 Month
                 </button>
                 <button
                   type="button"
                   onClick={() => applyDuration(2)}
-                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#2c1f0e] hover:border-[#c2a66e] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   2 Mos
                 </button>
                 <button
                   type="button"
                   onClick={() => applyDuration(3)}
-                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
+                  className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2.5 sm:py-0.5 rounded-md border border-[#cfdce6] bg-white text-[#2c1f0e] hover:border-[#c2a66e] hover:bg-[#f0fbfd] transition-colors whitespace-nowrap shrink-0"
                 >
                   3 Mos
                 </button>
@@ -576,7 +576,7 @@ export const AddStudentPage: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
               <div>
-                <span className="block text-[11px] font-bold text-[#65788c] mb-1">
+                <span className="block text-[11px] font-bold text-[#8a7a60] mb-1">
                   Start Date
                 </span>
                 <div className="relative">
@@ -586,13 +586,13 @@ export const AddStudentPage: React.FC = () => {
                     required
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
 
               <div>
-                <span className="block text-[11px] font-bold text-[#65788c] mb-1">
+                <span className="block text-[11px] font-bold text-[#8a7a60] mb-1">
                   End Date
                 </span>
                 <div className="relative">
@@ -602,17 +602,17 @@ export const AddStudentPage: React.FC = () => {
                     required
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                    className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 pl-10 pr-3.5 text-base sm:text-sm text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                   />
                 </div>
               </div>
             </div>
 
             {durationDays > 0 && (
-              <div className="text-[11px] text-[#65788c] flex items-center gap-1.5 pt-0.5">
-                <Calendar size={13} className="text-[#13b8c8]" />
+              <div className="text-[11px] text-[#8a7a60] flex items-center gap-1.5 pt-0.5">
+                <Calendar size={13} className="text-[#c2a66e]" />
                 <span>
-                  Total Tenure: <strong className="text-[#0b1d2e]">{durationDays} Days</strong>
+                  Total Tenure: <strong className="text-[#2c1f0e]">{durationDays} Days</strong>
                 </span>
               </div>
             )}
@@ -620,10 +620,10 @@ export const AddStudentPage: React.FC = () => {
         </div>
 
         {/* Section 3: Custom Billing & Payment */}
-        <div className="rounded-2xl border border-[#dce8f0] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
+        <div className="rounded-2xl border border-[#e8dcc8] bg-[#f8fbfd] p-4 sm:p-5 space-y-4">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#087d99]">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e7faff] text-[11px] font-black text-[#087d99]">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#a38b52]">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#f5ead4] text-[11px] font-black text-[#a38b52]">
                 4
               </span>
               <span>Billing & Instant Payment</span>
@@ -645,7 +645,7 @@ export const AddStudentPage: React.FC = () => {
                         setAmountReceivedToday(1000);
                       }
                     }}
-                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8] whitespace-nowrap shrink-0"
+                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#2c1f0e] hover:border-[#c2a66e] whitespace-nowrap shrink-0"
                   >
                     ₹1k
                   </button>
@@ -657,7 +657,7 @@ export const AddStudentPage: React.FC = () => {
                         setAmountReceivedToday(1500);
                       }
                     }}
-                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8] whitespace-nowrap shrink-0"
+                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#2c1f0e] hover:border-[#c2a66e] whitespace-nowrap shrink-0"
                   >
                     ₹1.5k
                   </button>
@@ -669,7 +669,7 @@ export const AddStudentPage: React.FC = () => {
                         setAmountReceivedToday(2000);
                       }
                     }}
-                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8] whitespace-nowrap shrink-0"
+                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#2c1f0e] hover:border-[#c2a66e] whitespace-nowrap shrink-0"
                   >
                     ₹2k
                   </button>
@@ -694,7 +694,7 @@ export const AddStudentPage: React.FC = () => {
                     }
                   }}
                   placeholder="e.g. 1500"
-                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-8 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-8 pr-3.5 text-base sm:text-sm font-bold text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                 />
               </div>
             </div>
@@ -708,14 +708,14 @@ export const AddStudentPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={handlePayFull}
-                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded font-bold bg-[#e7faff] border border-[#cbe4ed] text-[#087d99] hover:bg-[#d8f6fd] whitespace-nowrap shrink-0"
+                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-2 sm:py-0.5 rounded font-bold bg-[#f5ead4] border border-[#cbe4ed] text-[#a38b52] hover:bg-[#d8f6fd] whitespace-nowrap shrink-0"
                   >
                     Full Pay
                   </button>
                   <button
                     type="button"
                     onClick={() => setAmountReceivedToday(Math.round(parsedTotalFee / 2))}
-                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#0b1d2e] hover:border-[#13b8c8] whitespace-nowrap shrink-0"
+                    className="min-h-[36px] sm:min-h-0 px-3 py-1.5 sm:px-1.5 sm:py-0.5 rounded bg-white border border-[#cfdce6] text-[#2c1f0e] hover:border-[#c2a66e] whitespace-nowrap shrink-0"
                   >
                     50%
                   </button>
@@ -734,7 +734,7 @@ export const AddStudentPage: React.FC = () => {
                   value={amountReceivedToday}
                   onChange={(e) => setAmountReceivedToday(e.target.value)}
                   placeholder="e.g. 1000"
-                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-8 pr-3.5 text-base sm:text-sm font-bold text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-3 pl-8 pr-3.5 text-base sm:text-sm font-bold text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:outline-none focus:ring-2 focus:ring-[#25b8d0]/15"
                 />
               </div>
             </div>
@@ -783,7 +783,7 @@ export const AddStudentPage: React.FC = () => {
                 onClick={() => setPaymentMethod('cash')}
                 className={`flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-xs font-bold transition-all ${
                   paymentMethod === 'cash'
-                    ? 'border-[#087d99] bg-[#087d99] text-white shadow-sm ring-2 ring-[#087d99]/20'
+                    ? 'border-[#a38b52] bg-[#a38b52] text-white shadow-sm ring-2 ring-[#a38b52]/20'
                     : 'border-[#cfdce6] bg-white text-[#294055] hover:bg-[#f1f7fa]'
                 }`}
               >
@@ -796,7 +796,7 @@ export const AddStudentPage: React.FC = () => {
                 onClick={() => setPaymentMethod('upi')}
                 className={`flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-xs font-bold transition-all ${
                   paymentMethod === 'upi'
-                    ? 'border-[#087d99] bg-[#087d99] text-white shadow-sm ring-2 ring-[#087d99]/20'
+                    ? 'border-[#a38b52] bg-[#a38b52] text-white shadow-sm ring-2 ring-[#a38b52]/20'
                     : 'border-[#cfdce6] bg-white text-[#294055] hover:bg-[#f1f7fa]'
                 }`}
               >
@@ -810,7 +810,7 @@ export const AddStudentPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {paymentMethod === 'upi' && (
               <div>
-                <label className="block text-xs font-semibold text-[#65788c] mb-1">
+                <label className="block text-xs font-semibold text-[#8a7a60] mb-1">
                   UPI Ref / UTR (Optional)
                 </label>
                 <input
@@ -818,13 +818,13 @@ export const AddStudentPage: React.FC = () => {
                   value={transactionReference}
                   onChange={(e) => setTransactionReference(e.target.value)}
                   placeholder="e.g. 4028472910"
-                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 sm:py-2 px-3 text-base sm:text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none min-h-[44px] sm:min-h-0"
+                  className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 sm:py-2 px-3 text-base sm:text-xs text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none min-h-[44px] sm:min-h-0"
                 />
               </div>
             )}
 
             <div className={paymentMethod === 'upi' ? '' : 'sm:col-span-2'}>
-              <label className="block text-xs font-semibold text-[#65788c] mb-1">
+              <label className="block text-xs font-semibold text-[#8a7a60] mb-1">
                 Admin Notes (Optional)
               </label>
               <input
@@ -832,7 +832,7 @@ export const AddStudentPage: React.FC = () => {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="e.g. Walk-in student, UPSC aspirant"
-                className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 sm:py-2 px-3 text-base sm:text-xs text-[#0b1d2e] focus:border-[#25b8d0] focus:outline-none min-h-[44px] sm:min-h-0"
+                className="w-full rounded-xl border border-[#cfdce6] bg-white py-2.5 sm:py-2 px-3 text-base sm:text-xs text-[#2c1f0e] focus:border-[#25b8d0] focus:outline-none min-h-[44px] sm:min-h-0"
               />
             </div>
           </div>

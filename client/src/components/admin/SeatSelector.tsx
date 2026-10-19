@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { Armchair, Check, AlertCircle, RefreshCw, Search, Sparkles, Clock } from 'lucide-react';
 import { studentsApi } from '../../lib/api';
 
@@ -110,31 +110,31 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
   };
 
   return (
-    <div className="rounded-2xl border border-[#dce8f0] bg-white p-3.5 sm:p-4.5 space-y-3.5 shadow-xs">
+    <div className="rounded-2xl border border-[#e8dcc8] bg-white p-3.5 sm:p-4.5 space-y-3.5 shadow-xs">
       {/* Header with Stats & Live Refresh */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#edf4f8] pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#f5f0e6] pb-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#e7faff] text-[#087d99]">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#f5ead4] text-[#a38b52]">
             <Armchair className="h-4 w-4" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#0b1d2e] block leading-tight">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#2c1f0e] block leading-tight">
                 Floor Seat Map
               </span>
               {startTime && endTime && (
-                <span className="hidden xs:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#e7faff] text-[#087d99] border border-[#cbe4ed]">
+                <span className="hidden xs:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#f5ead4] text-[#a38b52] border border-[#cbe4ed]">
                   <Clock size={10} />
                   {formatTo12Hr(startTime)} – {formatTo12Hr(endTime)}
                 </span>
               )}
             </div>
-            <span className="text-[10px] text-[#65788c]">Tap any seat to select</span>
+            <span className="text-[10px] text-[#8a7a60]">Tap any seat to select</span>
           </div>
           <button
             type="button"
             onClick={fetchSeats}
-            className="text-[#65788c] hover:text-[#087d99] transition-colors p-1 rounded-md hover:bg-[#f1f7fa] ml-1"
+            className="text-[#8a7a60] hover:text-[#a38b52] transition-colors p-1 rounded-md hover:bg-[#f1f7fa] ml-1"
             title="Refresh seat availability"
             aria-label="Refresh seats"
           >
@@ -148,8 +148,8 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
             {availableCount} Free
           </span>
           {sharedCount > 0 && (
-            <span className="flex items-center gap-1 font-semibold text-[#087d99] bg-[#e7faff] border border-[#cbe4ed] px-2.5 py-1 rounded-full">
-              <Sparkles size={11} className="text-[#13b8c8]" />
+            <span className="flex items-center gap-1 font-semibold text-[#a38b52] bg-[#f5ead4] border border-[#cbe4ed] px-2.5 py-1 rounded-full">
+              <Sparkles size={11} className="text-[#c2a66e]" />
               {sharedCount} Shared (Open)
             </span>
           )}
@@ -162,9 +162,9 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
 
       {/* Shift Context Indicator for Mobile */}
       {startTime && endTime && (
-        <div className="xs:hidden flex items-center justify-between px-3 py-1.5 rounded-xl bg-[#f0fbfd] border border-[#cbe4ed] text-[11px] text-[#087d99]">
+        <div className="xs:hidden flex items-center justify-between px-3 py-1.5 rounded-xl bg-[#f0fbfd] border border-[#cbe4ed] text-[11px] text-[#a38b52]">
           <span className="font-semibold flex items-center gap-1">
-            <Clock size={12} className="text-[#13b8c8]" /> Checking Shift:
+            <Clock size={12} className="text-[#c2a66e]" /> Checking Shift:
           </span>
           <span className="font-bold">{formatTo12Hr(startTime)} – {formatTo12Hr(endTime)}</span>
         </div>
@@ -172,7 +172,7 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
 
       {/* Wing Filter Tabs & Quick Search */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-        <div className="flex items-center gap-1 bg-[#f4f9fc] p-1 rounded-xl border border-[#e2edf3] text-xs overflow-x-auto">
+        <div className="flex items-center gap-1 bg-[#faf6f0] p-1 rounded-xl border border-[#e2edf3] text-xs overflow-x-auto">
           <button
             type="button"
             onClick={() => {
@@ -181,8 +181,8 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
             }}
             className={`px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap text-xs ${
               activeWing === 'all'
-                ? 'bg-white text-[#087d99] shadow-xs'
-                : 'text-[#65788c] hover:text-[#0b1d2e]'
+                ? 'bg-white text-[#a38b52] shadow-xs'
+                : 'text-[#8a7a60] hover:text-[#2c1f0e]'
             }`}
           >
             All (1–58)
@@ -195,8 +195,8 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
             }}
             className={`px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap text-xs ${
               activeWing === 'east'
-                ? 'bg-white text-[#087d99] shadow-xs'
-                : 'text-[#65788c] hover:text-[#0b1d2e]'
+                ? 'bg-white text-[#a38b52] shadow-xs'
+                : 'text-[#8a7a60] hover:text-[#2c1f0e]'
             }`}
           >
             East Wing (1–30)
@@ -209,8 +209,8 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
             }}
             className={`px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap text-xs ${
               activeWing === 'west'
-                ? 'bg-white text-[#087d99] shadow-xs'
-                : 'text-[#65788c] hover:text-[#0b1d2e]'
+                ? 'bg-white text-[#a38b52] shadow-xs'
+                : 'text-[#8a7a60] hover:text-[#2c1f0e]'
             }`}
           >
             West Wing (31–58)
@@ -226,7 +226,7 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
             value={seatSearch}
             onChange={(e) => setSeatSearch(e.target.value)}
             placeholder="Find seat #"
-            className="w-full rounded-lg border border-[#cfdce6] bg-[#f8fbfd] py-1.5 pl-8 pr-2.5 text-xs text-[#0b1d2e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:bg-white focus:outline-none"
+            className="w-full rounded-lg border border-[#cfdce6] bg-[#f8fbfd] py-1.5 pl-8 pr-2.5 text-xs text-[#2c1f0e] placeholder-[#a0b3c6] focus:border-[#25b8d0] focus:bg-white focus:outline-none"
           />
         </div>
       </div>
@@ -235,8 +235,8 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
       {selectedSeat && (
         <div className="flex items-center justify-between rounded-xl bg-gradient-to-r from-[#071521] to-[#122e44] px-3.5 py-2 text-white text-xs shadow-xs">
           <div className="flex items-center gap-2">
-            <Check size={14} className="text-[#7ef9ff]" />
-            <span className="font-bold text-[#7ef9ff]">
+            <Check size={14} className="text-[#e8d5a8]" />
+            <span className="font-bold text-[#e8d5a8]">
               Selected: Seat {selectedSeat}
             </span>
             <span className="text-white/60 text-[11px] hidden xs:inline">
@@ -256,11 +256,11 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
       {/* Seat Buttons Grid: Ultra-responsive on mobile (5 cols on mobile, up to 10 on desktop) */}
       <div className="max-h-64 sm:max-h-60 overflow-y-auto pr-1 -mr-1 overscroll-contain">
         {loading && seats.length === 0 ? (
-          <div className="py-10 text-center text-xs text-[#65788c]">
+          <div className="py-10 text-center text-xs text-[#8a7a60]">
             Loading floor map seats...
           </div>
         ) : filteredSeats.length === 0 ? (
-          <div className="py-8 text-center text-xs text-[#65788c]">
+          <div className="py-8 text-center text-xs text-[#8a7a60]">
             No seats found matching "{seatSearch}"
           </div>
         ) : (
@@ -284,17 +284,17 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
                   title={occupantTooltip}
                   className={`relative flex flex-col items-center justify-center rounded-xl border py-2 px-1 text-xs font-bold transition-all min-h-[46px] select-none active:scale-95 ${
                     isSelected
-                      ? 'border-[#087d99] bg-[#071521] text-[#7ef9ff] shadow-md ring-2 ring-[#7ef9ff]/50 scale-[1.03] z-10'
+                      ? 'border-[#a38b52] bg-[#071521] text-[#e8d5a8] shadow-md ring-2 ring-[#e8d5a8]/50 scale-[1.03] z-10'
                       : isOccupied
                       ? 'border-rose-200 bg-rose-50/80 text-rose-800 hover:bg-rose-100 hover:border-rose-300'
                       : isShared
-                      ? 'border-[#76d6e6] bg-[#f0fbfd] text-[#087d99] hover:border-[#13b8c8] hover:bg-[#e4f8fc]'
-                      : 'border-[#dce8f0] bg-white text-[#0b1d2e] hover:border-[#13b8c8] hover:bg-[#f0fbfd]'
+                      ? 'border-[#76d6e6] bg-[#f0fbfd] text-[#a38b52] hover:border-[#c2a66e] hover:bg-[#e4f8fc]'
+                      : 'border-[#e8dcc8] bg-white text-[#2c1f0e] hover:border-[#c2a66e] hover:bg-[#f0fbfd]'
                   }`}
                 >
                   <div className="flex items-center gap-0.5 font-[family-name:var(--font-ui)]">
                     {isSelected ? (
-                      <Check size={11} className="text-[#7ef9ff]" />
+                      <Check size={11} className="text-[#e8d5a8]" />
                     ) : null}
                     <span className="text-xs sm:text-[13px]">{seat.seatNumber}</span>
                   </div>
@@ -305,7 +305,7 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
                         : isOccupied
                         ? 'text-rose-600 font-semibold'
                         : isShared
-                        ? 'text-[#087d99] font-bold'
+                        ? 'text-[#a38b52] font-bold'
                         : 'text-emerald-600 font-medium'
                     }`}
                   >
@@ -347,15 +347,15 @@ export const SeatSelector: React.FC<SeatSelectorProps> = ({
             const otherOccupants = matched.bookedShifts?.map((b) => `${b.studentName || 'Student'} (${b.shiftTimings || 'Other Shift'})`).join(', ');
             return (
               <div className="flex items-start gap-2.5 rounded-xl border border-[#9ae6f0] bg-[#f0fbfd] px-3.5 py-2.5 text-xs text-[#065b70] animate-fade-in">
-                <Sparkles size={15} className="shrink-0 text-[#13b8c8] mt-0.5" />
+                <Sparkles size={15} className="shrink-0 text-[#c2a66e] mt-0.5" />
                 <div>
                   <div className="font-bold flex items-center gap-1.5">
                     Time-Shared Desk Available!
-                    <span className="text-[10px] bg-[#e7faff] text-[#087d99] px-1.5 py-0.5 rounded font-semibold border border-[#cbe4ed]">
+                    <span className="text-[10px] bg-[#f5ead4] text-[#a38b52] px-1.5 py-0.5 rounded font-semibold border border-[#cbe4ed]">
                       No Conflict
                     </span>
                   </div>
-                  <div className="text-[11px] text-[#087d99] mt-0.5">
+                  <div className="text-[11px] text-[#a38b52] mt-0.5">
                     Seat {selectedSeat} is open for your chosen shift. Other shift(s) on this desk: <span className="font-semibold">{otherOccupants || 'Active in another shift'}</span>.
                   </div>
                 </div>

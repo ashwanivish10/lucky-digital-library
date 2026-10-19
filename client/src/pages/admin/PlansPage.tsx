@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Layers, Plus, Edit2, ShieldAlert, CheckCircle2, X } from 'lucide-react';
 import { plansApi } from '../../lib/api';
@@ -127,10 +127,10 @@ export const PlansPage: React.FC = () => {
       <div className="page-header flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="section-eyebrow">Subscription Catalog</span>
-          <h1 className="page-title text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+          <h1 className="page-title text-2xl md:text-3xl font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e]">
             Membership Plans Management
           </h1>
-          <p className="text-sm text-[#65788c] mt-0.5">
+          <p className="text-sm text-[#8a7a60] mt-0.5">
             Configure admissions tiers, pricing, and perks published on the public landing page.
           </p>
         </div>
@@ -142,12 +142,12 @@ export const PlansPage: React.FC = () => {
       </div>
 
       {/* Financial Snapshot Safety Banner */}
-      <div className="p-4 rounded-lg bg-white border border-[#dce8f0] flex items-start gap-3.5 text-xs text-[#0b1d2e] shadow-sm">
-        <div className="w-8 h-8 rounded-md bg-[#13b8c8]/15 flex items-center justify-center flex-shrink-0 text-[#13b8c8] mt-0.5">
+      <div className="p-4 rounded-lg bg-white border border-[#e8dcc8] flex items-start gap-3.5 text-xs text-[#2c1f0e] shadow-sm">
+        <div className="w-8 h-8 rounded-md bg-[#c2a66e]/15 flex items-center justify-center flex-shrink-0 text-[#c2a66e] mt-0.5">
           <ShieldAlert size={18} />
         </div>
         <div className="leading-relaxed">
-          <strong className="text-[#0b1d2e] font-semibold">Financial Snapshot Integrity:</strong> Modifying fee structures here applies strictly to future admissions and renewals. Historical student memberships and past payment receipts permanently preserve the original fee agreed upon at enrollment.
+          <strong className="text-[#2c1f0e] font-semibold">Financial Snapshot Integrity:</strong> Modifying fee structures here applies strictly to future admissions and renewals. Historical student memberships and past payment receipts permanently preserve the original fee agreed upon at enrollment.
         </div>
       </div>
 
@@ -155,16 +155,16 @@ export const PlansPage: React.FC = () => {
       {loading ? (
         <div className="grid md:grid-cols-3 gap-6">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="card bg-white p-6 rounded-lg border border-[#dce8f0] shadow-sm h-80 animate-pulse" />
+            <div key={i} className="card bg-white p-6 rounded-lg border border-[#e8dcc8] shadow-sm h-80 animate-pulse" />
           ))}
         </div>
       ) : plans.length === 0 ? (
-        <div className="p-12 text-center bg-white rounded-lg border border-[#dce8f0] shadow-sm">
-          <div className="w-14 h-14 rounded-full bg-[#13b8c8]/10 flex items-center justify-center text-[#13b8c8] mx-auto mb-3">
+        <div className="p-12 text-center bg-white rounded-lg border border-[#e8dcc8] shadow-sm">
+          <div className="w-14 h-14 rounded-full bg-[#c2a66e]/10 flex items-center justify-center text-[#c2a66e] mx-auto mb-3">
             <Layers size={28} />
           </div>
-          <h3 className="text-lg font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">No Plans Created</h3>
-          <p className="text-xs text-[#65788c] mb-4">Set up your first membership duration and pricing plan.</p>
+          <h3 className="text-lg font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e]">No Plans Created</h3>
+          <p className="text-xs text-[#8a7a60] mb-4">Set up your first membership duration and pricing plan.</p>
           <button onClick={openCreateModal} className="btn btn-primary text-xs py-2 px-4">
             Create Plan
           </button>
@@ -176,7 +176,7 @@ export const PlansPage: React.FC = () => {
               key={plan._id}
               whileHover={{ y: -2 }}
               className={`flex h-full flex-col rounded-2xl border bg-white p-5 shadow-sm ${
-                plan.isActive ? 'border-[#dce8f0]' : 'border-[#e4ebf1] opacity-80'
+                plan.isActive ? 'border-[#e8dcc8]' : 'border-[#e4ebf1] opacity-80'
               }`}
             >
               <div className="flex items-start justify-between gap-3">
@@ -186,22 +186,22 @@ export const PlansPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => openEditModal(plan)}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#dce8f0] text-[#294055] hover:border-[#8ed8e4] hover:bg-[#f2fcff]"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#e8dcc8] text-[#294055] hover:border-[#8ed8e4] hover:bg-[#f2fcff]"
                   title="Edit Plan"
                 >
                   <Edit2 size={14} />
                 </button>
               </div>
 
-              <h3 className="mt-4 text-xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e]">
+              <h3 className="mt-4 text-xl font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e]">
                 {plan.name}
               </h3>
-              <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-[#65788c]">
+              <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-[#8a7a60]">
                 {plan.durationValue} {plan.durationValue === 1 ? plan.durationUnit.replace(/s$/, '') : plan.durationUnit}
               </p>
 
               <div className="mt-4 rounded-xl border border-[#d7eef3] bg-[#f4fbfd] px-4 py-3">
-                <div className="text-3xl font-[family-name:var(--font-ui)] font-bold tracking-tight text-[#0b1d2e]">
+                <div className="text-3xl font-[family-name:var(--font-ui)] font-bold tracking-tight text-[#2c1f0e]">
                   {formatINR(plan.baseFee)}
                 </div>
                 <p className="mt-1 text-xs font-medium text-[#5c7286]">
@@ -216,7 +216,7 @@ export const PlansPage: React.FC = () => {
                   Included benefits
                 </p>
                 {plan.benefits.length === 0 ? (
-                  <p className="text-xs text-[#65788c]">No benefits listed.</p>
+                  <p className="text-xs text-[#8a7a60]">No benefits listed.</p>
                 ) : (
                   <ul className="space-y-2">
                     {plan.benefits.map((benefit, index) => (
@@ -236,7 +236,7 @@ export const PlansPage: React.FC = () => {
               )}
 
               <div className="mt-5 flex items-center justify-between gap-3 border-t border-[#e6eef3] pt-4">
-                <span className="text-xs font-medium text-[#65788c]">
+                <span className="text-xs font-medium text-[#8a7a60]">
                   Display order #{plan.displayOrder || 1}
                 </span>
                 <button
@@ -262,21 +262,21 @@ export const PlansPage: React.FC = () => {
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-white rounded-lg p-6 md:p-8 max-w-xl w-full border border-[#dce8f0] shadow-2xl relative my-8"
+            className="bg-white rounded-lg p-6 md:p-8 max-w-xl w-full border border-[#e8dcc8] shadow-2xl relative my-8"
           >
-            <div className="flex justify-between items-start mb-6 pb-4 border-b border-[#dce8f0]">
+            <div className="flex justify-between items-start mb-6 pb-4 border-b border-[#e8dcc8]">
               <div>
-                <span className="text-[10px] font-eyebrow font-bold uppercase tracking-widest text-[#13b8c8]">
+                <span className="text-[10px] font-eyebrow font-bold uppercase tracking-widest text-[#c2a66e]">
                   {editingPlan ? 'Modify Plan Details' : 'New Subscription Plan'}
                 </span>
-                <h3 className="text-2xl font-[family-name:var(--font-ui)] font-bold text-[#0b1d2e] mt-0.5">
+                <h3 className="text-2xl font-[family-name:var(--font-ui)] font-bold text-[#2c1f0e] mt-0.5">
                   {editingPlan ? editingPlan.name : 'Configure Plan Details'}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setModalOpen(false)}
-                className="text-[#65788c] hover:text-[#0b1d2e] p-1 rounded"
+                className="text-[#8a7a60] hover:text-[#2c1f0e] p-1 rounded"
               >
                 <X size={18} />
               </button>
@@ -284,7 +284,7 @@ export const PlansPage: React.FC = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#2c1f0e] mb-1.5">
                   Plan Name *
                 </label>
                 <input
@@ -293,13 +293,13 @@ export const PlansPage: React.FC = () => {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="e.g. Standard Full-Day Plan"
-                  className="w-full px-3.5 py-2.5 rounded-md border border-[#dce8f0] bg-[#f4f9fc] text-sm text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8]"
+                  className="w-full px-3.5 py-2.5 rounded-md border border-[#e8dcc8] bg-[#faf6f0] text-sm text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                  <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#2c1f0e] mb-1.5">
                     Duration Value *
                   </label>
                   <input
@@ -308,18 +308,18 @@ export const PlansPage: React.FC = () => {
                     required
                     value={form.durationValue}
                     onChange={(e) => setForm({ ...form, durationValue: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-md border border-[#dce8f0] bg-[#f4f9fc] text-sm text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8]"
+                    className="w-full px-3.5 py-2.5 rounded-md border border-[#e8dcc8] bg-[#faf6f0] text-sm text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                  <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#2c1f0e] mb-1.5">
                     Duration Unit *
                   </label>
                   <select
                     value={form.durationUnit}
                     onChange={(e) => setForm({ ...form, durationUnit: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-md border border-[#dce8f0] bg-[#f4f9fc] text-sm text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8] cursor-pointer"
+                    className="w-full px-3.5 py-2.5 rounded-md border border-[#e8dcc8] bg-[#faf6f0] text-sm text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e] cursor-pointer"
                   >
                     <option value="months">Months</option>
                     <option value="days">Days</option>
@@ -331,7 +331,7 @@ export const PlansPage: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                  <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#2c1f0e] mb-1.5">
                     Base Fee in INR (₹) *
                   </label>
                   <input
@@ -341,12 +341,12 @@ export const PlansPage: React.FC = () => {
                     value={form.baseFeeINR}
                     onChange={(e) => setForm({ ...form, baseFeeINR: e.target.value })}
                     placeholder="1200"
-                    className="w-full px-3.5 py-2.5 rounded-md border border-[#dce8f0] bg-[#f4f9fc] text-sm text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8]"
+                    className="w-full px-3.5 py-2.5 rounded-md border border-[#e8dcc8] bg-[#faf6f0] text-sm text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                  <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#2c1f0e] mb-1.5">
                     One-time Registration Fee (₹)
                   </label>
                   <input
@@ -355,13 +355,13 @@ export const PlansPage: React.FC = () => {
                     value={form.registrationFeeINR}
                     onChange={(e) => setForm({ ...form, registrationFeeINR: e.target.value })}
                     placeholder="200"
-                    className="w-full px-3.5 py-2.5 rounded-md border border-[#dce8f0] bg-[#f4f9fc] text-sm text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8]"
+                    className="w-full px-3.5 py-2.5 rounded-md border border-[#e8dcc8] bg-[#faf6f0] text-sm text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#2c1f0e] mb-1.5">
                   Plan Benefits List
                 </label>
                 <div className="flex gap-2 mb-2">
@@ -370,7 +370,7 @@ export const PlansPage: React.FC = () => {
                     value={newBenefit}
                     onChange={(e) => setNewBenefit(e.target.value)}
                     placeholder="Add benefit (e.g. Reserved locker space)..."
-                    className="flex-1 px-3.5 py-2 rounded-md border border-[#dce8f0] bg-[#f4f9fc] text-xs text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8]"
+                    className="flex-1 px-3.5 py-2 rounded-md border border-[#e8dcc8] bg-[#faf6f0] text-xs text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e]"
                     onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddBenefit(); } }}
                   />
                   <button type="button" onClick={handleAddBenefit} className="btn btn-secondary text-xs py-2 px-3">
@@ -378,9 +378,9 @@ export const PlansPage: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2.5 bg-[#f4f9fc] rounded-md border border-[#dce8f0]">
+                <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2.5 bg-[#faf6f0] rounded-md border border-[#e8dcc8]">
                   {form.benefits.map((b, i) => (
-                    <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-white border border-[#dce8f0] text-xs text-[#0b1d2e]">
+                    <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-white border border-[#e8dcc8] text-xs text-[#2c1f0e]">
                       {b}
                       <button type="button" onClick={() => handleRemoveBenefit(i)} className="text-[#8B1A1A] hover:opacity-75 font-bold">
                         &times;
@@ -391,7 +391,7 @@ export const PlansPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#0b1d2e] mb-1.5">
+                <label className="block text-xs font-eyebrow font-bold uppercase tracking-wider text-[#2c1f0e] mb-1.5">
                   Special Terms or Notes (Optional)
                 </label>
                 <input
@@ -399,33 +399,33 @@ export const PlansPage: React.FC = () => {
                   value={form.terms}
                   onChange={(e) => setForm({ ...form, terms: e.target.value })}
                   placeholder="e.g. Non-transferable; valid for morning shift only"
-                  className="w-full px-3.5 py-2.5 rounded-md border border-[#dce8f0] bg-[#f4f9fc] text-sm text-[#0b1d2e] focus:outline-none focus:border-[#13b8c8]"
+                  className="w-full px-3.5 py-2.5 rounded-md border border-[#e8dcc8] bg-[#faf6f0] text-sm text-[#2c1f0e] focus:outline-none focus:border-[#c2a66e]"
                 />
               </div>
 
               <div className="flex justify-between items-center pt-2">
-                <label className="flex items-center gap-2 text-xs font-semibold text-[#0b1d2e] cursor-pointer">
+                <label className="flex items-center gap-2 text-xs font-semibold text-[#2c1f0e] cursor-pointer">
                   <input
                     type="checkbox"
                     checked={form.isActive}
                     onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
-                    className="rounded border-[#dce8f0] text-[#13b8c8] focus:ring-[#13b8c8]"
+                    className="rounded border-[#e8dcc8] text-[#c2a66e] focus:ring-[#c2a66e]"
                   />
                   Publish Plan on Public Website
                 </label>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-[#65788c]">Display Order:</span>
+                  <span className="text-xs text-[#8a7a60]">Display Order:</span>
                   <input
                     type="number"
                     value={form.displayOrder}
                     onChange={(e) => setForm({ ...form, displayOrder: Number(e.target.value) })}
-                    className="w-16 px-2 py-1 rounded border border-[#dce8f0] bg-[#f4f9fc] text-xs text-center text-[#0b1d2e]"
+                    className="w-16 px-2 py-1 rounded border border-[#e8dcc8] bg-[#faf6f0] text-xs text-center text-[#2c1f0e]"
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 pt-5 border-t border-[#dce8f0]">
+              <div className="flex justify-end gap-3 pt-5 border-t border-[#e8dcc8]">
                 <button type="button" onClick={() => setModalOpen(false)} className="btn btn-secondary text-xs py-2 px-4">
                   Cancel
                 </button>

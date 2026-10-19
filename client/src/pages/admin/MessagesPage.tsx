@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+﻿import React, { useEffect, useState, useCallback } from 'react';
 import {
   Mail,
   Search,
@@ -172,8 +172,8 @@ export const MessagesPage: React.FC = () => {
     switch (status) {
       case 'unread':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#13b8c8]/15 text-[#075a70] border border-[#13b8c8]/30 font-bold text-[11px]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#13b8c8] animate-pulse"></span>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#c2a66e]/15 text-[#8b7340] border border-[#c2a66e]/30 font-bold text-[11px]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#c2a66e] animate-pulse"></span>
             New Inquiry
           </span>
         );
@@ -204,10 +204,10 @@ export const MessagesPage: React.FC = () => {
       {/* Top Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-[family-name:var(--font-ui)] font-black tracking-[-0.03em] text-[#0b1d2e]">
+          <h1 className="text-2xl font-[family-name:var(--font-ui)] font-black tracking-[-0.03em] text-[#2c1f0e]">
             Messages & Inquiries
           </h1>
-          <p className="text-xs sm:text-sm text-[#65788c] mt-0.5">
+          <p className="text-xs sm:text-sm text-[#8a7a60] mt-0.5">
             Review and respond to messages submitted via &quot;Send Us a Message&quot; on the website.
           </p>
         </div>
@@ -228,42 +228,42 @@ export const MessagesPage: React.FC = () => {
 
       {/* Summary Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="stat-card bg-white p-4.5 rounded-2xl border border-[#dce8f0] shadow-xs">
+        <div className="stat-card bg-white p-4.5 rounded-2xl border border-[#e8dcc8] shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#65788c] font-[family-name:var(--font-ui)]">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#8a7a60] font-[family-name:var(--font-ui)]">
               Total Messages
             </span>
-            <div className="w-8 h-8 rounded-xl bg-[#0b1d2e]/5 flex items-center justify-center text-[#0b1d2e]">
+            <div className="w-8 h-8 rounded-xl bg-[#2c1f0e]/5 flex items-center justify-center text-[#2c1f0e]">
               <Mail size={16} />
             </div>
           </div>
-          <div className="text-2xl font-bold font-[family-name:var(--font-ui)] text-[#0b1d2e] mt-2">
+          <div className="text-2xl font-bold font-[family-name:var(--font-ui)] text-[#2c1f0e] mt-2">
             {totalCount}
           </div>
         </div>
 
-        <div className="stat-card bg-white p-4.5 rounded-2xl border border-[#dce8f0] shadow-xs">
+        <div className="stat-card bg-white p-4.5 rounded-2xl border border-[#e8dcc8] shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#075a70] font-[family-name:var(--font-ui)]">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#8b7340] font-[family-name:var(--font-ui)]">
               Unread / New
             </span>
-            <div className="w-8 h-8 rounded-xl bg-[#13b8c8]/15 flex items-center justify-center text-[#13b8c8]">
+            <div className="w-8 h-8 rounded-xl bg-[#c2a66e]/15 flex items-center justify-center text-[#c2a66e]">
               <Clock size={16} />
             </div>
           </div>
-          <div className="text-2xl font-bold font-[family-name:var(--font-ui)] text-[#087d99] mt-2 flex items-center gap-2">
+          <div className="text-2xl font-bold font-[family-name:var(--font-ui)] text-[#a38b52] mt-2 flex items-center gap-2">
             {unreadCount}
             {unreadCount > 0 && (
-              <span className="text-[10px] font-bold px-2 py-0.5 bg-[#13b8c8]/20 text-[#075a70] rounded-full">
+              <span className="text-[10px] font-bold px-2 py-0.5 bg-[#c2a66e]/20 text-[#8b7340] rounded-full">
                 Action Needed
               </span>
             )}
           </div>
         </div>
 
-        <div className="stat-card bg-white p-4.5 rounded-2xl border border-[#dce8f0] shadow-xs">
+        <div className="stat-card bg-white p-4.5 rounded-2xl border border-[#e8dcc8] shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#65788c] font-[family-name:var(--font-ui)]">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#8a7a60] font-[family-name:var(--font-ui)]">
               Replied
             </span>
             <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
@@ -275,23 +275,23 @@ export const MessagesPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="stat-card bg-white p-4.5 rounded-2xl border border-[#dce8f0] shadow-xs">
+        <div className="stat-card bg-white p-4.5 rounded-2xl border border-[#e8dcc8] shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#65788c] font-[family-name:var(--font-ui)]">
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#8a7a60] font-[family-name:var(--font-ui)]">
               Contact Desk
             </span>
-            <div className="w-8 h-8 rounded-xl bg-[#7ef9ff]/20 flex items-center justify-center text-[#075a70]">
+            <div className="w-8 h-8 rounded-xl bg-[#e8d5a8]/20 flex items-center justify-center text-[#8b7340]">
               <MessageCircle size={16} />
             </div>
           </div>
-          <div className="text-xs text-[#65788c] mt-3 font-medium">
+          <div className="text-xs text-[#8a7a60] mt-3 font-medium">
             24×7 Student Helpline &amp; WhatsApp Connected
           </div>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-[#dce8f0] shadow-xs flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+      <div className="bg-white p-4 rounded-2xl border border-[#e8dcc8] shadow-xs flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
         {/* Status Tabs */}
         <div className="hidden items-center gap-1.5 overflow-x-auto pb-1 md:flex md:pb-0 scrollbar-none">
           {[
@@ -310,8 +310,8 @@ export const MessagesPage: React.FC = () => {
               }}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap min-h-[44px] md:min-h-0 flex items-center justify-center ${
                 statusFilter === tab.id
-                  ? 'bg-[#0b1d2e] text-white shadow-xs'
-                  : 'text-[#65788c] hover:bg-[#edf4f8] hover:text-[#0b1d2e]'
+                  ? 'bg-[#2c1f0e] text-white shadow-xs'
+                  : 'text-[#8a7a60] hover:bg-[#f5f0e6] hover:text-[#2c1f0e]'
               }`}
             >
               {tab.label}
@@ -322,7 +322,7 @@ export const MessagesPage: React.FC = () => {
         {/* Search */}
         <div className="flex w-full min-w-0 items-center gap-2 md:w-auto">
         <div className="relative w-full min-w-0 md:w-64 md:shrink-0">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#65788c]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8a7a60]" />
           <input
             type="text"
             placeholder="Search sender, phone, message..."
@@ -331,7 +331,7 @@ export const MessagesPage: React.FC = () => {
               setSearchTerm(e.target.value);
               setPage(1);
             }}
-            className="w-full pl-9 pr-8 py-2 rounded-xl text-base md:text-xs bg-[#f4f9fc] border border-[#dce8f0] focus:outline-none focus:border-[#13b8c8] focus:bg-white text-[#0b1d2e] placeholder-[#a0b3c6] transition-all"
+            className="w-full pl-9 pr-8 py-2 rounded-xl text-base md:text-xs bg-[#faf6f0] border border-[#e8dcc8] focus:outline-none focus:border-[#c2a66e] focus:bg-white text-[#2c1f0e] placeholder-[#a0b3c6] transition-all"
           />
           {searchTerm && (
             <button
@@ -340,7 +340,7 @@ export const MessagesPage: React.FC = () => {
                 setSearchTerm('');
                 setPage(1);
               }}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#65788c] hover:text-[#0b1d2e]"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8a7a60] hover:text-[#2c1f0e]"
             >
               <X size={14} />
             </button>
@@ -374,7 +374,7 @@ export const MessagesPage: React.FC = () => {
               type="button"
               onClick={() => setDraftStatus(tab.id)}
               className={`w-full rounded-xl px-3 py-3 text-left text-sm font-semibold ${
-                draftStatus === tab.id ? 'bg-[#0b1d2e] text-white' : 'bg-[#f4f9fc] text-[#294055]'
+                draftStatus === tab.id ? 'bg-[#2c1f0e] text-white' : 'bg-[#faf6f0] text-[#294055]'
               }`}
             >
               {tab.label}
@@ -391,26 +391,26 @@ export const MessagesPage: React.FC = () => {
           Array.from({ length: 4 }).map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl p-5 border border-[#dce8f0] shadow-xs animate-pulse space-y-3"
+              className="bg-white rounded-2xl p-5 border border-[#e8dcc8] shadow-xs animate-pulse space-y-3"
             >
               <div className="flex items-center justify-between">
-                <div className="h-5 w-48 bg-[#edf4f8] rounded"></div>
-                <div className="h-5 w-20 bg-[#edf4f8] rounded-full"></div>
+                <div className="h-5 w-48 bg-[#f5f0e6] rounded"></div>
+                <div className="h-5 w-20 bg-[#f5f0e6] rounded-full"></div>
               </div>
-              <div className="h-4 w-full bg-[#edf4f8] rounded"></div>
-              <div className="h-4 w-2/3 bg-[#edf4f8] rounded"></div>
+              <div className="h-4 w-full bg-[#f5f0e6] rounded"></div>
+              <div className="h-4 w-2/3 bg-[#f5f0e6] rounded"></div>
             </div>
           ))
         ) : messages.length === 0 ? (
           // Empty state
-          <div className="bg-white rounded-2xl p-12 border border-[#dce8f0] text-center shadow-xs">
-            <div className="w-14 h-14 rounded-full bg-[#13b8c8]/10 text-[#13b8c8] flex items-center justify-center mx-auto mb-3.5">
+          <div className="bg-white rounded-2xl p-12 border border-[#e8dcc8] text-center shadow-xs">
+            <div className="w-14 h-14 rounded-full bg-[#c2a66e]/10 text-[#c2a66e] flex items-center justify-center mx-auto mb-3.5">
               <Inbox size={28} />
             </div>
-            <h3 className="text-base font-bold text-[#0b1d2e] font-[family-name:var(--font-ui)]">
+            <h3 className="text-base font-bold text-[#2c1f0e] font-[family-name:var(--font-ui)]">
               No Messages Found
             </h3>
-            <p className="text-xs text-[#65788c] max-w-sm mx-auto mt-1">
+            <p className="text-xs text-[#8a7a60] max-w-sm mx-auto mt-1">
               {statusFilter !== 'all' || searchTerm
                 ? 'Try clearing the search or switching the status filter.'
                 : 'Whenever visitors submit the "Send Us a Message" contact form on your website, their inquiries will appear here.'}
@@ -438,39 +438,39 @@ export const MessagesPage: React.FC = () => {
                 key={msg._id}
                 className={`bg-white rounded-2xl p-5 border transition-all duration-200 shadow-xs hover:shadow-md ${
                   msg.status === 'unread'
-                    ? 'border-[#13b8c8]/60 bg-gradient-to-r from-white via-white to-[#f0fcfe]'
-                    : 'border-[#dce8f0]'
+                    ? 'border-[#c2a66e]/60 bg-gradient-to-r from-white via-white to-[#f0fcfe]'
+                    : 'border-[#e8dcc8]'
                 }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-[#f0f5f9]">
                   {/* Sender Details */}
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#0b1d2e] text-[#7ef9ff] font-bold text-sm flex items-center justify-center flex-shrink-0 font-[family-name:var(--font-ui)]">
+                    <div className="w-10 h-10 rounded-full bg-[#2c1f0e] text-[#e8d5a8] font-bold text-sm flex items-center justify-center flex-shrink-0 font-[family-name:var(--font-ui)]">
                       {msg.name.slice(0, 2).toUpperCase()}
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-[#0b1d2e] text-sm">
+                        <span className="font-bold text-[#2c1f0e] text-sm">
                           {msg.name}
                         </span>
                         {getStatusBadge(msg.status)}
                       </div>
-                      <div className="flex items-center gap-3 mt-1 flex-wrap text-xs text-[#65788c]">
+                      <div className="flex items-center gap-3 mt-1 flex-wrap text-xs text-[#8a7a60]">
                         {msg.phone && (
                           <a
                             href={`tel:${msg.phone}`}
-                            className="inline-flex items-center gap-1 hover:text-[#13b8c8] font-mono transition-colors"
+                            className="inline-flex items-center gap-1 hover:text-[#c2a66e] font-mono transition-colors"
                           >
-                            <Phone size={12} className="text-[#13b8c8]" />
+                            <Phone size={12} className="text-[#c2a66e]" />
                             {msg.phone}
                           </a>
                         )}
                         {msg.email && (
                           <a
                             href={`mailto:${msg.email}`}
-                            className="inline-flex items-center gap-1 hover:text-[#13b8c8] transition-colors"
+                            className="inline-flex items-center gap-1 hover:text-[#c2a66e] transition-colors"
                           >
-                            <Mail size={12} className="text-[#65788c]" />
+                            <Mail size={12} className="text-[#8a7a60]" />
                             {msg.email}
                           </a>
                         )}
@@ -487,7 +487,7 @@ export const MessagesPage: React.FC = () => {
                 {/* Subject & Message Content */}
                 <div className="py-3.5 space-y-2">
                   {msg.subject && (
-                    <div className="text-xs font-bold text-[#087d99] font-[family-name:var(--font-ui)]">
+                    <div className="text-xs font-bold text-[#a38b52] font-[family-name:var(--font-ui)]">
                       Subject: {msg.subject}
                     </div>
                   )}
@@ -528,9 +528,9 @@ export const MessagesPage: React.FC = () => {
                     {msg.phone && (
                       <a
                         href={`tel:${msg.phone}`}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#edf4f8] hover:bg-[#dce8f0] text-[#0b1d2e] font-semibold text-xs transition-colors min-h-[44px] md:min-h-0"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#f5f0e6] hover:bg-[#e8dcc8] text-[#2c1f0e] font-semibold text-xs transition-colors min-h-[44px] md:min-h-0"
                       >
-                        <Phone size={13} className="text-[#65788c]" />
+                        <Phone size={13} className="text-[#8a7a60]" />
                         <span>Call</span>
                       </a>
                     )}
@@ -539,9 +539,9 @@ export const MessagesPage: React.FC = () => {
                     {msg.email && (
                       <a
                         href={`mailto:${msg.email}?subject=Regarding your message to Lucky Digital Library`}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#edf4f8] hover:bg-[#dce8f0] text-[#0b1d2e] font-semibold text-xs transition-colors min-h-[44px] md:min-h-0"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#f5f0e6] hover:bg-[#e8dcc8] text-[#2c1f0e] font-semibold text-xs transition-colors min-h-[44px] md:min-h-0"
                       >
-                        <Mail size={13} className="text-[#65788c]" />
+                        <Mail size={13} className="text-[#8a7a60]" />
                         <span>Email</span>
                       </a>
                     )}
@@ -585,7 +585,7 @@ export const MessagesPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleOpenDetailModal(msg)}
-                      className="p-1.5 rounded-xl text-[#65788c] hover:text-[#0b1d2e] hover:bg-[#edf4f8] transition-colors min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 flex items-center justify-center"
+                      className="p-1.5 rounded-xl text-[#8a7a60] hover:text-[#2c1f0e] hover:bg-[#f5f0e6] transition-colors min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 flex items-center justify-center"
                       title="Add Notes or Edit Status"
                     >
                       <Edit3 size={15} />
@@ -595,7 +595,7 @@ export const MessagesPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setDeleteModalMessage(msg)}
-                      className="p-1.5 rounded-xl text-[#65788c] hover:text-[#8B1A1A] hover:bg-rose-50 transition-colors min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 flex items-center justify-center"
+                      className="p-1.5 rounded-xl text-[#8a7a60] hover:text-[#8B1A1A] hover:bg-rose-50 transition-colors min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 flex items-center justify-center"
                       title="Delete message"
                     >
                       <Trash2 size={15} />
@@ -608,7 +608,7 @@ export const MessagesPage: React.FC = () => {
         )}
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-[#dce8f0] bg-white">
+      <div className="overflow-hidden rounded-2xl border border-[#e8dcc8] bg-white">
         <TablePagination
           className="border-t-0"
           page={page}
@@ -627,18 +627,18 @@ export const MessagesPage: React.FC = () => {
       {/* Detail / Admin Notes Modal */}
       {selectedMessage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[#dce8f0] space-y-4 animate-fade-in">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[#e8dcc8] space-y-4 animate-fade-in">
             <div className="flex items-center justify-between border-b border-[#f0f5f9] pb-3">
               <div>
-                <h3 className="font-bold text-[#0b1d2e] text-base font-[family-name:var(--font-ui)]">
+                <h3 className="font-bold text-[#2c1f0e] text-base font-[family-name:var(--font-ui)]">
                   Inquiry Details
                 </h3>
-                <p className="text-xs text-[#65788c]">From {selectedMessage.name}</p>
+                <p className="text-xs text-[#8a7a60]">From {selectedMessage.name}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setSelectedMessage(null)}
-                className="p-1.5 text-[#65788c] hover:text-[#0b1d2e] rounded-lg"
+                className="p-1.5 text-[#8a7a60] hover:text-[#2c1f0e] rounded-lg"
               >
                 <X size={18} />
               </button>
@@ -647,20 +647,20 @@ export const MessagesPage: React.FC = () => {
             {/* Sender Summary */}
             <div className="bg-[#f8fbfd] p-3 rounded-xl border border-[#e2edf3] space-y-1.5 text-xs">
               <div className="flex justify-between">
-                <span className="text-[#65788c]">Phone:</span>
-                <span className="font-semibold text-[#0b1d2e]">
+                <span className="text-[#8a7a60]">Phone:</span>
+                <span className="font-semibold text-[#2c1f0e]">
                   {selectedMessage.phone || '—'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#65788c]">Email:</span>
-                <span className="font-semibold text-[#0b1d2e]">
+                <span className="text-[#8a7a60]">Email:</span>
+                <span className="font-semibold text-[#2c1f0e]">
                   {selectedMessage.email || '—'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#65788c]">Received:</span>
-                <span className="text-[#0b1d2e]">
+                <span className="text-[#8a7a60]">Received:</span>
+                <span className="text-[#2c1f0e]">
                   {formatDateTime(selectedMessage.createdAt)}
                 </span>
               </div>
@@ -668,23 +668,23 @@ export const MessagesPage: React.FC = () => {
 
             {/* Message Body */}
             <div>
-              <label className="block text-xs font-semibold text-[#65788c] uppercase tracking-wider mb-1 font-[family-name:var(--font-ui)]">
+              <label className="block text-xs font-semibold text-[#8a7a60] uppercase tracking-wider mb-1 font-[family-name:var(--font-ui)]">
                 Message Content
               </label>
-              <div className="p-3 bg-white rounded-xl border border-[#dce8f0] text-xs text-[#2c3e50] max-h-40 overflow-y-auto whitespace-pre-wrap">
+              <div className="p-3 bg-white rounded-xl border border-[#e8dcc8] text-xs text-[#2c3e50] max-h-40 overflow-y-auto whitespace-pre-wrap">
                 {selectedMessage.message}
               </div>
             </div>
 
             {/* Status Switcher */}
             <div>
-              <label className="block text-xs font-semibold text-[#65788c] uppercase tracking-wider mb-1.5 font-[family-name:var(--font-ui)]">
+              <label className="block text-xs font-semibold text-[#8a7a60] uppercase tracking-wider mb-1.5 font-[family-name:var(--font-ui)]">
                 Status
               </label>
               <select
                 value={editStatus}
                 onChange={(e) => setEditStatus(e.target.value as MessageStatus)}
-                className="w-full p-2.5 rounded-xl border border-[#dce8f0] text-base md:text-xs text-[#0b1d2e] bg-[#f8fbfd] focus:bg-white focus:outline-none focus:border-[#13b8c8]"
+                className="w-full p-2.5 rounded-xl border border-[#e8dcc8] text-base md:text-xs text-[#2c1f0e] bg-[#f8fbfd] focus:bg-white focus:outline-none focus:border-[#c2a66e]"
               >
                 <option value="unread">Unread / New</option>
                 <option value="read">Read</option>
@@ -695,7 +695,7 @@ export const MessagesPage: React.FC = () => {
 
             {/* Admin Internal Notes */}
             <div>
-              <label className="block text-xs font-semibold text-[#65788c] uppercase tracking-wider mb-1.5 font-[family-name:var(--font-ui)]">
+              <label className="block text-xs font-semibold text-[#8a7a60] uppercase tracking-wider mb-1.5 font-[family-name:var(--font-ui)]">
                 Internal Admin Notes
               </label>
               <textarea
@@ -703,7 +703,7 @@ export const MessagesPage: React.FC = () => {
                 placeholder="E.g., Spoke on phone, invited for library trial on Saturday..."
                 value={editNotes}
                 onChange={(e) => setEditNotes(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#dce8f0] text-base md:text-xs text-[#0b1d2e] bg-[#f8fbfd] focus:bg-white focus:outline-none focus:border-[#13b8c8] resize-none"
+                className="w-full p-2.5 rounded-xl border border-[#e8dcc8] text-base md:text-xs text-[#2c1f0e] bg-[#f8fbfd] focus:bg-white focus:outline-none focus:border-[#c2a66e] resize-none"
               />
             </div>
 
@@ -732,17 +732,17 @@ export const MessagesPage: React.FC = () => {
       {/* Delete Confirmation Modal */}
       {deleteModalMessage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-[#dce8f0] space-y-4 animate-fade-in text-center">
+          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-[#e8dcc8] space-y-4 animate-fade-in text-center">
             <div className="w-12 h-12 rounded-full bg-rose-50 text-[#8B1A1A] flex items-center justify-center mx-auto">
               <Trash2 size={24} />
             </div>
             <div>
-              <h3 className="font-bold text-[#0b1d2e] text-base font-[family-name:var(--font-ui)]">
+              <h3 className="font-bold text-[#2c1f0e] text-base font-[family-name:var(--font-ui)]">
                 Delete Message?
               </h3>
-              <p className="text-xs text-[#65788c] mt-1">
+              <p className="text-xs text-[#8a7a60] mt-1">
                 Are you sure you want to delete the message from{' '}
-                <span className="font-semibold text-[#0b1d2e]">
+                <span className="font-semibold text-[#2c1f0e]">
                   {deleteModalMessage.name}
                 </span>
                 ? This cannot be undone.

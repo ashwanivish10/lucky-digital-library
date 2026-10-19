@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -123,10 +123,10 @@ export const HomePage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f4f9fc]">
+      <div className="min-h-screen flex items-center justify-center bg-[#faf6f0]">
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-3 border-[#13b8c8] border-t-transparent rounded-full animate-spin mx-auto shadow-md" />
-          <p className="font-[family-name:var(--font-ui)] tracking-widest text-[#0b1d2e] uppercase text-xs font-semibold">
+          <div className="w-12 h-12 border-3 border-[#c2a66e] border-t-transparent rounded-full animate-spin mx-auto shadow-md" />
+          <p className="font-[family-name:var(--font-ui)] tracking-widest text-[#2c1f0e] uppercase text-xs font-semibold">
             Opening {libraryName}...
           </p>
         </div>
@@ -277,18 +277,18 @@ export const HomePage: React.FC = () => {
       {/* ========================================================= */}
       {/* 8. SCHOLAR REVIEWS & GOOGLE FEEDBACK                      */}
       {/* ========================================================= */}
-      <section className="py-24 bg-[#f4f9fc] text-[#0b1d2e] border-t border-[#dce8f0] relative">
+      <section className="py-24 bg-[#faf6f0] text-[#2c1f0e] border-t border-[#e8dcc8] relative">
         <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#13b8c8]/15 border border-[#13b8c8]/35 text-[#075a70] font-[family-name:var(--font-ui)] text-xs font-bold uppercase tracking-wider mb-2">
-                <Star className="w-3.5 h-3.5 fill-current text-[#13b8c8]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#c2a66e]/15 border border-[#c2a66e]/35 text-[#8b7340] font-[family-name:var(--font-ui)] text-xs font-bold uppercase tracking-wider mb-2">
+                <Star className="w-3.5 h-3.5 fill-current text-[#c2a66e]" />
                 <span>4.9 / 5.0 Rating on Google Maps</span>
               </div>
-              <h2 className="section-title text-3xl sm:text-4xl md:text-5xl text-[#0b1d2e] mt-1">
+              <h2 className="section-title text-3xl sm:text-4xl md:text-5xl text-[#2c1f0e] mt-1">
                 What Our Scholars Say
               </h2>
-              <div className="w-14 h-0.5 bg-[#13b8c8] mt-4 rounded-full" />
+              <div className="w-14 h-0.5 bg-[#c2a66e] mt-4 rounded-full" />
             </div>
 
             <div className="flex items-center gap-3">
@@ -313,7 +313,7 @@ export const HomePage: React.FC = () => {
           </div>
 
           {/* Testimonial Cards Grid */}
-          <div className="marquee-shell rounded-2xl border border-[#dce8f0] bg-white p-4 shadow-sm">
+          <div className="marquee-shell rounded-2xl border border-[#e8dcc8] bg-white p-4 shadow-sm">
             <div className="marquee-track">
               {marqueeReviews.map((t, idx) => (
                 <article
@@ -321,11 +321,11 @@ export const HomePage: React.FC = () => {
                   className="marquee-card flex h-full min-h-[220px] flex-col justify-between"
                 >
                   <div className="mb-4 flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-1 text-[#13b8c8]">
+                    <div className="flex items-center gap-1 text-[#c2a66e]">
                       {Array.from({ length: 5 }).map((_, starIndex) => (
                         <Star
                           key={`${t._id || 'review'}-${starIndex}`}
-                          className={`h-4 w-4 ${starIndex < (t.rating || 5) ? 'fill-current text-[#13b8c8]' : 'text-gray-300'}`}
+                          className={`h-4 w-4 ${starIndex < (t.rating || 5) ? 'fill-current text-[#c2a66e]' : 'text-gray-300'}`}
                         />
                       ))}
                     </div>
@@ -334,11 +334,11 @@ export const HomePage: React.FC = () => {
                     </span>
                   </div>
 
-                  <p className="text-sm leading-relaxed text-[#0b1d2e]/80 italic">“{t.text}”</p>
+                  <p className="text-sm leading-relaxed text-[#2c1f0e]/80 italic">“{t.text}”</p>
 
-                  <div className="mt-6 border-t border-[#dce8f0] pt-4">
-                    <h4 className="font-[family-name:var(--font-ui)] text-lg font-bold text-[#0b1d2e]">{t.name}</h4>
-                    {t.role && <p className="text-xs text-[#65788c]">{t.role}</p>}
+                  <div className="mt-6 border-t border-[#e8dcc8] pt-4">
+                    <h4 className="font-[family-name:var(--font-ui)] text-lg font-bold text-[#2c1f0e]">{t.name}</h4>
+                    {t.role && <p className="text-xs text-[#8a7a60]">{t.role}</p>}
                   </div>
                 </article>
               ))}
@@ -349,60 +349,60 @@ export const HomePage: React.FC = () => {
         {/* Modal: Write a Review */}
         {reviewModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="relative w-full max-w-lg rounded-2xl border border-[#dce8f0] bg-white p-7 shadow-2xl">
+            <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="relative w-full max-w-lg rounded-2xl border border-[#e8dcc8] bg-white p-7 shadow-2xl">
               <button type="button" onClick={() => setReviewModalOpen(false)} className="absolute right-5 top-5 text-gray-400 hover:text-gray-700">
                 <X className="h-5 w-5" />
               </button>
 
               <div className="mb-6">
-                <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#13b8c8]">Share your experience</p>
-                <h3 className="mt-2 font-[family-name:var(--font-ui)] text-2xl font-bold text-[#0b1d2e]">Submit a review</h3>
+                <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#c2a66e]">Share your experience</p>
+                <h3 className="mt-2 font-[family-name:var(--font-ui)] text-2xl font-bold text-[#2c1f0e]">Submit a review</h3>
               </div>
 
               <form onSubmit={handleSubmitReview} className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#0b1d2e]">Your name *</label>
+                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#2c1f0e]">Your name *</label>
                   <input
                     type="text"
                     required
                     value={newReviewForm.name}
                     onChange={(e) => setNewReviewForm({ ...newReviewForm, name: e.target.value })}
-                    className="w-full rounded-lg border border-[#dce8f0] px-4 py-2.5 text-sm focus:border-[#13b8c8] focus:outline-none"
+                    className="w-full rounded-lg border border-[#e8dcc8] px-4 py-2.5 text-sm focus:border-[#c2a66e] focus:outline-none"
                     placeholder="e.g. Rahul Sharma"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#0b1d2e]">Role / exam</label>
+                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#2c1f0e]">Role / exam</label>
                   <input
                     type="text"
                     value={newReviewForm.role}
                     onChange={(e) => setNewReviewForm({ ...newReviewForm, role: e.target.value })}
-                    className="w-full rounded-lg border border-[#dce8f0] px-4 py-2.5 text-sm focus:border-[#13b8c8] focus:outline-none"
+                    className="w-full rounded-lg border border-[#e8dcc8] px-4 py-2.5 text-sm focus:border-[#c2a66e] focus:outline-none"
                     placeholder="e.g. UPSC aspirant"
                   />
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#0b1d2e]">Rating</label>
+                  <label className="mb-2 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#2c1f0e]">Rating</label>
                   <div className="flex items-center gap-1.5">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button type="button" key={star} onClick={() => setNewReviewForm({ ...newReviewForm, rating: star })} className="p-1">
-                        <Star className={`h-6 w-6 ${star <= newReviewForm.rating ? 'fill-current text-[#13b8c8]' : 'text-gray-300'}`} />
+                        <Star className={`h-6 w-6 ${star <= newReviewForm.rating ? 'fill-current text-[#c2a66e]' : 'text-gray-300'}`} />
                       </button>
                     ))}
-                    <span className="ml-2 text-xs font-semibold text-[#0b1d2e]">{newReviewForm.rating} / 5</span>
+                    <span className="ml-2 text-xs font-semibold text-[#2c1f0e]">{newReviewForm.rating} / 5</span>
                   </div>
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#0b1d2e]">Review *</label>
+                  <label className="mb-1 block text-[10px] font-[family-name:var(--font-ui)] uppercase tracking-[0.18em] text-[#2c1f0e]">Review *</label>
                   <textarea
                     required
                     rows={4}
                     value={newReviewForm.text}
                     onChange={(e) => setNewReviewForm({ ...newReviewForm, text: e.target.value })}
-                    className="w-full rounded-lg border border-[#dce8f0] px-4 py-2.5 text-sm focus:border-[#13b8c8] focus:outline-none"
+                    className="w-full rounded-lg border border-[#e8dcc8] px-4 py-2.5 text-sm focus:border-[#c2a66e] focus:outline-none"
                     placeholder="Tell us about your experience at the library..."
                   />
                 </div>
@@ -424,13 +424,13 @@ export const HomePage: React.FC = () => {
       {/* ========================================================= */}
       {/* 9. INTERACTIVE GOOGLE MAP & LOCATION                      */}
       {/* ========================================================= */}
-      <section className="border-t border-[#dce8f0] bg-[#edf4f8] py-20">
+      <section className="border-t border-[#e8dcc8] bg-[#f5f0e6] py-20">
         <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-8 lg:px-12 xl:px-16">
           <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
             <div>
-              <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#13b8c8]">Visit us</p>
-              <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-bold text-[#0b1d2e] sm:text-4xl">Find your study routine in the heart of Mauaima.</h2>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#5F6F7D]">{address}</p>
+              <p className="font-[family-name:var(--font-ui)] text-[10px] uppercase tracking-[0.22em] text-[#c2a66e]">Visit us</p>
+              <h2 className="mt-2 font-[family-name:var(--font-ui)] text-3xl font-bold text-[#2c1f0e] sm:text-4xl">Find your study routine in the heart of Mauaima.</h2>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#7a6b52]">{address}</p>
 
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <a href={mapLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary px-5 py-3 text-xs uppercase tracking-wider font-bold">
@@ -444,8 +444,8 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#13b8c8]/20 bg-white p-5 shadow-sm">
-              <div className="overflow-hidden rounded-xl border border-[#dce8f0]">
+            <div className="rounded-2xl border border-[#c2a66e]/20 bg-white p-5 shadow-sm">
+              <div className="overflow-hidden rounded-xl border border-[#e8dcc8]">
                 <iframe
                   title="Lucky Digital Library Google Maps"
                   src="https://maps.google.com/maps?q=25.6952462,81.9050274(Lucky+Digital+Library)&hl=en&z=17&output=embed"

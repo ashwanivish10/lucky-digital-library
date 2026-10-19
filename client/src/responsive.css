@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    LUCKY DIGITAL LIBRARY — RESPONSIVE ARCHITECTURE
    Native Mobile App (< 769px) & Unlocked Spacious Desktop Web (>= 769px)
    ========================================================================== */
@@ -107,7 +107,7 @@ iframe {
     width: 16px;
     height: 3px;
     border-radius: 9999px;
-    background: #13b8c8;
+    background: #c2a66e;
   }
 }
 
@@ -141,7 +141,7 @@ iframe {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid #dce8f0;
+  border-top: 1px solid #e8dcc8;
   box-shadow: 0 -4px 20px rgba(7, 21, 33, 0.08);
   padding-bottom: max(6px, env(safe-area-inset-bottom, 8px));
   padding-top: 6px;
@@ -158,7 +158,7 @@ iframe {
   min-width: 48px;
   min-height: 48px;
   padding: 4px 8px;
-  color: #65788c;
+  color: #8a7a60;
   font-size: 10px;
   font-weight: 700;
   text-decoration: none;
@@ -168,11 +168,11 @@ iframe {
 }
 
 .mobile-bottom-nav-item.active {
-  color: #087d99;
+  color: #a38b52;
 }
 
 .mobile-bottom-nav-item.active svg {
-  color: #087d99;
+  color: #a38b52;
   transform: translateY(-1px) scale(1.1);
 }
 
