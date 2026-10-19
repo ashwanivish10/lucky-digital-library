@@ -28,6 +28,7 @@ import { SeatMap } from '../../components/common/SeatMap';
 import AboutStorySection from '../../components/public/AboutStorySection';
 import HowToJoinSection from '../../components/public/HowToJoinSection';
 import AchieversShowcase from '../../components/public/AchieversShowcase';
+import { PrismaHero } from '../../components/ui/prisma-hero';
 
 const defaultFacilities = [
   { icon: 'wifi', title: 'High-speed optical Wi-Fi', description: 'Reliable dual-band fiber internet for focused study sessions and exams.', isVisible: true, order: 1 },
@@ -136,138 +137,9 @@ export const HomePage: React.FC = () => {
   return (
     <div className="flex w-full flex-col overflow-x-clip bg-[#fbfbfa] text-[#1c1917]">
       {/* ========================================================= */}
-      {/* 1. WARM IVORY & SANDSTONE EDITORIAL HERO SECTION            */}
+      {/* 1. PRISMA HERO COMPONENT SECTION                            */}
       {/* ========================================================= */}
-      <section className="relative min-h-[90vh] bg-[radial-gradient(circle_at_top_right,_rgba(217,119,6,0.08),_transparent_32%),radial-gradient(circle_at_bottom_left,_rgba(120,53,15,0.06),_transparent_28%),linear-gradient(135deg,#fcfbf9_0%,#f5f3ef_50%,#eeeae4_100%)] text-[#1c1917] flex items-center overflow-hidden border-b border-[#e7e5e4] py-16 sm:py-24">
-        {/* Soft warmth glows */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-[-10%] right-[-8%] w-[680px] h-[680px] rounded-full blur-[140px] opacity-40"
-          style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.22) 0%, transparent 70%)' }}
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-[-15%] left-[-8%] w-[600px] h-[600px] rounded-full blur-[150px] opacity-30"
-          style={{ background: 'radial-gradient(circle, rgba(217,119,6,0.18) 0%, transparent 65%)' }}
-        />
-
-        {/* Clean editorial grid */}
-        <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,rgba(28,25,23,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(28,25,23,0.12)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
-
-        <div className="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
-          <div className="grid items-center gap-12 lg:gap-16 lg:grid-cols-12">
-            {/* Left Content Column (7 cols) */}
-            <div className="lg:col-span-7">
-              {/* Eyebrow Pill */}
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#d6d3d1] text-[#78350f] font-[family-name:var(--font-ui)] text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.22em] mb-6 shadow-xs"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-[#d97706]" />
-                <span>Best Library In MauAima • Prayagraj</span>
-              </motion.div>
-
-              {/* Commanding Headline */}
-              <motion.h1
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.08 }}
-                className="font-[family-name:var(--font-ui)] text-4xl sm:text-5xl lg:text-6xl xl:text-[5.2rem] font-black tracking-[-0.05em] text-[#1c1917] leading-[0.95] mb-6"
-              >
-                Your study flow,
-                <br />
-                <span className="text-gold-gradient font-black">elevated</span>.
-              </motion.h1>
-
-              {/* Sub-deck Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.16 }}
-                className="text-base sm:text-lg text-[#57534e] leading-relaxed max-w-2xl font-normal mb-8"
-              >
-                {settings?.description ||
-                  'Engineered exclusively for competitive aspirants and serious scholars. 58 dedicated ergonomic cabins, pin-drop silent atmosphere, dual-band optical fiber, and 24×7 round-the-clock access all 7 days in Prayagraj.'}
-              </motion.p>
-
-              {/* Action Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.24 }}
-                className="flex flex-col items-stretch gap-3 mb-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
-              >
-                <Link
-                  to="/membership"
-                  className="btn btn-primary flex w-full items-center justify-center gap-2.5 rounded-full px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] shadow-md transition-all sm:w-auto"
-                >
-                  <span>Explore Membership</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  to="/facilities"
-                  className="btn flex w-full items-center justify-center gap-2 rounded-full border border-[#d6d3d1] bg-white px-7 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#292524] shadow-xs transition-all hover:border-[#d97706] hover:bg-[#fef3c7]/30 sm:w-auto"
-                >
-                  <Armchair className="w-4 h-4 text-[#d97706]" />
-                  <span>View 58-Desk Layout</span>
-                </Link>
-              </motion.div>
-
-              {/* Social Proof Bar */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.7, delay: 0.32 }}
-                className="flex items-center gap-3 text-xs text-[#78716c] flex-wrap"
-              >
-                <div className="flex items-center text-[#d97706]">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                  ))}
-                </div>
-                <span className="font-semibold text-[#292524]">4.9 / 5.0 Rating on Google Maps</span>
-                <span className="text-[#d6d3d1] hidden sm:inline">•</span>
-                <span className="text-[#57534e] hidden sm:inline">200+ Enrolled Scholars</span>
-              </motion.div>
-            </div>
-
-            {/* Right Column: Achievers Showcase (5 cols) */}
-            <div className="lg:col-span-5">
-              <AchieversShowcase />
-            </div>
-          </div>
-
-          {/* Bottom Prestige Metrics Ribbon */}
-          <div className="mt-16 grid grid-cols-2 gap-6 border-t border-[#e7e5e4] pt-10 text-center md:grid-cols-4 md:divide-x md:divide-[#e7e5e4] md:divide-y-0">
-            <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">58 Desks</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.2em] text-[#b45309]">
-                Acoustic Cabins
-              </p>
-            </div>
-            <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">200+</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.2em] text-[#b45309]">
-                Enrolled Scholars
-              </p>
-            </div>
-            <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">24×7</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.2em] text-[#b45309]">
-                Open 24 Hours • All 7 Days
-              </p>
-            </div>
-            <div className="pt-3 md:pt-0">
-              <div className="font-[family-name:var(--font-ui)] text-3xl font-black tracking-[-0.05em] text-[#1c1917] sm:text-4xl">4.9 ★</div>
-              <p className="mt-1 font-[family-name:var(--font-ui)] text-[10px] font-bold uppercase tracking-[0.2em] text-[#b45309]">
-                Google Rating
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PrismaHero />
 
       {/* ========================================================= */}
       {/* 2. FACILITY HIGHLIGHTS                                     */}
